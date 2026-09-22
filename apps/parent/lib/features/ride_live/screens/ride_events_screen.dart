@@ -5,10 +5,11 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'ride_live_screen.dart';
+
 /// Лента событий поездки: что и когда произошло.
 ///
-/// Карта с машиной появится в S4 — пока родителю важнее сам факт
-/// «забрал в 07:34, передал в 07:58».
+/// Кнопка в шапке открывает карту с машиной.
 class RideEventsScreen extends ConsumerWidget {
   const RideEventsScreen({super.key, required this.view});
 
@@ -20,7 +21,20 @@ class RideEventsScreen extends ConsumerWidget {
     final events = ref.watch(rideEventsProvider(view.ride.id!));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.parentRideTitle)),
+      appBar: AppBar(
+        title: Text(l10n.parentRideTitle),
+        actions: [
+          IconButton(
+            tooltip: l10n.rideOnMap,
+            icon: const Icon(Icons.map),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => RideLiveScreen(view: view),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(rideEventsProvider),
         child: ListView(

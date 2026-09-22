@@ -216,5 +216,9 @@
   "errorHandoverProof": "Нужен код учреждения или подпись",
   "errorRideFinished": "Поездка уже завершена",
   "eventsTimeline": "Что происходило",
-  "parentRideTitle": "Поездка ребёнка"
+  "parentRideTitle": "Поездка ребёнка",
+  "trackingOn": "Родитель видит, где машина",
+  "trackingOff": "Геолокация выключена",
+  "trackingDenied": "Нет доступа к геолокации: родитель не увидит машину на карте",
+  "rideOnMap": "Показать на карте"
 }

@@ -26,8 +26,11 @@ import 'package:child_client/src/protocol/ride_view.dart' as _i12;
 import 'package:child_client/src/protocol/ride_event.dart' as _i13;
 import 'package:child_client/src/protocol/ride.dart' as _i14;
 import 'package:child_client/src/protocol/ride_event_submission.dart' as _i15;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i16;
-import 'protocol.dart' as _i17;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i16;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i17;
+import 'package:child_client/src/protocol/ride_location.dart' as _i18;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i19;
+import 'protocol.dart' as _i20;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -373,6 +376,22 @@ class EndpointRides extends _i1.EndpointRef {
     },
   );
 
+  /// Приём точек трека от приложения водителя.
+  ///
+  /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
+  /// точки отбрасываются и приложению возвращается запрет.
+  _i2.Future<_i16.TrackingState> pushLocations(
+    int rideId,
+    List<_i17.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i16.TrackingState>(
+    'rides',
+    'pushLocations',
+    {
+      'rideId': rideId,
+      'points': points,
+    },
+  );
+
   /// События поездки — лента для водителя.
   _i2.Future<List<_i13.RideEvent>> events(int rideId) =>
       caller.callServerEndpoint<List<_i13.RideEvent>>(
@@ -423,6 +442,29 @@ class EndpointRoutes extends _i1.EndpointRef {
         {'rideId': rideId},
       );
 
+  /// Трек поездки ребёнка: путь, который уже проехали.
+  _i2.Future<List<_i18.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i18.RideLocation>>(
+        'routes',
+        'rideTrack',
+        {'rideId': rideId},
+      );
+
+  /// Положение машины в реальном времени (WebSocket).
+  ///
+  /// Поток живёт, пока открыт экран поездки: родитель видит машину,
+  /// пока она едет.
+  _i2.Stream<_i18.RideLocation> watchRideLocation(int rideId) =>
+      caller.callStreamingServerEndpoint<
+        _i2.Stream<_i18.RideLocation>,
+        _i18.RideLocation
+      >(
+        'routes',
+        'watchRideLocation',
+        {'rideId': rideId},
+        {},
+      );
+
   /// Учреждения — родитель выбирает, куда возить ребёнка.
   _i2.Future<List<_i8.Institution>> institutions() =>
       caller.callServerEndpoint<List<_i8.Institution>>(
@@ -448,8 +490,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i16.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i16.ServerHealth>(
+  _i2.Future<_i19.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i19.ServerHealth>(
         'health',
         'ping',
         {},
@@ -476,7 +518,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i17.Protocol(),
+         _i20.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

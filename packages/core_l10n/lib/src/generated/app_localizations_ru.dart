@@ -513,4 +513,17 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get parentRideTitle => 'Поездка ребёнка';
+
+  @override
+  String get trackingOn => 'Родитель видит, где машина';
+
+  @override
+  String get trackingOff => 'Геолокация выключена';
+
+  @override
+  String get trackingDenied =>
+      'Нет доступа к геолокации: родитель не увидит машину на карте';
+
+  @override
+  String get rideOnMap => 'Показать на карте';
 }

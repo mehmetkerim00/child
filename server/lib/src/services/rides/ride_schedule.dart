@@ -15,3 +15,16 @@ Future<void> scheduleNextRideGeneration(Serverpod pod) async {
       .generateRides
       .generateUpcoming();
 }
+
+/// Ставит следующую уборку трека на 03:30 по Ашхабаду — ночью,
+/// когда поездок нет.
+Future<void> scheduleNextLocationCleanup(Serverpod pod) async {
+  final nextLocalDay = AshgabatTime.addDays(AshgabatTime.today(), 1);
+  await pod.futureCalls
+      .callAtTime(
+        AshgabatTime.atLocalTime(nextLocalDay, '03:30'),
+        identifier: 'cleanupLocations',
+      )
+      .cleanupLocations
+      .cleanupLocations();
+}

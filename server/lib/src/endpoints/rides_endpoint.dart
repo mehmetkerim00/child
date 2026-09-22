@@ -3,6 +3,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import '../services/rides/ride_flow.dart';
+import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
 import 'session_subject.dart';
 
@@ -115,6 +116,19 @@ class RidesEndpoint extends Endpoint {
       codeWord: child?.codeWord ?? '',
       institutionCode: institution?.handoverCode ?? '',
     );
+  }
+
+  /// Приём точек трека от приложения водителя.
+  ///
+  /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
+  /// точки отбрасываются и приложению возвращается запрет.
+  Future<TrackingState> pushLocations(
+    Session session,
+    int rideId,
+    List<RideLocationPoint> points,
+  ) async {
+    final ride = await _myRide(session, rideId);
+    return RideTracking.store(session, ride, points);
   }
 
   /// События поездки — лента для водителя.

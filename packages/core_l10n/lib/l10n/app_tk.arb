@@ -160,5 +160,9 @@
   "errorHandoverProof": "Edaranyň kody ýa-da gol gerek",
   "errorRideFinished": "Ýol eýýäm tamamlandy",
   "eventsTimeline": "Näme boldy",
-  "parentRideTitle": "Çaganyň ýoly"
+  "parentRideTitle": "Çaganyň ýoly",
+  "trackingOn": "Ene-ata awtoulagyň nirededigini görýär",
+  "trackingOff": "Geolokasiýa öçürildi",
+  "trackingDenied": "Geolokasiýa rugsat ýok: ene-ata awtoulagy kartada görmez",
+  "rideOnMap": "Kartada görkez"
 }

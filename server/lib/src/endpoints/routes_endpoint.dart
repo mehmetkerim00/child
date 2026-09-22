@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
 import 'session_subject.dart';
 
@@ -57,18 +58,55 @@ class RoutesEndpoint extends Endpoint {
 
   /// События поездки своего ребёнка — лента «что происходило».
   Future<List<RideEvent>> rideEvents(Session session, int rideId) async {
-    final parent = await session.requireParent();
-    final ride = await Ride.db.findById(session, rideId);
-    if (ride == null) return [];
-    final child = await Child.db.findById(session, ride.childId);
-    if (child == null || child.familyId != parent.familyId) {
-      throw Exception('Поездка не вашего ребёнка');
-    }
+    await _requireOwnRide(session, rideId);
     return RideEvent.db.find(
       session,
       where: (e) => e.rideId.equals(rideId),
       orderBy: (e) => e.at,
     );
+  }
+
+  /// Трек поездки ребёнка: путь, который уже проехали.
+  Future<List<RideLocation>> rideTrack(Session session, int rideId) async {
+    await _requireOwnRide(session, rideId);
+    return RideLocation.db.find(
+      session,
+      where: (row) => row.rideId.equals(rideId),
+      orderBy: (row) => row.at,
+    );
+  }
+
+  /// Положение машины в реальном времени (WebSocket).
+  ///
+  /// Поток живёт, пока открыт экран поездки: родитель видит машину,
+  /// пока она едет.
+  Stream<RideLocation> watchRideLocation(Session session, int rideId) async* {
+    await _requireOwnRide(session, rideId);
+
+    // Сначала отдаём последнюю известную точку, чтобы карта не была пустой.
+    final last = await RideLocation.db.findFirstRow(
+      session,
+      where: (row) => row.rideId.equals(rideId),
+      orderBy: (row) => row.at,
+      orderDescending: true,
+    );
+    if (last != null) yield last;
+
+    yield* session.messages.createStream<RideLocation>(
+      RideTracking.channelFor(rideId),
+    );
+  }
+
+  /// Поездка принадлежит ребёнку из семьи вошедшего родителя.
+  Future<Ride> _requireOwnRide(Session session, int rideId) async {
+    final parent = await session.requireParent();
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride == null) throw Exception('Поездка не найдена');
+    final child = await Child.db.findById(session, ride.childId);
+    if (child == null || child.familyId != parent.familyId) {
+      throw Exception('Поездка не вашего ребёнка');
+    }
+    return ride;
   }
 
   /// Учреждения — родитель выбирает, куда возить ребёнка.

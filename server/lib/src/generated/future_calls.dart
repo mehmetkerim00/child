@@ -13,7 +13,8 @@
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'dart:async' as _i2;
-import '../future_calls/generate_rides_future_call.dart' as _i3;
+import '../future_calls/cleanup_locations_future_call.dart' as _i3;
+import '../future_calls/generate_rides_future_call.dart' as _i4;
 
 /// Invokes a future call.
 typedef _InvokeFutureCall =
@@ -57,6 +58,9 @@ class FutureCalls extends _i1.FutureCallDispatch<_FutureCallRef> {
     String serverId,
   ) {
     var registeredFutureCalls = <String, _i1.FutureCall>{
+      'CleanupLocationsInvokeFutureCall': CleanupLocationsInvokeFutureCall(),
+      'CleanupLocationsCleanupLocationsFutureCall':
+          CleanupLocationsCleanupLocationsFutureCall(),
       'GenerateRidesInvokeFutureCall': GenerateRidesInvokeFutureCall(),
       'GenerateRidesGenerateUpcomingFutureCall':
           GenerateRidesGenerateUpcomingFutureCall(),
@@ -115,9 +119,33 @@ class _FutureCallRef {
 
   final _InvokeFutureCall _invokeFutureCall;
 
+  late final cleanupLocations = _CleanupLocationsFutureCallDispatcher(
+    _invokeFutureCall,
+  );
+
   late final generateRides = _GenerateRidesFutureCallDispatcher(
     _invokeFutureCall,
   );
+}
+
+class _CleanupLocationsFutureCallDispatcher {
+  _CleanupLocationsFutureCallDispatcher(this._invokeFutureCall);
+
+  final _InvokeFutureCall _invokeFutureCall;
+
+  Future<void> invoke(_i1.SerializableModel? object) {
+    return _invokeFutureCall(
+      'CleanupLocationsInvokeFutureCall',
+      object,
+    );
+  }
+
+  Future<void> cleanupLocations() {
+    return _invokeFutureCall(
+      'CleanupLocationsCleanupLocationsFutureCall',
+      null,
+    );
+  }
 }
 
 class _GenerateRidesFutureCallDispatcher {
@@ -140,6 +168,31 @@ class _GenerateRidesFutureCallDispatcher {
   }
 }
 
+class CleanupLocationsInvokeFutureCall
+    extends _i1.FutureCall<_i1.SerializableModel> {
+  @override
+  _i2.Future<void> invoke(
+    _i1.Session session,
+    _i1.SerializableModel? object,
+  ) async {
+    await _i3.CleanupLocationsFutureCall().invoke(
+      session,
+      object,
+    );
+  }
+}
+
+/// Удаляет устаревшие точки и планирует следующую уборку.
+class CleanupLocationsCleanupLocationsFutureCall extends _i1.FutureCall {
+  @override
+  _i2.Future<void> invoke(
+    _i1.Session session,
+    _i1.SerializableModel? object,
+  ) async {
+    await _i3.CleanupLocationsFutureCall().cleanupLocations(session);
+  }
+}
+
 class GenerateRidesInvokeFutureCall
     extends _i1.FutureCall<_i1.SerializableModel> {
   @override
@@ -147,7 +200,7 @@ class GenerateRidesInvokeFutureCall
     _i1.Session session,
     _i1.SerializableModel? object,
   ) async {
-    await _i3.GenerateRidesFutureCall().invoke(
+    await _i4.GenerateRidesFutureCall().invoke(
       session,
       object,
     );
@@ -164,6 +217,6 @@ class GenerateRidesGenerateUpcomingFutureCall extends _i1.FutureCall {
     _i1.Session session,
     _i1.SerializableModel? object,
   ) async {
-    await _i3.GenerateRidesFutureCall().generateUpcoming(session);
+    await _i4.GenerateRidesFutureCall().generateUpcoming(session);
   }
 }

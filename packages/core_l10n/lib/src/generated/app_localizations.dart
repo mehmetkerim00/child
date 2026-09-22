@@ -1063,6 +1063,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Поездка ребёнка'**
   String get parentRideTitle;
+
+  /// No description provided for @trackingOn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Родитель видит, где машина'**
+  String get trackingOn;
+
+  /// No description provided for @trackingOff.
+  ///
+  /// In ru, this message translates to:
+  /// **'Геолокация выключена'**
+  String get trackingOff;
+
+  /// No description provided for @trackingDenied.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступа к геолокации: родитель не увидит машину на карте'**
+  String get trackingDenied;
+
+  /// No description provided for @rideOnMap.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать на карте'**
+  String get rideOnMap;
 }
 
 class _AppLocalizationsDelegate

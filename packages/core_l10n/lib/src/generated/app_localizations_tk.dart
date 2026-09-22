@@ -512,4 +512,17 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get parentRideTitle => 'Çaganyň ýoly';
+
+  @override
+  String get trackingOn => 'Ene-ata awtoulagyň nirededigini görýär';
+
+  @override
+  String get trackingOff => 'Geolokasiýa öçürildi';
+
+  @override
+  String get trackingDenied =>
+      'Geolokasiýa rugsat ýok: ene-ata awtoulagy kartada görmez';
+
+  @override
+  String get rideOnMap => 'Kartada görkez';
 }

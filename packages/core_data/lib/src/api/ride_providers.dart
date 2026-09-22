@@ -24,6 +24,18 @@ final rideEventsProvider = FutureProvider.autoDispose
       return ref.watch(apiClientProvider).routes.rideEvents(rideId);
     });
 
+/// Пройденный путь поездки — линия на карте у родителя.
+final rideTrackProvider = FutureProvider.autoDispose
+    .family<List<RideLocation>, int>((ref, rideId) {
+      return ref.watch(apiClientProvider).routes.rideTrack(rideId);
+    });
+
+/// Положение машины в реальном времени (WebSocket).
+final rideLocationStreamProvider = StreamProvider.autoDispose
+    .family<RideLocation, int>((ref, rideId) {
+      return ref.watch(apiClientProvider).routes.watchRideLocation(rideId);
+    });
+
 /// Учреждения для выбора в заявке на маршрут.
 final parentInstitutionsProvider =
     FutureProvider.autoDispose<List<Institution>>(

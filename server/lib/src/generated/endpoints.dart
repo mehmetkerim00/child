@@ -26,8 +26,9 @@ import 'package:child_server/src/generated/driver.dart' as _i12;
 import 'package:child_server/src/generated/institution.dart' as _i13;
 import 'package:child_server/src/generated/circle_rank.dart' as _i14;
 import 'package:child_server/src/generated/ride_event_submission.dart' as _i15;
-import 'package:child_server/src/generated/route_template.dart' as _i16;
-import 'package:child_server/src/generated/future_calls.dart' as _i17;
+import 'package:child_server/src/generated/ride_location_point.dart' as _i16;
+import 'package:child_server/src/generated/route_template.dart' as _i17;
+import 'package:child_server/src/generated/future_calls.dart' as _i18;
 export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _i1.EndpointDispatch {
@@ -662,6 +663,31 @@ class Endpoints extends _i1.EndpointDispatch {
                 params['submission'],
               ),
         ),
+        'pushLocations': _i1.MethodConnector(
+          name: 'pushLocations',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'points': _i1.ParameterDescription(
+              name: 'points',
+              type: _i1.getType<List<_i16.RideLocationPoint>>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['rides'] as _i6.RidesEndpoint).pushLocations(
+                    session,
+                    params['rideId'],
+                    params['points'],
+                  ),
+        ),
         'events': _i1.MethodConnector(
           name: 'events',
           params: {
@@ -702,7 +728,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'draft': _i1.ParameterDescription(
               name: 'draft',
-              type: _i1.getType<_i16.RouteTemplate>(),
+              type: _i1.getType<_i17.RouteTemplate>(),
               nullable: false,
             ),
           },
@@ -744,6 +770,24 @@ class Endpoints extends _i1.EndpointDispatch {
                 params['rideId'],
               ),
         ),
+        'rideTrack': _i1.MethodConnector(
+          name: 'rideTrack',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routes'] as _i7.RoutesEndpoint).rideTrack(
+                session,
+                params['rideId'],
+              ),
+        ),
         'institutions': _i1.MethodConnector(
           name: 'institutions',
           params: {},
@@ -763,6 +807,28 @@ class Endpoints extends _i1.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['routes'] as _i7.RoutesEndpoint)
                   .myUpcomingRides(session),
+        ),
+        'watchRideLocation': _i1.MethodStreamConnector(
+          name: 'watchRideLocation',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          streamParams: {},
+          returnType: _i1.MethodStreamReturnType.streamType,
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+                Map<String, Stream> streamParams,
+              ) =>
+                  (endpoints['routes'] as _i7.RoutesEndpoint).watchRideLocation(
+                    session,
+                    params['rideId'],
+                  ),
         ),
       },
     );
@@ -786,6 +852,6 @@ class Endpoints extends _i1.EndpointDispatch {
 
   @override
   _i1.FutureCallDispatch? get futureCalls {
-    return _i17.FutureCalls();
+    return _i18.FutureCalls();
   }
 }

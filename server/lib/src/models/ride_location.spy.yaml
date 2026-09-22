@@ -1,0 +1,20 @@
+### Точка трека поездки.
+###
+### Пишется только во время активной поездки (en_route → handed_over)
+### и хранится не дольше 30 дней: это данные о перемещении ребёнка.
+class: RideLocation
+table: ride_location
+fields:
+  rideId: int, relation(parent=ride, onDelete=Cascade)
+  at: DateTime
+  lat: double
+  lng: double
+  ### Скорость в км/ч, если устройство её дало.
+  speedKmh: double?
+  ### Точность определения в метрах.
+  accuracyM: double?
+indexes:
+  ride_location_ride_at_idx:
+    fields: rideId, at
+  ride_location_at_idx:
+    fields: at

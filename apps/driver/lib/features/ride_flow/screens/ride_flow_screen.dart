@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_data/core_data.dart' hide RideStatus;
 import 'package:core_domain/core_domain.dart';
 import 'package:core_l10n/core_l10n.dart';
@@ -5,6 +7,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../services/ride_location_tracker.dart';
 import '../widgets/pending_events_section.dart';
 import '../widgets/ride_flow_texts.dart';
 
@@ -29,12 +32,50 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
   bool _hasSignature = false;
   bool _busy = false;
   String? _error;
+  RideLocationTracker? _tracker;
+  bool _trackingDenied = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Поездка могла начаться раньше: экран открыли повторно.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => unawaited(_syncTracking()),
+    );
+  }
 
   @override
   void dispose() {
+    // Геолокация не должна пережить экран поездки.
+    _tracker?.stop().catchError((_) {});
     _codeWord.dispose();
     _institutionCode.dispose();
     super.dispose();
+  }
+
+  /// Включает или выключает передачу координат под текущий статус.
+  ///
+  /// Единственное место, где геолокация вообще включается: вне активной
+  /// поездки координаты не пишутся.
+  Future<void> _syncTracking() async {
+    final tracker = _tracker ??= RideLocationTracker(
+      ref.read(apiClientProvider),
+    );
+    final shouldTrack = _status.allowsLocationTracking;
+
+    // Геолокация — вспомогательная функция: если она недоступна (нет
+    // разрешения, выключен GPS), поездка всё равно должна отмечаться.
+    try {
+      if (shouldTrack && !tracker.isTracking) {
+        final started = await tracker.start(widget.view.ride.id!);
+        if (mounted) setState(() => _trackingDenied = !started);
+      } else if (!shouldTrack && tracker.isTracking) {
+        await tracker.stop();
+        if (mounted) setState(() {});
+      }
+    } catch (_) {
+      if (mounted) setState(() => _trackingDenied = true);
+    }
   }
 
   RideEventType? _eventTypeFor(RideAction action) => switch (action) {
@@ -92,6 +133,8 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
         _hasSignature = false;
       });
       ref.invalidate(driverTodayRidesProvider);
+      // Не ждём геолокацию: разрешения и GPS не должны задерживать кнопку.
+      unawaited(_syncTracking());
     } on RideFlowException catch (error) {
       if (mounted) {
         setState(() => _error = rideFlowServerErrorText(context.l10n, error));
@@ -114,6 +157,11 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
           padding: const EdgeInsets.all(ChildSpacing.m),
           children: [
             const PendingEventsSection(),
+            const SizedBox(height: ChildSpacing.s),
+            _TrackingBadge(
+              isTracking: _tracker?.isTracking ?? false,
+              denied: _trackingDenied,
+            ),
             const SizedBox(height: ChildSpacing.m),
             Card(
               child: ListTile(
@@ -240,5 +288,37 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
     );
     if (reason == null || reason.isEmpty) return;
     await _submit(RideAction.delay, note: reason);
+  }
+}
+
+/// Статус передачи координат: водитель всегда видит, включена ли она.
+class _TrackingBadge extends StatelessWidget {
+  const _TrackingBadge({required this.isTracking, required this.denied});
+
+  final bool isTracking;
+  final bool denied;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final (icon, text, color) = denied
+        ? (Icons.location_disabled, l10n.trackingDenied, ChildColors.danger)
+        : isTracking
+        ? (Icons.location_on, l10n.trackingOn, ChildColors.success)
+        : (Icons.location_off, l10n.trackingOff, theme.colorScheme.outline);
+
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: ChildSpacing.s),
+        Expanded(
+          child: Text(
+            text,
+            style: theme.textTheme.bodyMedium?.copyWith(color: color),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -115,6 +115,9 @@ void main() {
 
     // С кодовым словом этап проходит.
     await tester.enterText(find.byType(TextField).first, 'ýyldyz');
+    await tester.pumpAndSettle();
+    expect(find.text('ýyldyz'), findsOneWidget, reason: 'поле заполнено');
+
     await tester.tap(find.text('Забрал'));
     await tester.pumpAndSettle();
 

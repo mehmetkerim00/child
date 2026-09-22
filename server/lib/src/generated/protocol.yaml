@@ -37,12 +37,15 @@ rides:
   - confirm:
   - decline:
   - submitEvent:
+  - pushLocations:
   - events:
   - tomorrowDate:
 routes:
   - requestRoute:
   - myRoutes:
   - rideEvents:
+  - rideTrack:
+  - watchRideLocation:
   - institutions:
   - myUpcomingRides:
 health:

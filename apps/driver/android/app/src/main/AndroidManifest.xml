@@ -1,4 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Геолокация нужна только во время активной поездки: приложение
+         включает её после «Выехал» и выключает после «Передал». -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Передача координат идёт как сервис переднего плана с видимым
+         уведомлением, чтобы водитель всегда знал, что она включена. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <application
         android:label="Child — водитель"
         android:name="${applicationName}"

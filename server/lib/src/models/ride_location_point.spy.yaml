@@ -1,0 +1,10 @@
+### Точка, отправленная приложением водителя.
+###
+### Приложение копит точки и шлёт пачкой: так экономится батарея и трафик.
+class: RideLocationPoint
+fields:
+  at: DateTime
+  lat: double
+  lng: double
+  speedKmh: double?
+  accuracyM: double?

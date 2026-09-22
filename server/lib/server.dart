@@ -41,4 +41,7 @@ void run(List<String> args) async {
 
   // Ночная генерация поездок на завтра (по Ашхабаду).
   await scheduleNextRideGeneration(pod);
+
+  // Ежедневная уборка трека: точки старше 30 дней удаляются.
+  await scheduleNextLocationCleanup(pod);
 }

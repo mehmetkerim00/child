@@ -41,21 +41,26 @@ import 'ride_event_submission.dart' as _i27;
 import 'ride_event_type.dart' as _i28;
 import 'ride_flow_error.dart' as _i29;
 import 'ride_flow_exception.dart' as _i30;
-import 'ride_status.dart' as _i31;
-import 'ride_view.dart' as _i32;
-import 'route_direction.dart' as _i33;
-import 'route_template.dart' as _i34;
-import 'sms_level.dart' as _i35;
-import 'vetting_status.dart' as _i36;
-import 'package:child_server/src/generated/family.dart' as _i37;
-import 'package:child_server/src/generated/parent.dart' as _i38;
-import 'package:child_server/src/generated/child.dart' as _i39;
-import 'package:child_server/src/generated/driver.dart' as _i40;
-import 'package:child_server/src/generated/institution.dart' as _i41;
-import 'package:child_server/src/generated/family_circle.dart' as _i42;
-import 'package:child_server/src/generated/route_template.dart' as _i43;
-import 'package:child_server/src/generated/ride_view.dart' as _i44;
-import 'package:child_server/src/generated/ride_event.dart' as _i45;
+import 'ride_location.dart' as _i31;
+import 'ride_location_point.dart' as _i32;
+import 'ride_status.dart' as _i33;
+import 'ride_view.dart' as _i34;
+import 'route_direction.dart' as _i35;
+import 'route_template.dart' as _i36;
+import 'sms_level.dart' as _i37;
+import 'tracking_state.dart' as _i38;
+import 'vetting_status.dart' as _i39;
+import 'package:child_server/src/generated/family.dart' as _i40;
+import 'package:child_server/src/generated/parent.dart' as _i41;
+import 'package:child_server/src/generated/child.dart' as _i42;
+import 'package:child_server/src/generated/driver.dart' as _i43;
+import 'package:child_server/src/generated/institution.dart' as _i44;
+import 'package:child_server/src/generated/family_circle.dart' as _i45;
+import 'package:child_server/src/generated/route_template.dart' as _i46;
+import 'package:child_server/src/generated/ride_view.dart' as _i47;
+import 'package:child_server/src/generated/ride_event.dart' as _i48;
+import 'package:child_server/src/generated/ride_location_point.dart' as _i49;
+import 'package:child_server/src/generated/ride_location.dart' as _i50;
 export 'account_role.dart';
 export 'auth_exception.dart';
 export 'auth_failure.dart';
@@ -84,11 +89,14 @@ export 'ride_event_submission.dart';
 export 'ride_event_type.dart';
 export 'ride_flow_error.dart';
 export 'ride_flow_exception.dart';
+export 'ride_location.dart';
+export 'ride_location_point.dart';
 export 'ride_status.dart';
 export 'ride_view.dart';
 export 'route_direction.dart';
 export 'route_template.dart';
 export 'sms_level.dart';
+export 'tracking_state.dart';
 export 'vetting_status.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -1361,6 +1369,115 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'ride_location',
+      dartName: 'RideLocation',
+      schema: 'public',
+      module: 'child',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'ride_location_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'rideId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'at',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lat',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lng',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'speedKmh',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: true,
+          dartType: 'double?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'accuracyM',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: true,
+          dartType: 'double?',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'ride_location_fk_0',
+          columns: ['rideId'],
+          referenceTable: 'ride',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'ride_location_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'ride_location_ride_at_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'rideId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'at',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'ride_location_at_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'at',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'route_template',
       dartName: 'RouteTemplate',
       schema: 'public',
@@ -1618,23 +1735,32 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i30.RideFlowException) {
       return _i30.RideFlowException.fromJson(data) as T;
     }
-    if (t == _i31.RideStatus) {
-      return _i31.RideStatus.fromJson(data) as T;
+    if (t == _i31.RideLocation) {
+      return _i31.RideLocation.fromJson(data) as T;
     }
-    if (t == _i32.RideView) {
-      return _i32.RideView.fromJson(data) as T;
+    if (t == _i32.RideLocationPoint) {
+      return _i32.RideLocationPoint.fromJson(data) as T;
     }
-    if (t == _i33.RouteDirection) {
-      return _i33.RouteDirection.fromJson(data) as T;
+    if (t == _i33.RideStatus) {
+      return _i33.RideStatus.fromJson(data) as T;
     }
-    if (t == _i34.RouteTemplate) {
-      return _i34.RouteTemplate.fromJson(data) as T;
+    if (t == _i34.RideView) {
+      return _i34.RideView.fromJson(data) as T;
     }
-    if (t == _i35.SmsLevel) {
-      return _i35.SmsLevel.fromJson(data) as T;
+    if (t == _i35.RouteDirection) {
+      return _i35.RouteDirection.fromJson(data) as T;
     }
-    if (t == _i36.VettingStatus) {
-      return _i36.VettingStatus.fromJson(data) as T;
+    if (t == _i36.RouteTemplate) {
+      return _i36.RouteTemplate.fromJson(data) as T;
+    }
+    if (t == _i37.SmsLevel) {
+      return _i37.SmsLevel.fromJson(data) as T;
+    }
+    if (t == _i38.TrackingState) {
+      return _i38.TrackingState.fromJson(data) as T;
+    }
+    if (t == _i39.VettingStatus) {
+      return _i39.VettingStatus.fromJson(data) as T;
     }
     if (t == _i1.getType<_i3.AccountRole?>()) {
       return (data != null ? _i3.AccountRole.fromJson(data) : null) as T;
@@ -1724,67 +1850,88 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i30.RideFlowException?>()) {
       return (data != null ? _i30.RideFlowException.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i31.RideStatus?>()) {
-      return (data != null ? _i31.RideStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i31.RideLocation?>()) {
+      return (data != null ? _i31.RideLocation.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i32.RideView?>()) {
-      return (data != null ? _i32.RideView.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i32.RideLocationPoint?>()) {
+      return (data != null ? _i32.RideLocationPoint.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i33.RouteDirection?>()) {
-      return (data != null ? _i33.RouteDirection.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i33.RideStatus?>()) {
+      return (data != null ? _i33.RideStatus.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i34.RouteTemplate?>()) {
-      return (data != null ? _i34.RouteTemplate.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i34.RideView?>()) {
+      return (data != null ? _i34.RideView.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i35.SmsLevel?>()) {
-      return (data != null ? _i35.SmsLevel.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i35.RouteDirection?>()) {
+      return (data != null ? _i35.RouteDirection.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i36.VettingStatus?>()) {
-      return (data != null ? _i36.VettingStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i36.RouteTemplate?>()) {
+      return (data != null ? _i36.RouteTemplate.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i37.SmsLevel?>()) {
+      return (data != null ? _i37.SmsLevel.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i38.TrackingState?>()) {
+      return (data != null ? _i38.TrackingState.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i39.VettingStatus?>()) {
+      return (data != null ? _i39.VettingStatus.fromJson(data) : null) as T;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
-    if (t == List<_i37.Family>) {
-      return (data as List).map((e) => deserialize<_i37.Family>(e)).toList()
+    if (t == List<_i40.Family>) {
+      return (data as List).map((e) => deserialize<_i40.Family>(e)).toList()
           as T;
     }
-    if (t == List<_i38.Parent>) {
-      return (data as List).map((e) => deserialize<_i38.Parent>(e)).toList()
+    if (t == List<_i41.Parent>) {
+      return (data as List).map((e) => deserialize<_i41.Parent>(e)).toList()
           as T;
     }
-    if (t == List<_i39.Child>) {
-      return (data as List).map((e) => deserialize<_i39.Child>(e)).toList()
+    if (t == List<_i42.Child>) {
+      return (data as List).map((e) => deserialize<_i42.Child>(e)).toList()
           as T;
     }
-    if (t == List<_i40.Driver>) {
-      return (data as List).map((e) => deserialize<_i40.Driver>(e)).toList()
+    if (t == List<_i43.Driver>) {
+      return (data as List).map((e) => deserialize<_i43.Driver>(e)).toList()
           as T;
     }
-    if (t == List<_i41.Institution>) {
+    if (t == List<_i44.Institution>) {
       return (data as List)
-              .map((e) => deserialize<_i41.Institution>(e))
+              .map((e) => deserialize<_i44.Institution>(e))
               .toList()
           as T;
     }
-    if (t == List<_i42.FamilyCircle>) {
+    if (t == List<_i45.FamilyCircle>) {
       return (data as List)
-              .map((e) => deserialize<_i42.FamilyCircle>(e))
+              .map((e) => deserialize<_i45.FamilyCircle>(e))
               .toList()
           as T;
     }
-    if (t == List<_i43.RouteTemplate>) {
+    if (t == List<_i46.RouteTemplate>) {
       return (data as List)
-              .map((e) => deserialize<_i43.RouteTemplate>(e))
+              .map((e) => deserialize<_i46.RouteTemplate>(e))
               .toList()
           as T;
     }
-    if (t == List<_i44.RideView>) {
-      return (data as List).map((e) => deserialize<_i44.RideView>(e)).toList()
+    if (t == List<_i47.RideView>) {
+      return (data as List).map((e) => deserialize<_i47.RideView>(e)).toList()
           as T;
     }
-    if (t == List<_i45.RideEvent>) {
-      return (data as List).map((e) => deserialize<_i45.RideEvent>(e)).toList()
+    if (t == List<_i48.RideEvent>) {
+      return (data as List).map((e) => deserialize<_i48.RideEvent>(e)).toList()
+          as T;
+    }
+    if (t == List<_i49.RideLocationPoint>) {
+      return (data as List)
+              .map((e) => deserialize<_i49.RideLocationPoint>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i50.RideLocation>) {
+      return (data as List)
+              .map((e) => deserialize<_i50.RideLocation>(e))
+              .toList()
           as T;
     }
     try {
@@ -1823,12 +1970,15 @@ class Protocol extends _i1.SerializationManagerServer {
       _i28.RideEventType => 'RideEventType',
       _i29.RideFlowError => 'RideFlowError',
       _i30.RideFlowException => 'RideFlowException',
-      _i31.RideStatus => 'RideStatus',
-      _i32.RideView => 'RideView',
-      _i33.RouteDirection => 'RouteDirection',
-      _i34.RouteTemplate => 'RouteTemplate',
-      _i35.SmsLevel => 'SmsLevel',
-      _i36.VettingStatus => 'VettingStatus',
+      _i31.RideLocation => 'RideLocation',
+      _i32.RideLocationPoint => 'RideLocationPoint',
+      _i33.RideStatus => 'RideStatus',
+      _i34.RideView => 'RideView',
+      _i35.RouteDirection => 'RouteDirection',
+      _i36.RouteTemplate => 'RouteTemplate',
+      _i37.SmsLevel => 'SmsLevel',
+      _i38.TrackingState => 'TrackingState',
+      _i39.VettingStatus => 'VettingStatus',
       _ => null,
     };
   }
@@ -1899,17 +2049,23 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'RideFlowError';
       case _i30.RideFlowException():
         return 'RideFlowException';
-      case _i31.RideStatus():
+      case _i31.RideLocation():
+        return 'RideLocation';
+      case _i32.RideLocationPoint():
+        return 'RideLocationPoint';
+      case _i33.RideStatus():
         return 'RideStatus';
-      case _i32.RideView():
+      case _i34.RideView():
         return 'RideView';
-      case _i33.RouteDirection():
+      case _i35.RouteDirection():
         return 'RouteDirection';
-      case _i34.RouteTemplate():
+      case _i36.RouteTemplate():
         return 'RouteTemplate';
-      case _i35.SmsLevel():
+      case _i37.SmsLevel():
         return 'SmsLevel';
-      case _i36.VettingStatus():
+      case _i38.TrackingState():
+        return 'TrackingState';
+      case _i39.VettingStatus():
         return 'VettingStatus';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -2009,23 +2165,32 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'RideFlowException') {
       return deserialize<_i30.RideFlowException>(data['data']);
     }
+    if (dataClassName == 'RideLocation') {
+      return deserialize<_i31.RideLocation>(data['data']);
+    }
+    if (dataClassName == 'RideLocationPoint') {
+      return deserialize<_i32.RideLocationPoint>(data['data']);
+    }
     if (dataClassName == 'RideStatus') {
-      return deserialize<_i31.RideStatus>(data['data']);
+      return deserialize<_i33.RideStatus>(data['data']);
     }
     if (dataClassName == 'RideView') {
-      return deserialize<_i32.RideView>(data['data']);
+      return deserialize<_i34.RideView>(data['data']);
     }
     if (dataClassName == 'RouteDirection') {
-      return deserialize<_i33.RouteDirection>(data['data']);
+      return deserialize<_i35.RouteDirection>(data['data']);
     }
     if (dataClassName == 'RouteTemplate') {
-      return deserialize<_i34.RouteTemplate>(data['data']);
+      return deserialize<_i36.RouteTemplate>(data['data']);
     }
     if (dataClassName == 'SmsLevel') {
-      return deserialize<_i35.SmsLevel>(data['data']);
+      return deserialize<_i37.SmsLevel>(data['data']);
+    }
+    if (dataClassName == 'TrackingState') {
+      return deserialize<_i38.TrackingState>(data['data']);
     }
     if (dataClassName == 'VettingStatus') {
-      return deserialize<_i36.VettingStatus>(data['data']);
+      return deserialize<_i39.VettingStatus>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -2069,8 +2234,10 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i25.Ride.t;
       case _i26.RideEvent:
         return _i26.RideEvent.t;
-      case _i34.RouteTemplate:
-        return _i34.RouteTemplate.t;
+      case _i31.RideLocation:
+        return _i31.RideLocation.t;
+      case _i36.RouteTemplate:
+        return _i36.RouteTemplate.t;
     }
     return null;
   }
