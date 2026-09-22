@@ -40,10 +40,14 @@ abstract final class SilentFailureWatch {
     if (local.hour < confirmDeadlineHour) return 0;
 
     final tomorrow = AshgabatTime.addDays(AshgabatTime.dateOf(now), 1);
+    // И неподтверждённые, и те, от которых водитель уже отказался:
+    // к утру обе ситуации означают, что ребёнка некому везти.
     final rides = await Ride.db.find(
       session,
       where: (r) =>
-          r.date.equals(tomorrow) & r.status.equals(RideStatus.scheduled),
+          r.date.equals(tomorrow) &
+          (r.status.equals(RideStatus.scheduled) |
+              r.status.equals(RideStatus.cancelledNoDriver)),
     );
 
     var count = 0;

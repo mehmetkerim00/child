@@ -204,5 +204,14 @@
   "dispatcherConfirm": "Tassykla",
   "dispatcherReject": "Ret et",
   "dispatcherRejectReason": "Ret etmegiň sebäbi",
-  "moneyTab": "Pul"
+  "moneyTab": "Pul",
+  "onboardingTitle1": "Hemişelik sürüji, tötänleýin däl",
+  "onboardingText1": "Çagaňyzy öňünden görkezilen bir adam gatnadýar. Ol çykyp bilmese, dispetçer siziň tegelegiňizden ätiýaçlyk sürüjini hödürlär — ol hem tanyş.",
+  "onboardingTitle2": "Elden ele tabşyrmak",
+  "onboardingText2": "Sürüji çagany alanda maşgalanyň kod sözüni aýdýar, tabşyranda bolsa edaranyň kody ýa-da terbiýeçiniň goly bilen tassyklaýar. Çaga hiç zat tassyklamaýar — diňe ulular.",
+  "onboardingTitle3": "Internet bolmasa-da habarly bolarsyňyz",
+  "onboardingText3": "Esasy wakalar — «aldy», «tabşyrdy», ýatyryldy — push gelmese-de SMS bilen gelýär. Awtoulag ýoldaka kartada görünýär.",
+  "onboardingNext": "Indiki",
+  "onboardingStart": "Başla",
+  "offlineBanner": "Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler."
 }

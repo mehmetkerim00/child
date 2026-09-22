@@ -648,4 +648,35 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get moneyTab => 'Pul';
+
+  @override
+  String get onboardingTitle1 => 'Hemişelik sürüji, tötänleýin däl';
+
+  @override
+  String get onboardingText1 =>
+      'Çagaňyzy öňünden görkezilen bir adam gatnadýar. Ol çykyp bilmese, dispetçer siziň tegelegiňizden ätiýaçlyk sürüjini hödürlär — ol hem tanyş.';
+
+  @override
+  String get onboardingTitle2 => 'Elden ele tabşyrmak';
+
+  @override
+  String get onboardingText2 =>
+      'Sürüji çagany alanda maşgalanyň kod sözüni aýdýar, tabşyranda bolsa edaranyň kody ýa-da terbiýeçiniň goly bilen tassyklaýar. Çaga hiç zat tassyklamaýar — diňe ulular.';
+
+  @override
+  String get onboardingTitle3 => 'Internet bolmasa-da habarly bolarsyňyz';
+
+  @override
+  String get onboardingText3 =>
+      'Esasy wakalar — «aldy», «tabşyrdy», ýatyryldy — push gelmese-de SMS bilen gelýär. Awtoulag ýoldaka kartada görünýär.';
+
+  @override
+  String get onboardingNext => 'Indiki';
+
+  @override
+  String get onboardingStart => 'Başla';
+
+  @override
+  String get offlineBanner =>
+      'Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler.';
 }

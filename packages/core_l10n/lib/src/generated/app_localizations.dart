@@ -1327,6 +1327,60 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Деньги'**
   String get moneyTab;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Постоянный водитель, а не случайный'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingText1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вашего ребёнка возит один и тот же человек, которого вы видели заранее. Если он не может выйти, диспетчер предложит запасного из вашего круга — тоже знакомого.'**
+  String get onboardingText1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In ru, this message translates to:
+  /// **'Передача из рук в руки'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingText2.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водитель называет кодовое слово вашей семьи, когда забирает ребёнка, и подтверждает передачу кодом учреждения или подписью воспитателя. Ребёнок не подтверждает ничего — только взрослые.'**
+  String get onboardingText2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы узнаете, даже если нет интернета'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingText3.
+  ///
+  /// In ru, this message translates to:
+  /// **'О главных событиях — «забрал», «передал», отмена — приходит SMS, даже когда push не доходит. Поездку видно на карте, пока машина едет.'**
+  String get onboardingText3;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дальше'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Начать'**
+  String get onboardingStart;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет связи с сервером. Данные могут быть устаревшими.'**
+  String get offlineBanner;
 }
 
 class _AppLocalizationsDelegate

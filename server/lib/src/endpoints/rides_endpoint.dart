@@ -3,6 +3,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import '../services/money/ledger_service.dart';
+import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_flow.dart';
 import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -77,7 +78,7 @@ class RidesEndpoint extends Endpoint {
         driverId: null,
       ),
     );
-    await RideEvent.db.insertRow(
+    final event = await RideEvent.db.insertRow(
       session,
       RideEvent(
         rideId: ride.id!,
@@ -88,6 +89,31 @@ class RidesEndpoint extends Endpoint {
         note: reason.trim(),
       ),
     );
+
+    // Семья узнаёт об отмене сразу: это критическое событие, SMS уходит
+    // не дожидаясь подтверждения push.
+    await RideFlow.notifyRideEvent(
+      session,
+      ride: declined,
+      event: event,
+      notifications: NotificationService(),
+    );
+
+    // Поездка осталась без водителя — это задача диспетчеру: найти
+    // замену из круга семьи, пока родитель не остался утром один.
+    final child = await Child.db.findById(session, ride.childId);
+    await NotificationService().createTask(
+      session,
+      kind: DispatcherTaskKind.rideWithoutDriver,
+      dedupeKey: 'declined:${ride.id}',
+      text:
+          'Водитель отказался от поездки ${ride.plannedTime} '
+          '(${child?.name ?? ''}): ${reason.trim()}. Нужна замена.',
+      rideId: ride.id,
+      driverId: ride.driverId,
+      familyId: child?.familyId,
+    );
+
     return declined;
   }
 

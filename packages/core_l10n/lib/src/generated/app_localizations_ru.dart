@@ -650,4 +650,35 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get moneyTab => 'Деньги';
+
+  @override
+  String get onboardingTitle1 => 'Постоянный водитель, а не случайный';
+
+  @override
+  String get onboardingText1 =>
+      'Вашего ребёнка возит один и тот же человек, которого вы видели заранее. Если он не может выйти, диспетчер предложит запасного из вашего круга — тоже знакомого.';
+
+  @override
+  String get onboardingTitle2 => 'Передача из рук в руки';
+
+  @override
+  String get onboardingText2 =>
+      'Водитель называет кодовое слово вашей семьи, когда забирает ребёнка, и подтверждает передачу кодом учреждения или подписью воспитателя. Ребёнок не подтверждает ничего — только взрослые.';
+
+  @override
+  String get onboardingTitle3 => 'Вы узнаете, даже если нет интернета';
+
+  @override
+  String get onboardingText3 =>
+      'О главных событиях — «забрал», «передал», отмена — приходит SMS, даже когда push не доходит. Поездку видно на карте, пока машина едет.';
+
+  @override
+  String get onboardingNext => 'Дальше';
+
+  @override
+  String get onboardingStart => 'Начать';
+
+  @override
+  String get offlineBanner =>
+      'Нет связи с сервером. Данные могут быть устаревшими.';
 }
