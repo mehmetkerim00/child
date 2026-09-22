@@ -1,0 +1,12 @@
+### Результат успешного входа.
+class: AuthResult
+fields:
+  ### Токен сессии: хранится на устройстве, передаётся в каждом запросе.
+  token: String
+  role: AccountRole
+  ### Имя для приветствия в интерфейсе.
+  displayName: String
+  ### id записи Parent, Driver или DispatcherAccount.
+  subjectId: int
+  ### Для родителя — его семья.
+  familyId: int?

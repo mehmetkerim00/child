@@ -1,17 +1,18 @@
 import 'package:core_data/core_data.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core_data/testing.dart';
+import 'package:dispatcher/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Family;
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:dispatcher/app.dart';
-
-/// Смоук-тест: приложение стартует с заглушкой сервера и меняет язык.
+/// Панель диспетчера: доска дня и справочники.
 void main() {
-  testWidgets('стартует, показывает статус сервера и переключает язык', (
-    tester,
-  ) async {
+  testWidgets('показывает доску дня и справочник семей', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // Клиент без закрытия: close() Serverpod ставит таймер на 100 мс,
+          // который переживает дерево виджетов и роняет тест.
+          apiClientProvider.overrideWith((ref) => Client('http://localhost/')),
           serverHealthProvider.overrideWith(
             (ref) async => ServerHealth(
               status: 'ok',
@@ -19,18 +20,30 @@ void main() {
               serverTime: DateTime.utc(2026),
             ),
           ),
+          tokenStorageProvider.overrideWithValue(
+            FakeTokenStorage(testDispatcherSession()),
+          ),
+          familiesProvider.overrideWith(
+            (ref) async => [
+              Family(id: 1, name: 'Семья Ниязовых', ownerPhone: '+99365200001'),
+            ],
+          ),
+          childrenProvider.overrideWith((ref, familyId) async => []),
+          driversProvider.overrideWith((ref) async => []),
+          institutionsProvider.overrideWith((ref) async => []),
         ],
         child: const App(),
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.textContaining('0.0.0-test'), findsOneWidget);
-    expect(find.textContaining('Сервер работает'), findsOneWidget);
 
-    await tester.tap(find.byTooltip('Язык'));
+    // Доска дня: первой идёт красная колонка проблем.
+    expect(find.text('Доска дня'), findsWidgets);
+    expect(find.textContaining('Запланирована'), findsOneWidget);
+
+    // Вторая вкладка — справочники.
+    await tester.tap(find.text('Справочники').last);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Türkmen').last);
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Serwer işleýär'), findsOneWidget);
+    expect(find.text('Семья Ниязовых'), findsOneWidget);
   });
 }

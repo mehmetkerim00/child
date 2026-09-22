@@ -1,0 +1,13 @@
+### Тип события поездки (иммутабельный лог).
+enum: RideEventType
+values:
+  - confirmed
+  - enRoute
+  - pickedUp
+  - inTransit
+  - arrived
+  - handedOver
+  - delayed
+  - cancelledByFamily
+  - cancelledNoDriver
+  - driverReplaced

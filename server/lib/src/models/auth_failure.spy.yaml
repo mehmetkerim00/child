@@ -1,0 +1,8 @@
+### Причина неудачного входа — UI показывает свой текст на ru/tk.
+enum: AuthFailureReason
+values:
+  - unknownPhone     ### номера нет в системе, нужно к диспетчеру
+  - wrongCode
+  - codeExpired
+  - tooManyAttempts
+  - codeNotRequested

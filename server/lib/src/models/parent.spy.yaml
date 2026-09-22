@@ -1,0 +1,13 @@
+### Родитель. Оба родителя видят поездки своих детей.
+class: Parent
+table: parent
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  phone: String
+  name: String
+  role: ParentRole, default=owner
+  createdAt: DateTime, default=now
+indexes:
+  parent_phone_idx:
+    fields: phone
+    unique: true

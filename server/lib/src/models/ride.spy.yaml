@@ -1,0 +1,15 @@
+### Конкретная поездка на дату. Генерируется из шаблонов (S2).
+class: Ride
+table: ride
+fields:
+  templateId: int?, relation(parent=route_template, onDelete=SetNull)
+  childId: int, relation(parent=child, onDelete=Cascade)
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  date: DateTime
+  plannedTime: String
+  status: RideStatus, default=scheduled
+  confirmedAt: DateTime?
+  createdAt: DateTime, default=now
+indexes:
+  ride_date_idx:
+    fields: date

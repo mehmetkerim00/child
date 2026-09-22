@@ -1,0 +1,11 @@
+### «Круг семьи»: постоянный водитель и 1–2 резервных.
+class: FamilyCircle
+table: family_circle
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  driverId: int, relation(parent=driver, onDelete=Cascade)
+  rank: CircleRank
+indexes:
+  family_circle_unique_idx:
+    fields: familyId, rank
+    unique: true

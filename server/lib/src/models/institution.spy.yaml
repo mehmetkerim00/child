@@ -1,0 +1,13 @@
+### Сад, школа, секция или кружок.
+class: Institution
+table: institution
+fields:
+  type: InstitutionType
+  name: String
+  address: String
+  lat: double?
+  lng: double?
+  contactPhone: String?
+  ### Код учреждения для подтверждения передачи ребёнка.
+  handoverCode: String
+  createdAt: DateTime, default=now

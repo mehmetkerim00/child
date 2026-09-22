@@ -1,0 +1,12 @@
+### Ребёнок. Персональных данных — минимум (MVP_PLAN §5).
+class: Child
+table: child
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  name: String
+  birthYear: int?
+  ### Кодовое слово семьи: водитель называет его при посадке.
+  codeWord: String
+  needsChildSeat: bool, default=false
+  photoUrl: String?
+  createdAt: DateTime, default=now

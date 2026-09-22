@@ -1,0 +1,16 @@
+### Семья — владелец баланса и подписки на маршруты.
+class: Family
+table: family
+fields:
+  ### Фамилия/название семьи для списков диспетчера.
+  name: String
+  ### Телефон родителя-владельца в формате +993XXXXXXXX.
+  ownerPhone: String
+  ### Язык интерфейса и SMS: ru или tk.
+  locale: String, default='ru'
+  smsLevel: SmsLevel, default=all
+  createdAt: DateTime, default=now
+indexes:
+  family_owner_phone_idx:
+    fields: ownerPhone
+    unique: true

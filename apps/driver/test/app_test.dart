@@ -1,17 +1,18 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_data/testing.dart';
+import 'package:driver/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:driver/app.dart';
-
-/// Смоук-тест: приложение стартует с заглушкой сервера и меняет язык.
+/// Приложение водителя: профиль и кнопка этапа.
 void main() {
-  testWidgets('стартует, показывает статус сервера и переключает язык', (
-    tester,
-  ) async {
+  testWidgets('с сессией показывает профиль водителя', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // Клиент без закрытия: close() Serverpod ставит таймер на 100 мс,
+          // который переживает дерево виджетов и роняет тест.
+          apiClientProvider.overrideWith((ref) => Client('http://localhost/')),
           serverHealthProvider.overrideWith(
             (ref) async => ServerHealth(
               status: 'ok',
@@ -19,18 +20,25 @@ void main() {
               serverTime: DateTime.utc(2026),
             ),
           ),
+          tokenStorageProvider.overrideWithValue(
+            FakeTokenStorage(testDriverSession()),
+          ),
+          myDriverProfileProvider.overrideWith(
+            (ref) async => Driver(
+              phone: '+99365100001',
+              name: 'Аман Гурбанов',
+              carModel: 'Toyota Corolla',
+              carPlate: 'AG 1234 AH',
+            ),
+          ),
         ],
         child: const App(),
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.textContaining('0.0.0-test'), findsOneWidget);
-    expect(find.textContaining('Сервер работает'), findsOneWidget);
 
-    await tester.tap(find.byTooltip('Язык'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Türkmen').last);
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Serwer işleýär'), findsOneWidget);
+    expect(find.text('Аман Гурбанов'), findsOneWidget);
+    expect(find.textContaining('AG 1234 AH'), findsOneWidget);
+    expect(find.text('Выехал'), findsOneWidget);
   });
 }

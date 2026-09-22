@@ -1,0 +1,14 @@
+### Одноразовый код входа по телефону.
+class: OtpCode
+table: otp_code
+fields:
+  phone: String
+  ### Хранится только хэш кода — сам код уходит в SMS и в лог dev-режима.
+  codeHash: String
+  expiresAt: DateTime
+  attempts: int, default=0
+  usedAt: DateTime?
+  createdAt: DateTime, default=now
+indexes:
+  otp_phone_idx:
+    fields: phone

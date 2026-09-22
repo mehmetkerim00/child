@@ -1,0 +1,7 @@
+### Статус доставки уведомления.
+enum: NotificationStatus
+values:
+  - queued
+  - sent
+  - acked
+  - failed

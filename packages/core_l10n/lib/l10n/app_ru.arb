@@ -4,16 +4,34 @@
   "appTitleDriver": "Child — водитель",
   "appTitleDispatcher": "Child — диспетчер",
   "flavorBadge": "Среда: {flavor}",
-  "@flavorBadge": {"placeholders": {"flavor": {"type": "String"}}},
+  "@flavorBadge": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
   "language": "Язык",
   "languageRu": "Русский",
   "languageTk": "Türkmen",
   "stubNotice": "Экран-заглушка. Функциональность появится в спринте {sprint}.",
-  "@stubNotice": {"placeholders": {"sprint": {"type": "String"}}},
+  "@stubNotice": {
+    "placeholders": {
+      "sprint": {
+        "type": "String"
+      }
+    }
+  },
   "serverStatusTitle": "Связь с сервером",
   "serverChecking": "Проверяем…",
   "serverOk": "Сервер работает (версия {version})",
-  "@serverOk": {"placeholders": {"version": {"type": "String"}}},
+  "@serverOk": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "serverUnavailable": "Сервер недоступен",
   "retry": "Повторить",
   "parentTodayTitle": "Сегодня",
@@ -33,5 +51,83 @@
   "rideStatusDelayed": "Задержка",
   "rideStatusCancelledByFamily": "Отменена семьёй",
   "rideStatusCancelledNoDriver": "Отменена: нет водителя",
-  "rideStatusDriverReplaced": "Замена водителя"
+  "rideStatusDriverReplaced": "Замена водителя",
+  "loginTitle": "Вход",
+  "loginPhoneLabel": "Номер телефона",
+  "loginPhoneHint": "65 12-34-56",
+  "loginRequestCode": "Получить код",
+  "loginCodeLabel": "Код из SMS",
+  "loginVerify": "Войти",
+  "loginChangePhone": "Изменить номер",
+  "loginCodeSentTo": "Код отправлен на {phone}",
+  "@loginCodeSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "loginHint": "Номер заводит диспетчер. Если войти не получается — позвоните ему.",
+  "loginDevSeed": "Заполнить тестовыми данными",
+  "loginDevSeedDone": "Готово. Диспетчер: 65 00-00-01, родитель: 65 20-00-01, водитель: 65 10-00-01",
+  "errorUnknownPhone": "Этот номер не зарегистрирован. Обратитесь к диспетчеру.",
+  "errorWrongCode": "Неверный код",
+  "errorCodeExpired": "Код истёк, запросите новый",
+  "errorTooManyAttempts": "Слишком много попыток, запросите новый код",
+  "errorCodeNotRequested": "Сначала запросите код",
+  "errorNetwork": "Нет связи с сервером",
+  "logout": "Выйти",
+  "greeting": "Здравствуйте, {name}",
+  "@greeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "save": "Сохранить",
+  "cancel": "Отмена",
+  "delete": "Удалить",
+  "add": "Добавить",
+  "edit": "Изменить",
+  "emptyList": "Пока пусто",
+  "dispatcherTabFamilies": "Семьи",
+  "dispatcherTabChildren": "Дети",
+  "dispatcherTabDrivers": "Водители",
+  "dispatcherTabInstitutions": "Учреждения",
+  "fieldName": "Имя",
+  "fieldFamilyName": "Название семьи",
+  "fieldPhone": "Телефон",
+  "fieldAddress": "Адрес",
+  "fieldCarModel": "Машина",
+  "fieldCarPlate": "Госномер",
+  "fieldCodeWord": "Кодовое слово",
+  "fieldBirthYear": "Год рождения",
+  "fieldHandoverCode": "Код учреждения",
+  "fieldType": "Тип",
+  "fieldFamily": "Семья",
+  "fieldExperience": "Стаж и опыт",
+  "fieldNeedsChildSeat": "Нужно детское кресло",
+  "fieldIsFemaleDriver": "Женщина-водитель",
+  "fieldSmsLevel": "SMS-уведомления",
+  "smsLevelAll": "Все события",
+  "smsLevelCritical": "Только критические",
+  "institutionKindergarten": "Детский сад",
+  "institutionSchool": "Школа",
+  "institutionSection": "Секция",
+  "institutionClub": "Кружок",
+  "vettingPending": "На проверке",
+  "vettingVerified": "Проверен",
+  "vettingRejected": "Отклонён",
+  "circlePrimary": "Постоянный водитель",
+  "circleBackup1": "Резервный 1",
+  "circleBackup2": "Резервный 2",
+  "parentChildrenTitle": "Мои дети",
+  "parentDriversTitle": "Наш водитель",
+  "driverProfileTitle": "Мой профиль",
+  "saved": "Сохранено",
+  "requiredField": "Заполните поле",
+  "dispatcherDirectories": "Справочники",
+  "dispatcherCircleTitle": "Круг семьи",
+  "notSet": "Не задано"
 }

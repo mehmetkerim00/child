@@ -1,0 +1,6 @@
+### Кто вошёл в систему.
+enum: AccountRole
+values:
+  - parent
+  - driver
+  - dispatcher

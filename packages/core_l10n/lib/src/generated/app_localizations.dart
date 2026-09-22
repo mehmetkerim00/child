@@ -283,6 +283,390 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Замена водителя'**
   String get rideStatusDriverReplaced;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход'**
+  String get loginTitle;
+
+  /// No description provided for @loginPhoneLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер телефона'**
+  String get loginPhoneLabel;
+
+  /// No description provided for @loginPhoneHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'65 12-34-56'**
+  String get loginPhoneHint;
+
+  /// No description provided for @loginRequestCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить код'**
+  String get loginRequestCode;
+
+  /// No description provided for @loginCodeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код из SMS'**
+  String get loginCodeLabel;
+
+  /// No description provided for @loginVerify.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get loginVerify;
+
+  /// No description provided for @loginChangePhone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить номер'**
+  String get loginChangePhone;
+
+  /// No description provided for @loginCodeSentTo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен на {phone}'**
+  String loginCodeSentTo(String phone);
+
+  /// No description provided for @loginHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер заводит диспетчер. Если войти не получается — позвоните ему.'**
+  String get loginHint;
+
+  /// No description provided for @loginDevSeed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполнить тестовыми данными'**
+  String get loginDevSeed;
+
+  /// No description provided for @loginDevSeedDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово. Диспетчер: 65 00-00-01, родитель: 65 20-00-01, водитель: 65 10-00-01'**
+  String get loginDevSeedDone;
+
+  /// No description provided for @errorUnknownPhone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот номер не зарегистрирован. Обратитесь к диспетчеру.'**
+  String get errorUnknownPhone;
+
+  /// No description provided for @errorWrongCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный код'**
+  String get errorWrongCode;
+
+  /// No description provided for @errorCodeExpired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код истёк, запросите новый'**
+  String get errorCodeExpired;
+
+  /// No description provided for @errorTooManyAttempts.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком много попыток, запросите новый код'**
+  String get errorTooManyAttempts;
+
+  /// No description provided for @errorCodeNotRequested.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сначала запросите код'**
+  String get errorCodeNotRequested;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет связи с сервером'**
+  String get errorNetwork;
+
+  /// No description provided for @logout.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get logout;
+
+  /// No description provided for @greeting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здравствуйте, {name}'**
+  String greeting(String name);
+
+  /// No description provided for @save.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get delete;
+
+  /// No description provided for @add.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить'**
+  String get add;
+
+  /// No description provided for @edit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить'**
+  String get edit;
+
+  /// No description provided for @emptyList.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока пусто'**
+  String get emptyList;
+
+  /// No description provided for @dispatcherTabFamilies.
+  ///
+  /// In ru, this message translates to:
+  /// **'Семьи'**
+  String get dispatcherTabFamilies;
+
+  /// No description provided for @dispatcherTabChildren.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дети'**
+  String get dispatcherTabChildren;
+
+  /// No description provided for @dispatcherTabDrivers.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водители'**
+  String get dispatcherTabDrivers;
+
+  /// No description provided for @dispatcherTabInstitutions.
+  ///
+  /// In ru, this message translates to:
+  /// **'Учреждения'**
+  String get dispatcherTabInstitutions;
+
+  /// No description provided for @fieldName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get fieldName;
+
+  /// No description provided for @fieldFamilyName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название семьи'**
+  String get fieldFamilyName;
+
+  /// No description provided for @fieldPhone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Телефон'**
+  String get fieldPhone;
+
+  /// No description provided for @fieldAddress.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес'**
+  String get fieldAddress;
+
+  /// No description provided for @fieldCarModel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Машина'**
+  String get fieldCarModel;
+
+  /// No description provided for @fieldCarPlate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Госномер'**
+  String get fieldCarPlate;
+
+  /// No description provided for @fieldCodeWord.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кодовое слово'**
+  String get fieldCodeWord;
+
+  /// No description provided for @fieldBirthYear.
+  ///
+  /// In ru, this message translates to:
+  /// **'Год рождения'**
+  String get fieldBirthYear;
+
+  /// No description provided for @fieldHandoverCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код учреждения'**
+  String get fieldHandoverCode;
+
+  /// No description provided for @fieldType.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тип'**
+  String get fieldType;
+
+  /// No description provided for @fieldFamily.
+  ///
+  /// In ru, this message translates to:
+  /// **'Семья'**
+  String get fieldFamily;
+
+  /// No description provided for @fieldExperience.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стаж и опыт'**
+  String get fieldExperience;
+
+  /// No description provided for @fieldNeedsChildSeat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужно детское кресло'**
+  String get fieldNeedsChildSeat;
+
+  /// No description provided for @fieldIsFemaleDriver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Женщина-водитель'**
+  String get fieldIsFemaleDriver;
+
+  /// No description provided for @fieldSmsLevel.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS-уведомления'**
+  String get fieldSmsLevel;
+
+  /// No description provided for @smsLevelAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все события'**
+  String get smsLevelAll;
+
+  /// No description provided for @smsLevelCritical.
+  ///
+  /// In ru, this message translates to:
+  /// **'Только критические'**
+  String get smsLevelCritical;
+
+  /// No description provided for @institutionKindergarten.
+  ///
+  /// In ru, this message translates to:
+  /// **'Детский сад'**
+  String get institutionKindergarten;
+
+  /// No description provided for @institutionSchool.
+  ///
+  /// In ru, this message translates to:
+  /// **'Школа'**
+  String get institutionSchool;
+
+  /// No description provided for @institutionSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Секция'**
+  String get institutionSection;
+
+  /// No description provided for @institutionClub.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кружок'**
+  String get institutionClub;
+
+  /// No description provided for @vettingPending.
+  ///
+  /// In ru, this message translates to:
+  /// **'На проверке'**
+  String get vettingPending;
+
+  /// No description provided for @vettingVerified.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверен'**
+  String get vettingVerified;
+
+  /// No description provided for @vettingRejected.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонён'**
+  String get vettingRejected;
+
+  /// No description provided for @circlePrimary.
+  ///
+  /// In ru, this message translates to:
+  /// **'Постоянный водитель'**
+  String get circlePrimary;
+
+  /// No description provided for @circleBackup1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Резервный 1'**
+  String get circleBackup1;
+
+  /// No description provided for @circleBackup2.
+  ///
+  /// In ru, this message translates to:
+  /// **'Резервный 2'**
+  String get circleBackup2;
+
+  /// No description provided for @parentChildrenTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои дети'**
+  String get parentChildrenTitle;
+
+  /// No description provided for @parentDriversTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Наш водитель'**
+  String get parentDriversTitle;
+
+  /// No description provided for @driverProfileTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мой профиль'**
+  String get driverProfileTitle;
+
+  /// No description provided for @saved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранено'**
+  String get saved;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните поле'**
+  String get requiredField;
+
+  /// No description provided for @dispatcherDirectories.
+  ///
+  /// In ru, this message translates to:
+  /// **'Справочники'**
+  String get dispatcherDirectories;
+
+  /// No description provided for @dispatcherCircleTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Круг семьи'**
+  String get dispatcherCircleTitle;
+
+  /// No description provided for @notSet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не задано'**
+  String get notSet;
 }
 
 class _AppLocalizationsDelegate

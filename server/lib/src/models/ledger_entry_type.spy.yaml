@@ -1,0 +1,6 @@
+### Тип операции по балансу семьи.
+enum: LedgerEntryType
+values:
+  - cashTopup   ### приём наличных
+  - rideCharge  ### списание за поездку
+  - adjust      ### ручная корректировка

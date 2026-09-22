@@ -1,0 +1,18 @@
+### Очередь исходящих уведомлений — сердце SMS-фолбэка (MVP_PLAN §6).
+class: NotificationOutbox
+table: notification_outbox
+fields:
+  ### Событие, породившее уведомление, например ride.pickedUp.
+  eventKind: String
+  recipientPhone: String
+  channel: NotificationChannel
+  status: NotificationStatus, default=queued
+  attempts: int, default=0
+  ### Готовый текст сообщения на языке получателя.
+  body: String
+  rideId: int?, relation(parent=ride, onDelete=SetNull)
+  createdAt: DateTime, default=now
+  sentAt: DateTime?
+indexes:
+  outbox_status_idx:
+    fields: status

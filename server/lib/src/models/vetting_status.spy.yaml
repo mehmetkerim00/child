@@ -1,0 +1,6 @@
+### Статус проверки водителя.
+enum: VettingStatus
+values:
+  - pending   ### на проверке
+  - verified  ### проверен
+  - rejected  ### отклонён

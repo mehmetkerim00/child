@@ -1,0 +1,7 @@
+### Тип учреждения, куда возят ребёнка.
+enum: InstitutionType
+values:
+  - kindergarten  ### детский сад
+  - school        ### школа
+  - section       ### секция
+  - club          ### кружок

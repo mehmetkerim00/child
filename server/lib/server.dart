@@ -1,22 +1,20 @@
 import 'dart:io';
 
 import 'package:serverpod/serverpod.dart';
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    show AuthServicesInit, JwtConfigFromPasswords;
 
+import 'src/auth/auth_handler.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
 import 'src/web/routes/root.dart';
 
 /// Точка входа сервера.
 void run(List<String> args) async {
-  final pod = Serverpod(args, Protocol(), Endpoints());
-
-  // JWT-сессии. Вход по телефону + SMS-код (OTP) добавим в S1 —
-  // отдельным identity provider'ом поверх SmsGateway.
-  pod.initializeAuthServices(
-    tokenManagerBuilders: [JwtConfigFromPasswords()],
-    identityProviderBuilders: [],
+  // Вход по телефону и SMS-коду: токен сессии проверяет authenticationHandler.
+  final pod = Serverpod(
+    args,
+    Protocol(),
+    Endpoints(),
+    authenticationHandler: authenticationHandler,
   );
 
   pod.webServer.addRoute(RootRoute(), '/');

@@ -1,0 +1,17 @@
+### Токен сессии: выдаётся после подтверждения кода.
+class: AuthToken
+table: auth_token
+fields:
+  ### Хэш токена; сам токен хранится только на устройстве.
+  tokenHash: String
+  role: AccountRole
+  ### id записи Parent, Driver или DispatcherAccount — в зависимости от роли.
+  subjectId: int
+  phone: String
+  createdAt: DateTime, default=now
+  expiresAt: DateTime
+  revokedAt: DateTime?
+indexes:
+  auth_token_hash_idx:
+    fields: tokenHash
+    unique: true

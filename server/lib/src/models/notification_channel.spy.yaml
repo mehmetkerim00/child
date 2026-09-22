@@ -1,0 +1,5 @@
+### Канал доставки уведомления.
+enum: NotificationChannel
+values:
+  - push
+  - sms

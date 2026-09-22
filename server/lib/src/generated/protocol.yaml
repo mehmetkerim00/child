@@ -1,4 +1,28 @@
-jwtRefresh:
-  - refreshAccessToken:
+auth:
+  - requestCode:
+  - verifyCode:
+  - logout:
+dev:
+  - seed:
+directory:
+  - families:
+  - saveFamily:
+  - deleteFamily:
+  - parents:
+  - saveParent:
+  - children:
+  - saveChild:
+  - deleteChild:
+  - drivers:
+  - saveDriver:
+  - institutions:
+  - saveInstitution:
+  - circle:
+  - assignDriver:
+profile:
+  - myFamily:
+  - myChildren:
+  - myDrivers:
+  - myDriverProfile:
 health:
   - ping:

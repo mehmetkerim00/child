@@ -1,0 +1,5 @@
+### Направление маршрута.
+enum: RouteDirection
+values:
+  - toInstitution  ### из дома в учреждение
+  - toHome         ### из учреждения домой

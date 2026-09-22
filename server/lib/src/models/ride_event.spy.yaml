@@ -1,0 +1,17 @@
+### Иммутабельный лог событий поездки.
+class: RideEvent
+table: ride_event
+fields:
+  rideId: int, relation(parent=ride, onDelete=Cascade)
+  type: RideEventType
+  at: DateTime
+  ### Кто отметил событие: driver или dispatcher.
+  byRole: AccountRole
+  lat: double?
+  lng: double?
+  photoUrl: String?
+  ### Причина задержки, код учреждения и прочее — короткой строкой.
+  note: String?
+indexes:
+  ride_event_ride_idx:
+    fields: rideId

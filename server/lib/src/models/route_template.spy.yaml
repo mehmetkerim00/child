@@ -1,0 +1,20 @@
+### Шаблон регулярного маршрута: заявку создаёт родитель, активирует диспетчер.
+class: RouteTemplate
+table: route_template
+fields:
+  childId: int, relation(parent=child, onDelete=Cascade)
+  ### Дни недели: 1 — понедельник … 7 — воскресенье.
+  weekdays: List<int>
+  ### Время подачи в формате HH:mm (местное время Ашхабада).
+  pickupTime: String
+  fromAddress: String
+  fromLat: double?
+  fromLng: double?
+  toInstitutionId: int?, relation(parent=institution, onDelete=SetNull)
+  toAddress: String?
+  direction: RouteDirection
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  pricePerRide: int, default=0
+  ### false — заявка ждёт активации диспетчером.
+  active: bool, default=false
+  createdAt: DateTime, default=now

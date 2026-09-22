@@ -1,0 +1,4 @@
+### Ошибка входа.
+exception: AuthException
+fields:
+  reason: AuthFailureReason

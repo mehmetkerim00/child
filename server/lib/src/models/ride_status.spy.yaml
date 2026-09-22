@@ -1,0 +1,14 @@
+### Статус поездки (MVP_PLAN §6). Дублирует RideStatus из core_domain.
+enum: RideStatus
+values:
+  - scheduled
+  - confirmed
+  - enRoute
+  - pickedUp
+  - inTransit
+  - arrived
+  - handedOver
+  - delayed
+  - cancelledByFamily
+  - cancelledNoDriver
+  - driverReplaced

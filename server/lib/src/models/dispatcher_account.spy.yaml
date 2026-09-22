@@ -1,0 +1,12 @@
+### Сотрудник диспетчерской. Создаётся сидами/вручную в БД.
+class: DispatcherAccount
+table: dispatcher_account
+fields:
+  phone: String
+  name: String
+  active: bool, default=true
+  createdAt: DateTime, default=now
+indexes:
+  dispatcher_phone_idx:
+    fields: phone
+    unique: true

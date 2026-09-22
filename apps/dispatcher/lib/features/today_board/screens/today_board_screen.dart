@@ -3,7 +3,6 @@ import 'package:core_l10n/core_l10n.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/flavor_badge.dart';
 import '../widgets/server_status_section.dart';
 import '../widgets/status_column.dart';
 
@@ -20,39 +19,33 @@ class TodayBoardScreen extends StatelessWidget {
     final columns = RideStatus.happyPath.where(
       (s) => s != RideStatus.scheduled,
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.dispatcherBoardTitle),
-        actions: const [FlavorBadge(), LanguageMenu()],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(ChildSpacing.m),
-        children: [
-          StubNotice(text: l10n.stubNotice('S1–S2')),
-          const SizedBox(height: ChildSpacing.m),
-          const ServerStatusSection(),
-          const SizedBox(height: ChildSpacing.l),
-          SizedBox(
-            height: 240,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
+    return ListView(
+      padding: const EdgeInsets.all(ChildSpacing.m),
+      children: [
+        StubNotice(text: l10n.stubNotice('S1–S2')),
+        const SizedBox(height: ChildSpacing.m),
+        const ServerStatusSection(),
+        const SizedBox(height: ChildSpacing.l),
+        SizedBox(
+          height: 240,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              StatusColumn(
+                title:
+                    '${l10n.rideStatus(RideStatus.scheduled)} · ${l10n.rideStatus(RideStatus.delayed)}',
+                emptyText: l10n.dispatcherBoardEmpty,
+                isProblem: true,
+              ),
+              for (final status in columns)
                 StatusColumn(
-                  title:
-                      '${l10n.rideStatus(RideStatus.scheduled)} · ${l10n.rideStatus(RideStatus.delayed)}',
+                  title: l10n.rideStatus(status),
                   emptyText: l10n.dispatcherBoardEmpty,
-                  isProblem: true,
                 ),
-                for (final status in columns)
-                  StatusColumn(
-                    title: l10n.rideStatus(status),
-                    emptyText: l10n.dispatcherBoardEmpty,
-                  ),
-              ],
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

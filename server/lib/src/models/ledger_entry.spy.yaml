@@ -1,0 +1,17 @@
+### Операция по балансу семьи. Баланс = сумма операций.
+class: LedgerEntry
+table: ledger_entry
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  type: LedgerEntryType
+  ### Сумма в манатах: пополнение — со знаком плюс, списание — минус.
+  amount: int
+  rideId: int?, relation(parent=ride, onDelete=SetNull)
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  note: String?
+  ### Наличные подтверждает диспетчер.
+  confirmed: bool, default=false
+  createdAt: DateTime, default=now
+indexes:
+  ledger_family_idx:
+    fields: familyId

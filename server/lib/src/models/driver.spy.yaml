@@ -1,0 +1,18 @@
+### Водитель-няня. Аккаунт создаёт только диспетчер.
+class: Driver
+table: driver
+fields:
+  phone: String
+  name: String
+  carModel: String
+  carPlate: String
+  experienceNote: String?
+  vettingStatus: VettingStatus, default=pending
+  isFemale: bool, default=false
+  photoUrl: String?
+  active: bool, default=true
+  createdAt: DateTime, default=now
+indexes:
+  driver_phone_idx:
+    fields: phone
+    unique: true

@@ -8,5 +8,4 @@ environment:
 resolution: workspace
 
 dependencies:
-  serverpod_auth_core_client: 3.4.13
   serverpod_client: 3.4.13
