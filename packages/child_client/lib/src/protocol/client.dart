@@ -25,8 +25,9 @@ import 'package:child_client/src/protocol/route_template.dart' as _i11;
 import 'package:child_client/src/protocol/ride_view.dart' as _i12;
 import 'package:child_client/src/protocol/ride_event.dart' as _i13;
 import 'package:child_client/src/protocol/ride.dart' as _i14;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i15;
-import 'protocol.dart' as _i16;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i15;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i16;
+import 'protocol.dart' as _i17;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -358,6 +359,28 @@ class EndpointRides extends _i1.EndpointRef {
     },
   );
 
+  /// Принимает событие этапа поездки: «Выехал», «Забрал», «Передал» и так
+  /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
+  _i2.Future<_i14.Ride> submitEvent(
+    int rideId,
+    _i15.RideEventSubmission submission,
+  ) => caller.callServerEndpoint<_i14.Ride>(
+    'rides',
+    'submitEvent',
+    {
+      'rideId': rideId,
+      'submission': submission,
+    },
+  );
+
+  /// События поездки — лента для водителя.
+  _i2.Future<List<_i13.RideEvent>> events(int rideId) =>
+      caller.callServerEndpoint<List<_i13.RideEvent>>(
+        'rides',
+        'events',
+        {'rideId': rideId},
+      );
+
   /// Местная дата «завтра» по Ашхабаду: приложение не считает её само.
   _i2.Future<DateTime> tomorrowDate() => caller.callServerEndpoint<DateTime>(
     'rides',
@@ -392,6 +415,14 @@ class EndpointRoutes extends _i1.EndpointRef {
         {},
       );
 
+  /// События поездки своего ребёнка — лента «что происходило».
+  _i2.Future<List<_i13.RideEvent>> rideEvents(int rideId) =>
+      caller.callServerEndpoint<List<_i13.RideEvent>>(
+        'routes',
+        'rideEvents',
+        {'rideId': rideId},
+      );
+
   /// Учреждения — родитель выбирает, куда возить ребёнка.
   _i2.Future<List<_i8.Institution>> institutions() =>
       caller.callServerEndpoint<List<_i8.Institution>>(
@@ -417,8 +448,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i15.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i15.ServerHealth>(
+  _i2.Future<_i16.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i16.ServerHealth>(
         'health',
         'ping',
         {},
@@ -445,7 +476,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i16.Protocol(),
+         _i17.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

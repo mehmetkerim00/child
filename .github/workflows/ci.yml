@@ -14,10 +14,9 @@ jobs:
         with:
           flutter-version: '3.38.10'
           cache: true
-      - run: dart pub global activate melos 8.9.0
       - run: flutter pub get
-      - run: melos run analyze
-      - run: melos run test
+      - run: ./tools/check.sh analyze
+      - run: ./tools/check.sh test
 
   server-test:
     runs-on: ubuntu-latest

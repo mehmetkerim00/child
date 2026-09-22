@@ -434,4 +434,83 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dispatcherProblems => 'Проблемы';
+
+  @override
+  String get rideFlowTitle => 'Поездка';
+
+  @override
+  String get actionDepart => 'Выехал';
+
+  @override
+  String get actionPickUp => 'Забрал';
+
+  @override
+  String get actionStartTransit => 'Посадил, едем';
+
+  @override
+  String get actionArrive => 'Приехали';
+
+  @override
+  String get actionHandOver => 'Передал';
+
+  @override
+  String get actionDelay => 'Задержка';
+
+  @override
+  String get codeWordPrompt =>
+      'Назовите кодовое слово семьи и попросите подтвердить';
+
+  @override
+  String get codeWordField => 'Кодовое слово';
+
+  @override
+  String get handoverPrompt =>
+      'Введите код учреждения или попросите расписаться';
+
+  @override
+  String get institutionCodeField => 'Код учреждения';
+
+  @override
+  String get signatureButton => 'Подпись принимающего';
+
+  @override
+  String get signatureDone => 'Подпись получена';
+
+  @override
+  String get signatureClear => 'Стереть';
+
+  @override
+  String get delayReasonField => 'Причина задержки';
+
+  @override
+  String pendingEvents(int count) {
+    return '$count событий ждут отправки';
+  }
+
+  @override
+  String get allEventsSent => 'Все события отправлены';
+
+  @override
+  String get retrySync => 'Отправить сейчас';
+
+  @override
+  String get rideFinished => 'Поездка завершена';
+
+  @override
+  String get errorWrongCodeWordServer => 'Кодовое слово не совпало';
+
+  @override
+  String get errorWrongOrder => 'Этот этап сейчас недоступен';
+
+  @override
+  String get errorHandoverProof => 'Нужен код учреждения или подпись';
+
+  @override
+  String get errorRideFinished => 'Поездка уже завершена';
+
+  @override
+  String get eventsTimeline => 'Что происходило';
+
+  @override
+  String get parentRideTitle => 'Поездка ребёнка';
 }

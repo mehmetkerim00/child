@@ -55,6 +55,22 @@ class RoutesEndpoint extends Endpoint {
     );
   }
 
+  /// События поездки своего ребёнка — лента «что происходило».
+  Future<List<RideEvent>> rideEvents(Session session, int rideId) async {
+    final parent = await session.requireParent();
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride == null) return [];
+    final child = await Child.db.findById(session, ride.childId);
+    if (child == null || child.familyId != parent.familyId) {
+      throw Exception('Поездка не вашего ребёнка');
+    }
+    return RideEvent.db.find(
+      session,
+      where: (e) => e.rideId.equals(rideId),
+      orderBy: (e) => e.at,
+    );
+  }
+
   /// Учреждения — родитель выбирает, куда возить ребёнка.
   Future<List<Institution>> institutions(Session session) =>
       Institution.db.find(session, orderBy: (i) => i.name);

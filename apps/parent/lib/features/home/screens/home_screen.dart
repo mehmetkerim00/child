@@ -5,6 +5,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../ride_live/screens/ride_events_screen.dart';
 import '../widgets/account_menu.dart';
 import '../widgets/flavor_badge.dart';
 import '../widgets/server_status_section.dart';
@@ -66,6 +67,11 @@ class HomeScreen extends ConsumerWidget {
                   title: Text(view.childName),
                   subtitle: Text('${view.fromAddress} → ${view.toName}'),
                   trailing: Text(l10n.rideStatus(view.ride.domainStatus)),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => RideEventsScreen(view: view),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -4,6 +4,8 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../ride_flow/screens/ride_flow_screen.dart';
+import '../../ride_flow/widgets/pending_events_section.dart';
 import '../widgets/server_status_section.dart';
 
 /// «Маршрут дня»: поездки водителя на сегодня по порядку.
@@ -26,7 +28,7 @@ class TodayScreen extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(ChildSpacing.m),
         children: [
-          StubNotice(text: l10n.stubNotice('S3')),
+          const PendingEventsSection(),
           const SizedBox(height: ChildSpacing.m),
           const ServerStatusSection(),
           const SizedBox(height: ChildSpacing.m),
@@ -62,14 +64,14 @@ class TodayScreen extends ConsumerWidget {
                   statusLabel: l10n.rideStatus(view.ride.domainStatus),
                   statusTone: rideToneFor(view.ride.domainStatus),
                   actions: [
-                    // Полноценные кнопки этапов поездки — в S3.
                     FilledButton.icon(
-                      icon: const Icon(Icons.directions_car),
-                      label: Text(l10n.driverActionDeparted),
-                      onPressed: () =>
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.driverStubAction)),
-                          ),
+                      icon: const Icon(Icons.play_arrow),
+                      label: Text(l10n.rideFlowTitle),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => RideFlowScreen(view: view),
+                        ),
+                      ),
                     ),
                   ],
                 ),

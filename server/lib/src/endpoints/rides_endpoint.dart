@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/rides/ride_flow.dart';
 import '../services/rides/ride_view_builder.dart';
 import 'session_subject.dart';
 
@@ -47,6 +48,7 @@ class RidesEndpoint extends Endpoint {
       session,
       RideEvent(
         rideId: ride.id!,
+        clientEventId: const Uuid().v4(),
         type: RideEventType.confirmed,
         at: now,
         byRole: AccountRole.driver,
@@ -77,6 +79,7 @@ class RidesEndpoint extends Endpoint {
       session,
       RideEvent(
         rideId: ride.id!,
+        clientEventId: const Uuid().v4(),
         type: RideEventType.cancelledNoDriver,
         at: now,
         byRole: AccountRole.driver,
@@ -84,6 +87,44 @@ class RidesEndpoint extends Endpoint {
       ),
     );
     return declined;
+  }
+
+  /// Принимает событие этапа поездки: «Выехал», «Забрал», «Передал» и так
+  /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
+  Future<Ride> submitEvent(
+    Session session,
+    int rideId,
+    RideEventSubmission submission,
+  ) async {
+    final ride = await _myRide(session, rideId);
+    final child = await Child.db.findById(session, ride.childId);
+
+    // Код учреждения берём из шаблона маршрута поездки.
+    final template = ride.templateId == null
+        ? null
+        : await RouteTemplate.db.findById(session, ride.templateId!);
+    final institution = template?.toInstitutionId == null
+        ? null
+        : await Institution.db.findById(session, template!.toInstitutionId!);
+
+    return RideFlow.applyEvent(
+      session,
+      ride: ride,
+      submission: submission,
+      byRole: AccountRole.driver,
+      codeWord: child?.codeWord ?? '',
+      institutionCode: institution?.handoverCode ?? '',
+    );
+  }
+
+  /// События поездки — лента для водителя.
+  Future<List<RideEvent>> events(Session session, int rideId) async {
+    await _myRide(session, rideId);
+    return RideEvent.db.find(
+      session,
+      where: (e) => e.rideId.equals(rideId),
+      orderBy: (e) => e.at,
+    );
   }
 
   /// Местная дата «завтра» по Ашхабаду: приложение не считает её само.

@@ -24,6 +24,9 @@ export 'package:child_client/child_client.dart'
         Ride,
         RideEvent,
         RideEventType,
+        RideEventSubmission,
+        RideFlowError,
+        RideFlowException,
         RideStatus,
         RideView,
         RouteDirection,
@@ -38,3 +41,5 @@ export 'src/api/providers.dart';
 export 'src/auth/auth_controller.dart';
 export 'src/auth/token_storage.dart';
 export 'src/config/app_config.dart';
+export 'src/offline/queue_database.dart' show QueueDatabase;
+export 'src/offline/ride_event_queue.dart';

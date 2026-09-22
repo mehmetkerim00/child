@@ -12,7 +12,7 @@
 | Слой | Технологии |
 |---|---|
 | Приложения | Flutter 3.38, Dart 3.10, Android-first |
-| Монорепо | Dart pub workspace + melos 8 |
+| Монорепо | Dart pub workspace |
 | State / навигация | Riverpod 2, go_router |
 | Бэкенд | Serverpod 3.4 + PostgreSQL 16 |
 | Карты (S4) | flutter_map + OSM |
@@ -38,7 +38,7 @@
 ## Быстрый старт
 
 ```bash
-dart pub global activate melos serverpod_cli   # один раз
+dart pub global activate serverpod_cli         # один раз
 flutter pub get                                # зависимости всего монорепо
 ./tools/dev_up.sh                              # PostgreSQL + сервер на :8180
 
@@ -62,11 +62,15 @@ PostgreSQL — 8090 (база тестов — 9090).
 ## Проверки
 
 ```bash
-melos run analyze        # анализ всех пакетов
-melos run test           # тесты пакетов и приложений
-melos run test:server    # тесты сервера (нужна тестовая база на :9090)
-melos run generate:server # код Serverpod после правки моделей и эндпоинтов
+./tools/check.sh analyze   # анализ всего кода
+./tools/check.sh test      # тесты пакетов и приложений
+./tools/check.sh server    # тесты сервера (нужна тестовая база на :9090)
+./tools/check.sh generate  # код Serverpod, строки локализации, drift
+./tools/check.sh all       # форматирование + анализ + тесты
 ```
+
+Связывает пакеты Dart pub workspace: `flutter pub get` в корне ставит
+зависимости всему монорепо.
 
 CI на каждый коммит: анализ, тесты, тесты сервера на PostgreSQL и сборка
 debug-APK обоих мобильных приложений (артефакт `apk-debug`).

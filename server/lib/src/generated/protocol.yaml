@@ -36,10 +36,13 @@ rides:
   - tomorrow:
   - confirm:
   - decline:
+  - submitEvent:
+  - events:
   - tomorrowDate:
 routes:
   - requestRoute:
   - myRoutes:
+  - rideEvents:
   - institutions:
   - myUpcomingRides:
 health:

@@ -433,4 +433,83 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get dispatcherProblems => 'Meseleler';
+
+  @override
+  String get rideFlowTitle => 'Ýol';
+
+  @override
+  String get actionDepart => 'Ýola çykdym';
+
+  @override
+  String get actionPickUp => 'Aldym';
+
+  @override
+  String get actionStartTransit => 'Mündürdim, barýarys';
+
+  @override
+  String get actionArrive => 'Geldik';
+
+  @override
+  String get actionHandOver => 'Tabşyrdym';
+
+  @override
+  String get actionDelay => 'Gijikme';
+
+  @override
+  String get codeWordPrompt =>
+      'Maşgalanyň kod sözüni aýdyň we tassyklamagy soraň';
+
+  @override
+  String get codeWordField => 'Kod sözi';
+
+  @override
+  String get handoverPrompt =>
+      'Edaranyň kodyny giriziň ýa-da gol çekmegi soraň';
+
+  @override
+  String get institutionCodeField => 'Edaranyň kody';
+
+  @override
+  String get signatureButton => 'Kabul edeniň goly';
+
+  @override
+  String get signatureDone => 'Gol alyndy';
+
+  @override
+  String get signatureClear => 'Poz';
+
+  @override
+  String get delayReasonField => 'Gijikmäniň sebäbi';
+
+  @override
+  String pendingEvents(int count) {
+    return '$count waka ibermäge garaşýar';
+  }
+
+  @override
+  String get allEventsSent => 'Ähli wakalar iberildi';
+
+  @override
+  String get retrySync => 'Häzir iber';
+
+  @override
+  String get rideFinished => 'Ýol tamamlandy';
+
+  @override
+  String get errorWrongCodeWordServer => 'Kod sözi gabat gelmedi';
+
+  @override
+  String get errorWrongOrder => 'Bu tapgyr häzir elýeterli däl';
+
+  @override
+  String get errorHandoverProof => 'Edaranyň kody ýa-da gol gerek';
+
+  @override
+  String get errorRideFinished => 'Ýol eýýäm tamamlandy';
+
+  @override
+  String get eventsTimeline => 'Näme boldy';
+
+  @override
+  String get parentRideTitle => 'Çaganyň ýoly';
 }

@@ -21,6 +21,7 @@ abstract class RideEvent
   RideEvent._({
     this.id,
     required this.rideId,
+    required this.clientEventId,
     required this.type,
     required this.at,
     required this.byRole,
@@ -33,6 +34,7 @@ abstract class RideEvent
   factory RideEvent({
     int? id,
     required int rideId,
+    required String clientEventId,
     required _i2.RideEventType type,
     required DateTime at,
     required _i3.AccountRole byRole,
@@ -46,6 +48,7 @@ abstract class RideEvent
     return RideEvent(
       id: jsonSerialization['id'] as int?,
       rideId: jsonSerialization['rideId'] as int,
+      clientEventId: jsonSerialization['clientEventId'] as String,
       type: _i2.RideEventType.fromJson((jsonSerialization['type'] as String)),
       at: _i1.DateTimeJsonExtension.fromJson(jsonSerialization['at']),
       byRole: _i3.AccountRole.fromJson((jsonSerialization['byRole'] as String)),
@@ -64,6 +67,10 @@ abstract class RideEvent
   int? id;
 
   int rideId;
+
+  /// Идентификатор, присвоенный приложением водителя. Нужен, чтобы
+  /// событие из офлайн-очереди не записалось дважды при повторной отправке.
+  String clientEventId;
 
   _i2.RideEventType type;
 
@@ -90,6 +97,7 @@ abstract class RideEvent
   RideEvent copyWith({
     int? id,
     int? rideId,
+    String? clientEventId,
     _i2.RideEventType? type,
     DateTime? at,
     _i3.AccountRole? byRole,
@@ -104,6 +112,7 @@ abstract class RideEvent
       '__className__': 'RideEvent',
       if (id != null) 'id': id,
       'rideId': rideId,
+      'clientEventId': clientEventId,
       'type': type.toJson(),
       'at': at.toJson(),
       'byRole': byRole.toJson(),
@@ -120,6 +129,7 @@ abstract class RideEvent
       '__className__': 'RideEvent',
       if (id != null) 'id': id,
       'rideId': rideId,
+      'clientEventId': clientEventId,
       'type': type.toJson(),
       'at': at.toJson(),
       'byRole': byRole.toJson(),
@@ -166,6 +176,7 @@ class _RideEventImpl extends RideEvent {
   _RideEventImpl({
     int? id,
     required int rideId,
+    required String clientEventId,
     required _i2.RideEventType type,
     required DateTime at,
     required _i3.AccountRole byRole,
@@ -176,6 +187,7 @@ class _RideEventImpl extends RideEvent {
   }) : super._(
          id: id,
          rideId: rideId,
+         clientEventId: clientEventId,
          type: type,
          at: at,
          byRole: byRole,
@@ -192,6 +204,7 @@ class _RideEventImpl extends RideEvent {
   RideEvent copyWith({
     Object? id = _Undefined,
     int? rideId,
+    String? clientEventId,
     _i2.RideEventType? type,
     DateTime? at,
     _i3.AccountRole? byRole,
@@ -203,6 +216,7 @@ class _RideEventImpl extends RideEvent {
     return RideEvent(
       id: id is int? ? id : this.id,
       rideId: rideId ?? this.rideId,
+      clientEventId: clientEventId ?? this.clientEventId,
       type: type ?? this.type,
       at: at ?? this.at,
       byRole: byRole ?? this.byRole,
@@ -221,6 +235,12 @@ class RideEventUpdateTable extends _i1.UpdateTable<RideEventTable> {
     table.rideId,
     value,
   );
+
+  _i1.ColumnValue<String, String> clientEventId(String value) =>
+      _i1.ColumnValue(
+        table.clientEventId,
+        value,
+      );
 
   _i1.ColumnValue<_i2.RideEventType, _i2.RideEventType> type(
     _i2.RideEventType value,
@@ -269,6 +289,10 @@ class RideEventTable extends _i1.Table<int?> {
       'rideId',
       this,
     );
+    clientEventId = _i1.ColumnString(
+      'clientEventId',
+      this,
+    );
     type = _i1.ColumnEnum(
       'type',
       this,
@@ -305,6 +329,10 @@ class RideEventTable extends _i1.Table<int?> {
 
   late final _i1.ColumnInt rideId;
 
+  /// Идентификатор, присвоенный приложением водителя. Нужен, чтобы
+  /// событие из офлайн-очереди не записалось дважды при повторной отправке.
+  late final _i1.ColumnString clientEventId;
+
   late final _i1.ColumnEnum<_i2.RideEventType> type;
 
   late final _i1.ColumnDateTime at;
@@ -325,6 +353,7 @@ class RideEventTable extends _i1.Table<int?> {
   List<_i1.Column> get columns => [
     id,
     rideId,
+    clientEventId,
     type,
     at,
     byRole,

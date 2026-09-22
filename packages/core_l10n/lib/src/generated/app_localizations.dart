@@ -913,6 +913,156 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Проблемы'**
   String get dispatcherProblems;
+
+  /// No description provided for @rideFlowTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка'**
+  String get rideFlowTitle;
+
+  /// No description provided for @actionDepart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выехал'**
+  String get actionDepart;
+
+  /// No description provided for @actionPickUp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забрал'**
+  String get actionPickUp;
+
+  /// No description provided for @actionStartTransit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Посадил, едем'**
+  String get actionStartTransit;
+
+  /// No description provided for @actionArrive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приехали'**
+  String get actionArrive;
+
+  /// No description provided for @actionHandOver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Передал'**
+  String get actionHandOver;
+
+  /// No description provided for @actionDelay.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задержка'**
+  String get actionDelay;
+
+  /// No description provided for @codeWordPrompt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Назовите кодовое слово семьи и попросите подтвердить'**
+  String get codeWordPrompt;
+
+  /// No description provided for @codeWordField.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кодовое слово'**
+  String get codeWordField;
+
+  /// No description provided for @handoverPrompt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите код учреждения или попросите расписаться'**
+  String get handoverPrompt;
+
+  /// No description provided for @institutionCodeField.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код учреждения'**
+  String get institutionCodeField;
+
+  /// No description provided for @signatureButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подпись принимающего'**
+  String get signatureButton;
+
+  /// No description provided for @signatureDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подпись получена'**
+  String get signatureDone;
+
+  /// No description provided for @signatureClear.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стереть'**
+  String get signatureClear;
+
+  /// No description provided for @delayReasonField.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина задержки'**
+  String get delayReasonField;
+
+  /// No description provided for @pendingEvents.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} событий ждут отправки'**
+  String pendingEvents(int count);
+
+  /// No description provided for @allEventsSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все события отправлены'**
+  String get allEventsSent;
+
+  /// No description provided for @retrySync.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить сейчас'**
+  String get retrySync;
+
+  /// No description provided for @rideFinished.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка завершена'**
+  String get rideFinished;
+
+  /// No description provided for @errorWrongCodeWordServer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кодовое слово не совпало'**
+  String get errorWrongCodeWordServer;
+
+  /// No description provided for @errorWrongOrder.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот этап сейчас недоступен'**
+  String get errorWrongOrder;
+
+  /// No description provided for @errorHandoverProof.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужен код учреждения или подпись'**
+  String get errorHandoverProof;
+
+  /// No description provided for @errorRideFinished.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка уже завершена'**
+  String get errorRideFinished;
+
+  /// No description provided for @eventsTimeline.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что происходило'**
+  String get eventsTimeline;
+
+  /// No description provided for @parentRideTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка ребёнка'**
+  String get parentRideTitle;
 }
 
 class _AppLocalizationsDelegate

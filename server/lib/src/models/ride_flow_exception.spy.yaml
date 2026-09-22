@@ -1,0 +1,6 @@
+### Ошибка при попытке отметить этап поездки.
+exception: RideFlowException
+fields:
+  reason: RideFlowError
+  ### Текущий статус поездки: приложение подстраивает кнопку под него.
+  currentStatus: RideStatus

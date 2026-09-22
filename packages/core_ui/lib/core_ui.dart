@@ -9,4 +9,5 @@ export 'src/widgets/big_action_button.dart';
 export 'src/widgets/ride_card.dart';
 export 'src/widgets/ride_tone.dart';
 export 'src/widgets/server_status_card.dart';
+export 'src/widgets/signature_pad.dart';
 export 'src/widgets/stub_notice.dart';

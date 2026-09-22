@@ -184,5 +184,37 @@
   },
   "todayTab": "Сегодня",
   "tomorrowTab": "Завтра",
-  "dispatcherProblems": "Проблемы"
+  "dispatcherProblems": "Проблемы",
+  "rideFlowTitle": "Поездка",
+  "actionDepart": "Выехал",
+  "actionPickUp": "Забрал",
+  "actionStartTransit": "Посадил, едем",
+  "actionArrive": "Приехали",
+  "actionHandOver": "Передал",
+  "actionDelay": "Задержка",
+  "codeWordPrompt": "Назовите кодовое слово семьи и попросите подтвердить",
+  "codeWordField": "Кодовое слово",
+  "handoverPrompt": "Введите код учреждения или попросите расписаться",
+  "institutionCodeField": "Код учреждения",
+  "signatureButton": "Подпись принимающего",
+  "signatureDone": "Подпись получена",
+  "signatureClear": "Стереть",
+  "delayReasonField": "Причина задержки",
+  "pendingEvents": "{count} событий ждут отправки",
+  "@pendingEvents": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "allEventsSent": "Все события отправлены",
+  "retrySync": "Отправить сейчас",
+  "rideFinished": "Поездка завершена",
+  "errorWrongCodeWordServer": "Кодовое слово не совпало",
+  "errorWrongOrder": "Этот этап сейчас недоступен",
+  "errorHandoverProof": "Нужен код учреждения или подпись",
+  "errorRideFinished": "Поездка уже завершена",
+  "eventsTimeline": "Что происходило",
+  "parentRideTitle": "Поездка ребёнка"
 }

@@ -26,8 +26,9 @@ import 'package:child_server/src/generated/route_template.dart' as _i12;
 import 'package:child_server/src/generated/ride_view.dart' as _i13;
 import 'package:child_server/src/generated/ride_event.dart' as _i14;
 import 'package:child_server/src/generated/ride.dart' as _i15;
-import 'package:child_server/src/generated/health/server_health.dart' as _i16;
-import 'package:child_server/src/generated/future_calls.dart' as _i17;
+import 'package:child_server/src/generated/ride_event_submission.dart' as _i16;
+import 'package:child_server/src/generated/health/server_health.dart' as _i17;
+import 'package:child_server/src/generated/future_calls.dart' as _i18;
 import 'package:child_server/src/generated/protocol.dart';
 import 'package:child_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -1280,6 +1281,72 @@ class _RidesEndpoint {
     });
   }
 
+  _i3.Future<_i15.Ride> submitEvent(
+    _i1.TestSessionBuilder sessionBuilder,
+    int rideId,
+    _i16.RideEventSubmission submission,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'rides',
+            method: 'submitEvent',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'rides',
+          methodName: 'submitEvent',
+          parameters: _i1.testObjectToJson({
+            'rideId': rideId,
+            'submission': submission,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i15.Ride>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i14.RideEvent>> events(
+    _i1.TestSessionBuilder sessionBuilder,
+    int rideId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'rides',
+            method: 'events',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'rides',
+          methodName: 'events',
+          parameters: _i1.testObjectToJson({'rideId': rideId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i14.RideEvent>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _i3.Future<DateTime> tomorrowDate(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
@@ -1382,6 +1449,37 @@ class _RoutesEndpoint {
     });
   }
 
+  _i3.Future<List<_i14.RideEvent>> rideEvents(
+    _i1.TestSessionBuilder sessionBuilder,
+    int rideId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'routes',
+            method: 'rideEvents',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'routes',
+          methodName: 'rideEvents',
+          parameters: _i1.testObjectToJson({'rideId': rideId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i14.RideEvent>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _i3.Future<List<_i9.Institution>> institutions(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
@@ -1453,7 +1551,7 @@ class _HealthEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i16.ServerHealth> ping(
+  _i3.Future<_i17.ServerHealth> ping(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1475,7 +1573,7 @@ class _HealthEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i16.ServerHealth>);
+                as _i3.Future<_i17.ServerHealth>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1492,7 +1590,7 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i17.GenerateRidesInvokeFutureCall().invoke(
+      await _i18.GenerateRidesInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -1505,7 +1603,7 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i17.GenerateRidesGenerateUpcomingFutureCall().invoke(
+      await _i18.GenerateRidesGenerateUpcomingFutureCall().invoke(
         _localUniqueSession,
         null,
       );

@@ -18,6 +18,12 @@ final myUpcomingRidesProvider = FutureProvider.autoDispose<List<RideView>>(
   (ref) => ref.watch(apiClientProvider).routes.myUpcomingRides(),
 );
 
+/// События поездки ребёнка — лента для родителя.
+final rideEventsProvider = FutureProvider.autoDispose
+    .family<List<RideEvent>, int>((ref, rideId) {
+      return ref.watch(apiClientProvider).routes.rideEvents(rideId);
+    });
+
 /// Учреждения для выбора в заявке на маршрут.
 final parentInstitutionsProvider =
     FutureProvider.autoDispose<List<Institution>>(

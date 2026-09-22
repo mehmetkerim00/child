@@ -7,8 +7,9 @@
 Нумерация спринтов (S0…S7) и ссылки вида «§8» — из MVP_PLAN.md.
 
 ## Правила
-- Монорепо melos: apps/parent, apps/driver, apps/dispatcher, packages/core_*,
-  server/.
+- Монорепо на Dart pub workspace: apps/parent, apps/driver, apps/dispatcher,
+  packages/core_*, server/. Проверки — через ./tools/check.sh (melos не
+  используем: конфликтует с drift_dev по cli_util).
 - Бизнес-логика — только в packages/core_domain (чистый Dart, без Flutter).
 - State: Riverpod 2. Навигация: go_router. Модели: freezed.
 - Карты: flutter_map (OSM). НЕ использовать google_maps_flutter.
@@ -25,10 +26,8 @@
 
 ## Команды
 - flutter pub get — зависимости всего монорепо (pub workspace)
-- melos run analyze / melos run test — анализ и тесты
-- melos run generate:server — код Serverpod (модели, эндпоинты, клиент)
+- ./tools/check.sh analyze | test | server | format | generate | all
 - ./tools/dev_up.sh — PostgreSQL + бэкенд локально (API на :8180)
-- melos run test:server — тесты сервера (тестовая база на :9090)
 
 ## Работа с заказчиком (постоянные правила)
 - Работай автономно: не задавай вопросов, если ответ есть в MVP_PLAN.md или
