@@ -1,0 +1,12 @@
+### Поездка вместе с данными, которые нужны на экране,
+### чтобы приложение не делало лишних запросов.
+class: RideView
+fields:
+  ride: Ride
+  childName: String
+  ### Кодовое слово семьи — водитель называет его при посадке.
+  codeWord: String
+  fromAddress: String
+  ### Куда везём: название учреждения или адрес.
+  toName: String
+  driverName: String?

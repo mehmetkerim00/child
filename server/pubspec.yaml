@@ -8,6 +8,8 @@ environment:
 resolution: workspace
 
 dependencies:
+  core_domain:
+    path: ../packages/core_domain
   crypto: ^3.0.6
   serverpod: 3.4.13
 

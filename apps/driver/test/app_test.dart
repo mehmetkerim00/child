@@ -23,6 +23,8 @@ void main() {
           tokenStorageProvider.overrideWithValue(
             FakeTokenStorage(testDriverSession()),
           ),
+          driverTodayRidesProvider.overrideWith((ref) async => []),
+          driverTomorrowRidesProvider.overrideWith((ref) async => []),
           myDriverProfileProvider.overrideWith(
             (ref) async => Driver(
               phone: '+99365100001',
@@ -39,6 +41,10 @@ void main() {
 
     expect(find.text('Аман Гурбанов'), findsOneWidget);
     expect(find.textContaining('AG 1234 AH'), findsOneWidget);
-    expect(find.text('Выехал'), findsOneWidget);
+
+    // Вкладка «Завтра»: подтверждать нечего.
+    await tester.tap(find.text('Завтра').last);
+    await tester.pumpAndSettle();
+    expect(find.text('На завтра поездок нет'), findsOneWidget);
   });
 }

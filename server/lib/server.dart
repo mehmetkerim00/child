@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:serverpod/serverpod.dart';
 
 import 'src/auth/auth_handler.dart';
+import 'src/services/rides/ride_schedule.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
 import 'src/web/routes/root.dart';
@@ -37,4 +38,7 @@ void run(List<String> args) async {
   }
 
   await pod.start();
+
+  // Ночная генерация поездок на завтра (по Ашхабаду).
+  await scheduleNextRideGeneration(pod);
 }

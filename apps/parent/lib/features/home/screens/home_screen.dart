@@ -1,4 +1,5 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:core_l10n/core_l10n.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends ConsumerWidget {
     final session = ref.watch(sessionProvider);
     final children = ref.watch(myChildrenProvider);
     final drivers = ref.watch(myDriversProvider);
+    final rides = ref.watch(myUpcomingRidesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,6 +33,7 @@ class HomeScreen extends ConsumerWidget {
         onRefresh: () async {
           ref.invalidate(myChildrenProvider);
           ref.invalidate(myDriversProvider);
+          ref.invalidate(myUpcomingRidesProvider);
         },
         child: ListView(
           padding: const EdgeInsets.all(ChildSpacing.m),
@@ -41,9 +44,31 @@ class HomeScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             const SizedBox(height: ChildSpacing.m),
-            StubNotice(text: l10n.stubNotice('S2')),
+            StubNotice(text: l10n.stubNotice('S3')),
             const SizedBox(height: ChildSpacing.m),
             const ServerStatusSection(),
+            const SizedBox(height: ChildSpacing.l),
+            _Section(
+              title: l10n.ridesToday,
+              child: _AsyncList<RideView>(
+                value: rides.whenData(
+                  // Поездки приходят на сегодня и завтра — здесь только сегодня.
+                  (list) => list
+                      .where((view) => view.ride.date == AshgabatTime.today())
+                      .toList(),
+                ),
+                emptyText: l10n.parentTodayEmpty,
+                itemBuilder: (view) => ListTile(
+                  leading: Text(
+                    view.ride.plannedTime,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  title: Text(view.childName),
+                  subtitle: Text('${view.fromAddress} → ${view.toName}'),
+                  trailing: Text(l10n.rideStatus(view.ride.domainStatus)),
+                ),
+              ),
+            ),
             const SizedBox(height: ChildSpacing.l),
             _Section(
               title: l10n.parentChildrenTitle,

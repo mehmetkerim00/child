@@ -667,6 +667,252 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Не задано'**
   String get notSet;
+
+  /// No description provided for @parentRoutesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Маршруты'**
+  String get parentRoutesTitle;
+
+  /// No description provided for @parentRequestRoute.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка на маршрут'**
+  String get parentRequestRoute;
+
+  /// No description provided for @routeStatusPending.
+  ///
+  /// In ru, this message translates to:
+  /// **'На активации у диспетчера'**
+  String get routeStatusPending;
+
+  /// No description provided for @routeStatusActive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активен'**
+  String get routeStatusActive;
+
+  /// No description provided for @routeWeekdays.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дни недели'**
+  String get routeWeekdays;
+
+  /// No description provided for @routePickupTime.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время подачи'**
+  String get routePickupTime;
+
+  /// No description provided for @routeFrom.
+  ///
+  /// In ru, this message translates to:
+  /// **'Откуда'**
+  String get routeFrom;
+
+  /// No description provided for @routeTo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Куда'**
+  String get routeTo;
+
+  /// No description provided for @routeDirection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Направление'**
+  String get routeDirection;
+
+  /// No description provided for @directionToInstitution.
+  ///
+  /// In ru, this message translates to:
+  /// **'Из дома в учреждение'**
+  String get directionToInstitution;
+
+  /// No description provided for @directionToHome.
+  ///
+  /// In ru, this message translates to:
+  /// **'Из учреждения домой'**
+  String get directionToHome;
+
+  /// No description provided for @routeChild.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ребёнок'**
+  String get routeChild;
+
+  /// No description provided for @routePrice.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена поездки, манатов'**
+  String get routePrice;
+
+  /// No description provided for @routeRequestSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявка отправлена диспетчеру'**
+  String get routeRequestSent;
+
+  /// No description provided for @weekdayMon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пн'**
+  String get weekdayMon;
+
+  /// No description provided for @weekdayTue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вт'**
+  String get weekdayTue;
+
+  /// No description provided for @weekdayWed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ср'**
+  String get weekdayWed;
+
+  /// No description provided for @weekdayThu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чт'**
+  String get weekdayThu;
+
+  /// No description provided for @weekdayFri.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пт'**
+  String get weekdayFri;
+
+  /// No description provided for @weekdaySat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб'**
+  String get weekdaySat;
+
+  /// No description provided for @weekdaySun.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get weekdaySun;
+
+  /// No description provided for @dispatcherTabRoutes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Маршруты'**
+  String get dispatcherTabRoutes;
+
+  /// No description provided for @dispatcherPendingRoutes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заявки на активацию'**
+  String get dispatcherPendingRoutes;
+
+  /// No description provided for @dispatcherActivate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активировать'**
+  String get dispatcherActivate;
+
+  /// No description provided for @dispatcherDeactivate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отключить'**
+  String get dispatcherDeactivate;
+
+  /// No description provided for @dispatcherAssignDriver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водитель'**
+  String get dispatcherAssignDriver;
+
+  /// No description provided for @dispatcherGenerateRides.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создать поездки'**
+  String get dispatcherGenerateRides;
+
+  /// No description provided for @dispatcherRidesCreated.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создано поездок: {count}'**
+  String dispatcherRidesCreated(int count);
+
+  /// No description provided for @driverTomorrowTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Завтра'**
+  String get driverTomorrowTitle;
+
+  /// No description provided for @driverConfirmDeadline.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердите до 20:00'**
+  String get driverConfirmDeadline;
+
+  /// No description provided for @driverConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждаю'**
+  String get driverConfirm;
+
+  /// No description provided for @driverDecline.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не могу'**
+  String get driverDecline;
+
+  /// No description provided for @driverDeclineReason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина'**
+  String get driverDeclineReason;
+
+  /// No description provided for @driverDeclineHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Диспетчер получит причину и найдёт замену'**
+  String get driverDeclineHint;
+
+  /// No description provided for @driverConfirmed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждено'**
+  String get driverConfirmed;
+
+  /// No description provided for @driverNoRidesTomorrow.
+  ///
+  /// In ru, this message translates to:
+  /// **'На завтра поездок нет'**
+  String get driverNoRidesTomorrow;
+
+  /// No description provided for @ridesToday.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездки сегодня'**
+  String get ridesToday;
+
+  /// No description provided for @rideAt.
+  ///
+  /// In ru, this message translates to:
+  /// **'в {time}'**
+  String rideAt(String time);
+
+  /// No description provided for @todayTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня'**
+  String get todayTab;
+
+  /// No description provided for @tomorrowTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Завтра'**
+  String get tomorrowTab;
+
+  /// No description provided for @dispatcherProblems.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проблемы'**
+  String get dispatcherProblems;
 }
 
 class _AppLocalizationsDelegate

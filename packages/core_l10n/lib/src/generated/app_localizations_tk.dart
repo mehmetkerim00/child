@@ -306,4 +306,131 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get notSet => 'Bellenmedik';
+
+  @override
+  String get parentRoutesTitle => 'Ugurlar';
+
+  @override
+  String get parentRequestRoute => 'Ugur üçin arza';
+
+  @override
+  String get routeStatusPending => 'Dispetçeriň tassyklamasyna garaşýar';
+
+  @override
+  String get routeStatusActive => 'Işjeň';
+
+  @override
+  String get routeWeekdays => 'Hepdäniň günleri';
+
+  @override
+  String get routePickupTime => 'Gelmeli wagty';
+
+  @override
+  String get routeFrom => 'Nireden';
+
+  @override
+  String get routeTo => 'Nirä';
+
+  @override
+  String get routeDirection => 'Ugur';
+
+  @override
+  String get directionToInstitution => 'Öýden edara';
+
+  @override
+  String get directionToHome => 'Edaradan öýe';
+
+  @override
+  String get routeChild => 'Çaga';
+
+  @override
+  String get routePrice => 'Bir ýoluň bahasy, manat';
+
+  @override
+  String get routeRequestSent => 'Arza dispetçere iberildi';
+
+  @override
+  String get weekdayMon => 'Duş';
+
+  @override
+  String get weekdayTue => 'Siş';
+
+  @override
+  String get weekdayWed => 'Çar';
+
+  @override
+  String get weekdayThu => 'Pen';
+
+  @override
+  String get weekdayFri => 'Ann';
+
+  @override
+  String get weekdaySat => 'Şen';
+
+  @override
+  String get weekdaySun => 'Ýek';
+
+  @override
+  String get dispatcherTabRoutes => 'Ugurlar';
+
+  @override
+  String get dispatcherPendingRoutes => 'Tassyklanmaly arzalar';
+
+  @override
+  String get dispatcherActivate => 'Işjeňleşdir';
+
+  @override
+  String get dispatcherDeactivate => 'Öçür';
+
+  @override
+  String get dispatcherAssignDriver => 'Sürüji';
+
+  @override
+  String get dispatcherGenerateRides => 'Ýollary döret';
+
+  @override
+  String dispatcherRidesCreated(int count) {
+    return 'Döredilen ýollar: $count';
+  }
+
+  @override
+  String get driverTomorrowTitle => 'Ertir';
+
+  @override
+  String get driverConfirmDeadline => 'Sagat 20:00-a çenli tassyklaň';
+
+  @override
+  String get driverConfirm => 'Tassyklaýaryn';
+
+  @override
+  String get driverDecline => 'Bilemok';
+
+  @override
+  String get driverDeclineReason => 'Sebäbi';
+
+  @override
+  String get driverDeclineHint => 'Dispetçer sebäbi görer we çalyşma tapar';
+
+  @override
+  String get driverConfirmed => 'Tassyklandy';
+
+  @override
+  String get driverNoRidesTomorrow => 'Ertire ýol ýok';
+
+  @override
+  String get ridesToday => 'Şu günki ýollar';
+
+  @override
+  String rideAt(String time) {
+    return 'sagat $time';
+  }
+
+  @override
+  String get todayTab => 'Şu gün';
+
+  @override
+  String get tomorrowTab => 'Ertir';
+
+  @override
+  String get dispatcherProblems => 'Meseleler';
 }

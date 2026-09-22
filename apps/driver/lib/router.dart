@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/today/screens/today_screen.dart';
+import 'features/shell/driver_shell.dart';
 
 /// Маршруты приложения. Неавторизованного пользователя всегда уводим на вход.
 final routerProvider = Provider<GoRouter>((ref) {
@@ -29,7 +29,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       return atLogin ? '/' : null;
     },
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const TodayScreen()),
+      GoRoute(path: '/', builder: (context, state) => const DriverShell()),
       GoRoute(
         path: '/login',
         builder: (context, state) =>

@@ -16,13 +16,18 @@ import '../endpoints/auth_endpoint.dart' as _i2;
 import '../endpoints/dev_endpoint.dart' as _i3;
 import '../endpoints/directory_endpoint.dart' as _i4;
 import '../endpoints/profile_endpoint.dart' as _i5;
-import '../health/health_endpoint.dart' as _i6;
-import 'package:child_server/src/generated/family.dart' as _i7;
-import 'package:child_server/src/generated/parent.dart' as _i8;
-import 'package:child_server/src/generated/child.dart' as _i9;
-import 'package:child_server/src/generated/driver.dart' as _i10;
-import 'package:child_server/src/generated/institution.dart' as _i11;
-import 'package:child_server/src/generated/circle_rank.dart' as _i12;
+import '../endpoints/rides_endpoint.dart' as _i6;
+import '../endpoints/routes_endpoint.dart' as _i7;
+import '../health/health_endpoint.dart' as _i8;
+import 'package:child_server/src/generated/family.dart' as _i9;
+import 'package:child_server/src/generated/parent.dart' as _i10;
+import 'package:child_server/src/generated/child.dart' as _i11;
+import 'package:child_server/src/generated/driver.dart' as _i12;
+import 'package:child_server/src/generated/institution.dart' as _i13;
+import 'package:child_server/src/generated/circle_rank.dart' as _i14;
+import 'package:child_server/src/generated/route_template.dart' as _i15;
+import 'package:child_server/src/generated/future_calls.dart' as _i16;
+export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -52,7 +57,19 @@ class Endpoints extends _i1.EndpointDispatch {
           'profile',
           null,
         ),
-      'health': _i6.HealthEndpoint()
+      'rides': _i6.RidesEndpoint()
+        ..initialize(
+          server,
+          'rides',
+          null,
+        ),
+      'routes': _i7.RoutesEndpoint()
+        ..initialize(
+          server,
+          'routes',
+          null,
+        ),
+      'health': _i8.HealthEndpoint()
         ..initialize(
           server,
           'health',
@@ -151,7 +168,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'family': _i1.ParameterDescription(
               name: 'family',
-              type: _i1.getType<_i7.Family>(),
+              type: _i1.getType<_i9.Family>(),
               nullable: false,
             ),
           },
@@ -208,7 +225,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'parent': _i1.ParameterDescription(
               name: 'parent',
-              type: _i1.getType<_i8.Parent>(),
+              type: _i1.getType<_i10.Parent>(),
               nullable: false,
             ),
           },
@@ -246,7 +263,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'child': _i1.ParameterDescription(
               name: 'child',
-              type: _i1.getType<_i9.Child>(),
+              type: _i1.getType<_i11.Child>(),
               nullable: false,
             ),
           },
@@ -294,7 +311,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'driver': _i1.ParameterDescription(
               name: 'driver',
-              type: _i1.getType<_i10.Driver>(),
+              type: _i1.getType<_i12.Driver>(),
               nullable: false,
             ),
           },
@@ -323,7 +340,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'institution': _i1.ParameterDescription(
               name: 'institution',
-              type: _i1.getType<_i11.Institution>(),
+              type: _i1.getType<_i13.Institution>(),
               nullable: false,
             ),
           },
@@ -371,7 +388,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'rank': _i1.ParameterDescription(
               name: 'rank',
-              type: _i1.getType<_i12.CircleRank>(),
+              type: _i1.getType<_i14.CircleRank>(),
               nullable: false,
             ),
           },
@@ -385,6 +402,124 @@ class Endpoints extends _i1.EndpointDispatch {
                     familyId: params['familyId'],
                     driverId: params['driverId'],
                     rank: params['rank'],
+                  ),
+        ),
+        'routes': _i1.MethodConnector(
+          name: 'routes',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .routes(session),
+        ),
+        'pendingRoutes': _i1.MethodConnector(
+          name: 'pendingRoutes',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .pendingRoutes(session),
+        ),
+        'activateRoute': _i1.MethodConnector(
+          name: 'activateRoute',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'pricePerRide': _i1.ParameterDescription(
+              name: 'pricePerRide',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .activateRoute(
+                    session,
+                    routeId: params['routeId'],
+                    driverId: params['driverId'],
+                    pricePerRide: params['pricePerRide'],
+                  ),
+        ),
+        'deactivateRoute': _i1.MethodConnector(
+          name: 'deactivateRoute',
+          params: {
+            'routeId': _i1.ParameterDescription(
+              name: 'routeId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .deactivateRoute(
+                    session,
+                    params['routeId'],
+                  ),
+        ),
+        'generateUpcomingRides': _i1.MethodConnector(
+          name: 'generateUpcomingRides',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .generateUpcomingRides(session),
+        ),
+        'ridesForDate': _i1.MethodConnector(
+          name: 'ridesForDate',
+          params: {
+            'date': _i1.ParameterDescription(
+              name: 'date',
+              type: _i1.getType<DateTime?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .ridesForDate(
+                    session,
+                    date: params['date'],
+                  ),
+        ),
+        'rideEvents': _i1.MethodConnector(
+          name: 'rideEvents',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['directory'] as _i4.DirectoryEndpoint).rideEvents(
+                    session,
+                    params['rideId'],
                   ),
         ),
       },
@@ -436,6 +571,140 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['rides'] = _i1.EndpointConnector(
+      name: 'rides',
+      endpoint: endpoints['rides']!,
+      methodConnectors: {
+        'today': _i1.MethodConnector(
+          name: 'today',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['rides'] as _i6.RidesEndpoint).today(session),
+        ),
+        'tomorrow': _i1.MethodConnector(
+          name: 'tomorrow',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['rides'] as _i6.RidesEndpoint).tomorrow(session),
+        ),
+        'confirm': _i1.MethodConnector(
+          name: 'confirm',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['rides'] as _i6.RidesEndpoint).confirm(
+                session,
+                params['rideId'],
+              ),
+        ),
+        'decline': _i1.MethodConnector(
+          name: 'decline',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'reason': _i1.ParameterDescription(
+              name: 'reason',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['rides'] as _i6.RidesEndpoint).decline(
+                session,
+                params['rideId'],
+                params['reason'],
+              ),
+        ),
+        'tomorrowDate': _i1.MethodConnector(
+          name: 'tomorrowDate',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['rides'] as _i6.RidesEndpoint).tomorrowDate(
+                session,
+              ),
+        ),
+      },
+    );
+    connectors['routes'] = _i1.EndpointConnector(
+      name: 'routes',
+      endpoint: endpoints['routes']!,
+      methodConnectors: {
+        'requestRoute': _i1.MethodConnector(
+          name: 'requestRoute',
+          params: {
+            'draft': _i1.ParameterDescription(
+              name: 'draft',
+              type: _i1.getType<_i15.RouteTemplate>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['routes'] as _i7.RoutesEndpoint).requestRoute(
+                    session,
+                    params['draft'],
+                  ),
+        ),
+        'myRoutes': _i1.MethodConnector(
+          name: 'myRoutes',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['routes'] as _i7.RoutesEndpoint).myRoutes(session),
+        ),
+        'institutions': _i1.MethodConnector(
+          name: 'institutions',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routes'] as _i7.RoutesEndpoint)
+                  .institutions(session),
+        ),
+        'myUpcomingRides': _i1.MethodConnector(
+          name: 'myUpcomingRides',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routes'] as _i7.RoutesEndpoint)
+                  .myUpcomingRides(session),
+        ),
+      },
+    );
     connectors['health'] = _i1.EndpointConnector(
       name: 'health',
       endpoint: endpoints['health']!,
@@ -448,9 +717,14 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['health'] as _i6.HealthEndpoint).ping(session),
+                  (endpoints['health'] as _i8.HealthEndpoint).ping(session),
         ),
       },
     );
+  }
+
+  @override
+  _i1.FutureCallDispatch? get futureCalls {
+    return _i16.FutureCalls();
   }
 }

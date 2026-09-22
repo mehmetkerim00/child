@@ -1,7 +1,11 @@
 import 'package:serverpod/serverpod.dart';
 
+import 'package:core_domain/core_domain.dart' show AshgabatTime;
+
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/rides/ride_generator.dart';
+import '../services/rides/ride_view_builder.dart';
 
 /// Справочники для панели диспетчера: семьи, дети, водители, учреждения.
 ///
@@ -139,4 +143,72 @@ class DirectoryEndpoint extends Endpoint {
       FamilyCircle(familyId: familyId, driverId: driverId, rank: rank),
     );
   }
+
+  // --- Маршруты и поездки ---------------------------------------------------
+
+  /// Все шаблоны маршрутов.
+  Future<List<RouteTemplate>> routes(Session session) =>
+      RouteTemplate.db.find(session, orderBy: (t) => t.createdAt);
+
+  /// Заявки родителей, ожидающие активации.
+  Future<List<RouteTemplate>> pendingRoutes(Session session) =>
+      RouteTemplate.db.find(
+        session,
+        where: (t) => t.active.equals(false),
+        orderBy: (t) => t.createdAt,
+      );
+
+  /// Активация заявки: назначаем водителя и цену, сразу создаём поездки
+  /// на сегодня и завтра.
+  Future<RouteTemplate> activateRoute(
+    Session session, {
+    required int routeId,
+    required int driverId,
+    required int pricePerRide,
+  }) async {
+    final route = await RouteTemplate.db.findById(session, routeId);
+    if (route == null) throw Exception('Маршрут не найден');
+
+    final activated = await RouteTemplate.db.updateRow(
+      session,
+      route.copyWith(
+        driverId: driverId,
+        pricePerRide: pricePerRide,
+        active: true,
+      ),
+    );
+    await RideGenerator.generateUpcoming(session);
+    return activated;
+  }
+
+  /// Отключение маршрута: новые поездки по нему не создаются.
+  Future<RouteTemplate> deactivateRoute(Session session, int routeId) async {
+    final route = await RouteTemplate.db.findById(session, routeId);
+    if (route == null) throw Exception('Маршрут не найден');
+    return RouteTemplate.db.updateRow(session, route.copyWith(active: false));
+  }
+
+  /// Ручной запуск генератора поездок: кнопка у диспетчера и способ
+  /// проверить ночную задачу, не дожидаясь полуночи.
+  Future<int> generateUpcomingRides(Session session) =>
+      RideGenerator.generateUpcoming(session);
+
+  /// Поездки на местную дату (по умолчанию — сегодня) для доски дня.
+  Future<List<RideView>> ridesForDate(Session session, {DateTime? date}) async {
+    final day = AshgabatTime.dateOf(date ?? AshgabatTime.today());
+    final rides = await Ride.db.find(
+      session,
+      where: (r) => r.date.equals(day),
+      orderBy: (r) => r.plannedTime,
+    );
+    return RideViewBuilder.build(session, rides);
+  }
+
+  /// События поездки — лента для разбора проблем.
+  Future<List<RideEvent>> rideEvents(Session session, int rideId) =>
+      RideEvent.db.find(
+        session,
+        where: (e) => e.rideId.equals(rideId),
+        orderBy: (e) => e.at,
+      );
 }

@@ -19,10 +19,28 @@ directory:
   - saveInstitution:
   - circle:
   - assignDriver:
+  - routes:
+  - pendingRoutes:
+  - activateRoute:
+  - deactivateRoute:
+  - generateUpcomingRides:
+  - ridesForDate:
+  - rideEvents:
 profile:
   - myFamily:
   - myChildren:
   - myDrivers:
   - myDriverProfile:
+rides:
+  - today:
+  - tomorrow:
+  - confirm:
+  - decline:
+  - tomorrowDate:
+routes:
+  - requestRoute:
+  - myRoutes:
+  - institutions:
+  - myUpcomingRides:
 health:
   - ping:

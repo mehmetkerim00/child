@@ -10,6 +10,7 @@ import 'src/generated/app_localizations.dart';
 export 'src/generated/app_localizations.dart';
 export 'src/locale_provider.dart';
 export 'src/ride_status_l10n.dart';
+export 'src/weekday_l10n.dart';
 export 'src/widgets/language_menu.dart';
 
 /// Все делегаты локализации для `MaterialApp.localizationsDelegates`.

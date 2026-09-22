@@ -4,3 +4,4 @@
 library;
 
 export 'src/ride/ride_status.dart';
+export 'src/time/ashgabat_time.dart';

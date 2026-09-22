@@ -1,4 +1,5 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:flutter/widgets.dart';
 import 'package:core_data/testing.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,6 +57,24 @@ void main() {
             ),
           ],
         ),
+        myUpcomingRidesProvider.overrideWith(
+          (ref) async => [
+            RideView(
+              ride: Ride(
+                id: 1,
+                childId: 1,
+                date: AshgabatTime.today(),
+                plannedTime: '07:30',
+                status: RideStatus.confirmed,
+              ),
+              childName: 'Мерет',
+              codeWord: 'ýyldyz',
+              fromAddress: 'ул. Героглы 1',
+              toName: 'Школа №20',
+              driverName: 'Аман Гурбанов',
+            ),
+          ],
+        ),
         myDriversProvider.overrideWith(
           (ref) async => [
             Driver(
@@ -71,10 +90,15 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Огулджан'), findsWidgets);
-    expect(find.text('Мерет'), findsOneWidget);
-    expect(find.textContaining('ýyldyz'), findsOneWidget);
-    expect(find.text('Аман Гурбанов'), findsOneWidget);
+    // Поездка на сегодня из расписания.
+    expect(find.text('07:30'), findsOneWidget);
+    expect(find.textContaining('Школа №20'), findsOneWidget);
+    expect(find.text('Мерет'), findsWidgets);
     expect(find.textContaining('Сервер работает'), findsOneWidget);
+
+    // Водитель семьи — ниже по списку.
+    await tester.scrollUntilVisible(find.text('Аман Гурбанов'), 200);
+    expect(find.text('Аман Гурбанов'), findsOneWidget);
   });
 
   testWidgets('переключает язык на туркменский', (tester) async {

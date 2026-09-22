@@ -31,15 +31,36 @@ void main() {
           childrenProvider.overrideWith((ref, familyId) async => []),
           driversProvider.overrideWith((ref) async => []),
           institutionsProvider.overrideWith((ref) async => []),
+          todayRidesProvider.overrideWith(
+            (ref) async => [
+              RideView(
+                ride: Ride(
+                  id: 1,
+                  childId: 1,
+                  date: DateTime.utc(2026, 9, 23),
+                  plannedTime: '07:30',
+                  // Не подтверждена водителем — это колонка проблем.
+                  status: RideStatus.scheduled,
+                ),
+                childName: 'Мерет',
+                codeWord: 'ýyldyz',
+                fromAddress: 'ул. Героглы 1',
+                toName: 'Школа №20',
+                driverName: 'Аман',
+              ),
+            ],
+          ),
+          allRoutesProvider.overrideWith((ref) async => []),
         ],
         child: const App(),
       ),
     );
     await tester.pumpAndSettle();
 
-    // Доска дня: первой идёт красная колонка проблем.
+    // Доска дня: неподтверждённая поездка попадает в красную колонку.
     expect(find.text('Доска дня'), findsWidgets);
-    expect(find.textContaining('Запланирована'), findsOneWidget);
+    expect(find.text('Проблемы'), findsOneWidget);
+    expect(find.textContaining('07:30 · Мерет'), findsOneWidget);
 
     // Вторая вкладка — справочники.
     await tester.tap(find.text('Справочники').last);

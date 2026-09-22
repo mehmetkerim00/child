@@ -129,5 +129,60 @@
   "requiredField": "Заполните поле",
   "dispatcherDirectories": "Справочники",
   "dispatcherCircleTitle": "Круг семьи",
-  "notSet": "Не задано"
+  "notSet": "Не задано",
+  "parentRoutesTitle": "Маршруты",
+  "parentRequestRoute": "Заявка на маршрут",
+  "routeStatusPending": "На активации у диспетчера",
+  "routeStatusActive": "Активен",
+  "routeWeekdays": "Дни недели",
+  "routePickupTime": "Время подачи",
+  "routeFrom": "Откуда",
+  "routeTo": "Куда",
+  "routeDirection": "Направление",
+  "directionToInstitution": "Из дома в учреждение",
+  "directionToHome": "Из учреждения домой",
+  "routeChild": "Ребёнок",
+  "routePrice": "Цена поездки, манатов",
+  "routeRequestSent": "Заявка отправлена диспетчеру",
+  "weekdayMon": "Пн",
+  "weekdayTue": "Вт",
+  "weekdayWed": "Ср",
+  "weekdayThu": "Чт",
+  "weekdayFri": "Пт",
+  "weekdaySat": "Сб",
+  "weekdaySun": "Вс",
+  "dispatcherTabRoutes": "Маршруты",
+  "dispatcherPendingRoutes": "Заявки на активацию",
+  "dispatcherActivate": "Активировать",
+  "dispatcherDeactivate": "Отключить",
+  "dispatcherAssignDriver": "Водитель",
+  "dispatcherGenerateRides": "Создать поездки",
+  "dispatcherRidesCreated": "Создано поездок: {count}",
+  "@dispatcherRidesCreated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "driverTomorrowTitle": "Завтра",
+  "driverConfirmDeadline": "Подтвердите до 20:00",
+  "driverConfirm": "Подтверждаю",
+  "driverDecline": "Не могу",
+  "driverDeclineReason": "Причина",
+  "driverDeclineHint": "Диспетчер получит причину и найдёт замену",
+  "driverConfirmed": "Подтверждено",
+  "driverNoRidesTomorrow": "На завтра поездок нет",
+  "ridesToday": "Поездки сегодня",
+  "rideAt": "в {time}",
+  "@rideAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "todayTab": "Сегодня",
+  "tomorrowTab": "Завтра",
+  "dispatcherProblems": "Проблемы"
 }

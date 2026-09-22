@@ -307,4 +307,131 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get notSet => 'Не задано';
+
+  @override
+  String get parentRoutesTitle => 'Маршруты';
+
+  @override
+  String get parentRequestRoute => 'Заявка на маршрут';
+
+  @override
+  String get routeStatusPending => 'На активации у диспетчера';
+
+  @override
+  String get routeStatusActive => 'Активен';
+
+  @override
+  String get routeWeekdays => 'Дни недели';
+
+  @override
+  String get routePickupTime => 'Время подачи';
+
+  @override
+  String get routeFrom => 'Откуда';
+
+  @override
+  String get routeTo => 'Куда';
+
+  @override
+  String get routeDirection => 'Направление';
+
+  @override
+  String get directionToInstitution => 'Из дома в учреждение';
+
+  @override
+  String get directionToHome => 'Из учреждения домой';
+
+  @override
+  String get routeChild => 'Ребёнок';
+
+  @override
+  String get routePrice => 'Цена поездки, манатов';
+
+  @override
+  String get routeRequestSent => 'Заявка отправлена диспетчеру';
+
+  @override
+  String get weekdayMon => 'Пн';
+
+  @override
+  String get weekdayTue => 'Вт';
+
+  @override
+  String get weekdayWed => 'Ср';
+
+  @override
+  String get weekdayThu => 'Чт';
+
+  @override
+  String get weekdayFri => 'Пт';
+
+  @override
+  String get weekdaySat => 'Сб';
+
+  @override
+  String get weekdaySun => 'Вс';
+
+  @override
+  String get dispatcherTabRoutes => 'Маршруты';
+
+  @override
+  String get dispatcherPendingRoutes => 'Заявки на активацию';
+
+  @override
+  String get dispatcherActivate => 'Активировать';
+
+  @override
+  String get dispatcherDeactivate => 'Отключить';
+
+  @override
+  String get dispatcherAssignDriver => 'Водитель';
+
+  @override
+  String get dispatcherGenerateRides => 'Создать поездки';
+
+  @override
+  String dispatcherRidesCreated(int count) {
+    return 'Создано поездок: $count';
+  }
+
+  @override
+  String get driverTomorrowTitle => 'Завтра';
+
+  @override
+  String get driverConfirmDeadline => 'Подтвердите до 20:00';
+
+  @override
+  String get driverConfirm => 'Подтверждаю';
+
+  @override
+  String get driverDecline => 'Не могу';
+
+  @override
+  String get driverDeclineReason => 'Причина';
+
+  @override
+  String get driverDeclineHint => 'Диспетчер получит причину и найдёт замену';
+
+  @override
+  String get driverConfirmed => 'Подтверждено';
+
+  @override
+  String get driverNoRidesTomorrow => 'На завтра поездок нет';
+
+  @override
+  String get ridesToday => 'Поездки сегодня';
+
+  @override
+  String rideAt(String time) {
+    return 'в $time';
+  }
+
+  @override
+  String get todayTab => 'Сегодня';
+
+  @override
+  String get tomorrowTab => 'Завтра';
+
+  @override
+  String get dispatcherProblems => 'Проблемы';
 }

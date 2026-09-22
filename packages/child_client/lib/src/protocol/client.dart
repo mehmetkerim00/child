@@ -21,8 +21,12 @@ import 'package:child_client/src/protocol/driver.dart' as _i7;
 import 'package:child_client/src/protocol/institution.dart' as _i8;
 import 'package:child_client/src/protocol/family_circle.dart' as _i9;
 import 'package:child_client/src/protocol/circle_rank.dart' as _i10;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i11;
-import 'protocol.dart' as _i12;
+import 'package:child_client/src/protocol/route_template.dart' as _i11;
+import 'package:child_client/src/protocol/ride_view.dart' as _i12;
+import 'package:child_client/src/protocol/ride_event.dart' as _i13;
+import 'package:child_client/src/protocol/ride.dart' as _i14;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i15;
+import 'protocol.dart' as _i16;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -199,6 +203,70 @@ class EndpointDirectory extends _i1.EndpointRef {
       'rank': rank,
     },
   );
+
+  /// Все шаблоны маршрутов.
+  _i2.Future<List<_i11.RouteTemplate>> routes() =>
+      caller.callServerEndpoint<List<_i11.RouteTemplate>>(
+        'directory',
+        'routes',
+        {},
+      );
+
+  /// Заявки родителей, ожидающие активации.
+  _i2.Future<List<_i11.RouteTemplate>> pendingRoutes() =>
+      caller.callServerEndpoint<List<_i11.RouteTemplate>>(
+        'directory',
+        'pendingRoutes',
+        {},
+      );
+
+  /// Активация заявки: назначаем водителя и цену, сразу создаём поездки
+  /// на сегодня и завтра.
+  _i2.Future<_i11.RouteTemplate> activateRoute({
+    required int routeId,
+    required int driverId,
+    required int pricePerRide,
+  }) => caller.callServerEndpoint<_i11.RouteTemplate>(
+    'directory',
+    'activateRoute',
+    {
+      'routeId': routeId,
+      'driverId': driverId,
+      'pricePerRide': pricePerRide,
+    },
+  );
+
+  /// Отключение маршрута: новые поездки по нему не создаются.
+  _i2.Future<_i11.RouteTemplate> deactivateRoute(int routeId) =>
+      caller.callServerEndpoint<_i11.RouteTemplate>(
+        'directory',
+        'deactivateRoute',
+        {'routeId': routeId},
+      );
+
+  /// Ручной запуск генератора поездок: кнопка у диспетчера и способ
+  /// проверить ночную задачу, не дожидаясь полуночи.
+  _i2.Future<int> generateUpcomingRides() => caller.callServerEndpoint<int>(
+    'directory',
+    'generateUpcomingRides',
+    {},
+  );
+
+  /// Поездки на местную дату (по умолчанию — сегодня) для доски дня.
+  _i2.Future<List<_i12.RideView>> ridesForDate({DateTime? date}) =>
+      caller.callServerEndpoint<List<_i12.RideView>>(
+        'directory',
+        'ridesForDate',
+        {'date': date},
+      );
+
+  /// События поездки — лента для разбора проблем.
+  _i2.Future<List<_i13.RideEvent>> rideEvents(int rideId) =>
+      caller.callServerEndpoint<List<_i13.RideEvent>>(
+        'directory',
+        'rideEvents',
+        {'rideId': rideId},
+      );
 }
 
 /// Данные вошедшего пользователя: семья и дети — родителю,
@@ -242,6 +310,105 @@ class EndpointProfile extends _i1.EndpointRef {
       );
 }
 
+/// Поездки глазами водителя: сегодня, завтра и подтверждение накануне.
+///
+/// Подтверждение завтрашних поездок — защита от «тихого сбоя»
+/// (MVP_PLAN §6): диспетчер узнаёт о проблеме вечером, а не утром.
+/// {@category Endpoint}
+class EndpointRides extends _i1.EndpointRef {
+  EndpointRides(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'rides';
+
+  /// Поездки водителя на сегодня.
+  _i2.Future<List<_i12.RideView>> today() =>
+      caller.callServerEndpoint<List<_i12.RideView>>(
+        'rides',
+        'today',
+        {},
+      );
+
+  /// Поездки водителя на завтра — экран подтверждения.
+  _i2.Future<List<_i12.RideView>> tomorrow() =>
+      caller.callServerEndpoint<List<_i12.RideView>>(
+        'rides',
+        'tomorrow',
+        {},
+      );
+
+  /// Водитель подтверждает поездку: «завтра выйду».
+  _i2.Future<_i14.Ride> confirm(int rideId) =>
+      caller.callServerEndpoint<_i14.Ride>(
+        'rides',
+        'confirm',
+        {'rideId': rideId},
+      );
+
+  /// Водитель не может выйти: причина обязательна и уходит диспетчеру.
+  _i2.Future<_i14.Ride> decline(
+    int rideId,
+    String reason,
+  ) => caller.callServerEndpoint<_i14.Ride>(
+    'rides',
+    'decline',
+    {
+      'rideId': rideId,
+      'reason': reason,
+    },
+  );
+
+  /// Местная дата «завтра» по Ашхабаду: приложение не считает её само.
+  _i2.Future<DateTime> tomorrowDate() => caller.callServerEndpoint<DateTime>(
+    'rides',
+    'tomorrowDate',
+    {},
+  );
+}
+
+/// Маршруты глазами родителя: заявка и свои маршруты (MVP_PLAN §7).
+///
+/// Активирует заявки диспетчер — в DirectoryEndpoint.
+/// {@category Endpoint}
+class EndpointRoutes extends _i1.EndpointRef {
+  EndpointRoutes(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'routes';
+
+  /// Заявка родителя на регулярный маршрут. Активной её делает диспетчер.
+  _i2.Future<_i11.RouteTemplate> requestRoute(_i11.RouteTemplate draft) =>
+      caller.callServerEndpoint<_i11.RouteTemplate>(
+        'routes',
+        'requestRoute',
+        {'draft': draft},
+      );
+
+  /// Маршруты детей вошедшего родителя.
+  _i2.Future<List<_i11.RouteTemplate>> myRoutes() =>
+      caller.callServerEndpoint<List<_i11.RouteTemplate>>(
+        'routes',
+        'myRoutes',
+        {},
+      );
+
+  /// Учреждения — родитель выбирает, куда возить ребёнка.
+  _i2.Future<List<_i8.Institution>> institutions() =>
+      caller.callServerEndpoint<List<_i8.Institution>>(
+        'routes',
+        'institutions',
+        {},
+      );
+
+  /// Поездки детей семьи на сегодня и завтра (по Ашхабаду).
+  _i2.Future<List<_i12.RideView>> myUpcomingRides() =>
+      caller.callServerEndpoint<List<_i12.RideView>>(
+        'routes',
+        'myUpcomingRides',
+        {},
+      );
+}
+
 /// Проверка связи: клиенты вызывают `client.health.ping()`.
 /// {@category Endpoint}
 class EndpointHealth extends _i1.EndpointRef {
@@ -250,8 +417,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i11.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i11.ServerHealth>(
+  _i2.Future<_i15.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i15.ServerHealth>(
         'health',
         'ping',
         {},
@@ -278,7 +445,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i12.Protocol(),
+         _i16.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -291,6 +458,8 @@ class Client extends _i1.ServerpodClientShared {
     dev = EndpointDev(this);
     directory = EndpointDirectory(this);
     profile = EndpointProfile(this);
+    rides = EndpointRides(this);
+    routes = EndpointRoutes(this);
     health = EndpointHealth(this);
   }
 
@@ -302,6 +471,10 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointProfile profile;
 
+  late final EndpointRides rides;
+
+  late final EndpointRoutes routes;
+
   late final EndpointHealth health;
 
   @override
@@ -310,6 +483,8 @@ class Client extends _i1.ServerpodClientShared {
     'dev': dev,
     'directory': directory,
     'profile': profile,
+    'rides': rides,
+    'routes': routes,
     'health': health,
   };
 
