@@ -1,9 +1,13 @@
-# Проект child — детские перевозки (Ашхабад)
+# Проект child — регулярные детские перевозки
 
-Спецификация: MVP_PLAN.md. Контекст рынка: RESEARCH.md. Всегда сверяйся с ними.
+Спецификация MVP и исследование рынка — в приватном репозитории
+`mehmetkerim00/child-docs` (файлы `MVP_PLAN.md` и `RESEARCH.md`).
+Этот репозиторий публичный: бизнес-документы сюда не переносить.
+Нумерация спринтов (S0…S7) и ссылки вида «§8» — из MVP_PLAN.md.
 
 ## Правила
-- Монорепо melos: apps/parent, apps/driver, apps/dispatcher, packages/core_*, server/.
+- Монорепо melos: apps/parent, apps/driver, apps/dispatcher, packages/core_*,
+  server/.
 - Бизнес-логика — только в packages/core_domain (чистый Dart, без Flutter).
 - State: Riverpod 2. Навигация: go_router. Модели: freezed.
 - Карты: flutter_map (OSM). НЕ использовать google_maps_flutter.
@@ -11,7 +15,10 @@
   NotificationOutbox на сервере с SMS-фолбэком.
 - Водительское приложение offline-first: события поездки — через drift-очередь.
 - Строки UI — только через core_l10n (ru/tk), никаких хардкодов.
+- Даты, «сегодня» и «завтра» — только через AshgabatTime (UTC+5), не UTC.
 - Данные детей — минимум полей, ничего лишнего не логировать.
+- Секреты в репозиторий не коммитить: пароли разработки нарочно простые и
+  локальные, staging и production — через переменные SERVERPOD_PASSWORD_*.
 - Режим работы: один спринт/фича за заход → отчёт (что сделано, как проверить,
   что дальше) → коммит. Не делать всё сразу.
 
