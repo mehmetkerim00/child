@@ -526,4 +526,58 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get rideOnMap => 'Показать на карте';
+
+  @override
+  String get parentNotificationsTitle => 'Уведомления';
+
+  @override
+  String get notificationChannelPush => 'Push';
+
+  @override
+  String get notificationChannelSms => 'SMS';
+
+  @override
+  String get notificationQueued => 'В очереди';
+
+  @override
+  String get notificationSent => 'Отправлено';
+
+  @override
+  String get notificationAcked => 'Доставлено';
+
+  @override
+  String get notificationFailed => 'Не доставлено';
+
+  @override
+  String get dispatcherTasksTitle => 'Задачи';
+
+  @override
+  String get dispatcherNoTasks => 'Задач нет';
+
+  @override
+  String get taskResolve => 'Решено';
+
+  @override
+  String get taskRideNotConfirmed => 'Поездка не подтверждена';
+
+  @override
+  String get taskDriverNotDeparted => 'Водитель не выехал';
+
+  @override
+  String get taskNotificationUndelivered => 'Уведомление не дошло — позвонить';
+
+  @override
+  String get taskRideWithoutDriver => 'Поездка без водителя';
+
+  @override
+  String get smsConsoleTitle => 'Отправить SMS';
+
+  @override
+  String get smsConsoleSend => 'Отправить';
+
+  @override
+  String get smsConsoleBody => 'Текст сообщения';
+
+  @override
+  String get smsConsoleSent => 'SMS поставлена в очередь';
 }

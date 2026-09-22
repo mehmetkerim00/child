@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:serverpod/serverpod.dart';
 
 import 'src/auth/auth_handler.dart';
+import 'src/services/notifications/outbox_schedule.dart';
 import 'src/services/rides/ride_schedule.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
@@ -44,4 +45,7 @@ void run(List<String> args) async {
 
   // Ежедневная уборка трека: точки старше 30 дней удаляются.
   await scheduleNextLocationCleanup(pod);
+
+  // Очередь уведомлений и ловля «тихих сбоев» — раз в минуту.
+  await scheduleNextOutboxRun(pod);
 }

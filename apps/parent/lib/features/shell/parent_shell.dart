@@ -2,6 +2,7 @@ import 'package:core_l10n/core_l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../home/screens/home_screen.dart';
+import '../notifications/screens/notifications_screen.dart';
 import '../routes/screens/routes_screen.dart';
 
 /// Приложение родителя: «Сегодня» и «Маршруты».
@@ -21,7 +22,7 @@ class _ParentShellState extends State<ParentShell> {
     return Scaffold(
       body: IndexedStack(
         index: _tab,
-        children: const [HomeScreen(), RoutesScreen()],
+        children: const [HomeScreen(), RoutesScreen(), NotificationsScreen()],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
@@ -34,6 +35,10 @@ class _ParentShellState extends State<ParentShell> {
           NavigationDestination(
             icon: const Icon(Icons.route),
             label: l10n.parentRoutesTitle,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.notifications),
+            label: l10n.parentNotificationsTitle,
           ),
         ],
       ),

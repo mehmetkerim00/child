@@ -4,6 +4,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_generator.dart';
 import '../services/rides/ride_view_builder.dart';
 
@@ -211,4 +212,50 @@ class DirectoryEndpoint extends Endpoint {
         where: (e) => e.rideId.equals(rideId),
         orderBy: (e) => e.at,
       );
+
+  // --- Уведомления и задачи -------------------------------------------------
+
+  /// Открытые задачи: то, что требует звонка или решения человека.
+  Future<List<DispatcherTask>> openTasks(Session session) =>
+      DispatcherTask.db.find(
+        session,
+        where: (task) => task.resolvedAt.equals(null),
+        orderBy: (task) => task.createdAt,
+        orderDescending: true,
+      );
+
+  /// Задача решена — диспетчер закрывает её вручную.
+  Future<DispatcherTask?> resolveTask(Session session, int taskId) async {
+    final task = await DispatcherTask.db.findById(session, taskId);
+    if (task == null) return null;
+    return DispatcherTask.db.updateRow(
+      session,
+      task.copyWith(resolvedAt: DateTime.now().toUtc()),
+    );
+  }
+
+  /// Очередь уведомлений — видно, что ушло, что ждёт и что не доставлено.
+  Future<List<NotificationOutbox>> notifications(Session session) =>
+      NotificationOutbox.db.find(
+        session,
+        orderBy: (row) => row.createdAt,
+        orderDescending: true,
+        limit: 200,
+      );
+
+  /// Ручная отправка SMS из консоли диспетчера.
+  Future<NotificationOutbox?> sendManualSms(
+    Session session, {
+    required String phone,
+    required String body,
+  }) async {
+    final service = NotificationService();
+    final row = await service.enqueueManualSms(
+      session,
+      phone: phone,
+      body: body,
+    );
+    await service.processQueue(session);
+    return row;
+  }
 }

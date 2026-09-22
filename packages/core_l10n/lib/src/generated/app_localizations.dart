@@ -1087,6 +1087,114 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Показать на карте'**
   String get rideOnMap;
+
+  /// No description provided for @parentNotificationsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомления'**
+  String get parentNotificationsTitle;
+
+  /// No description provided for @notificationChannelPush.
+  ///
+  /// In ru, this message translates to:
+  /// **'Push'**
+  String get notificationChannelPush;
+
+  /// No description provided for @notificationChannelSms.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS'**
+  String get notificationChannelSms;
+
+  /// No description provided for @notificationQueued.
+  ///
+  /// In ru, this message translates to:
+  /// **'В очереди'**
+  String get notificationQueued;
+
+  /// No description provided for @notificationSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправлено'**
+  String get notificationSent;
+
+  /// No description provided for @notificationAcked.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставлено'**
+  String get notificationAcked;
+
+  /// No description provided for @notificationFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не доставлено'**
+  String get notificationFailed;
+
+  /// No description provided for @dispatcherTasksTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задачи'**
+  String get dispatcherTasksTitle;
+
+  /// No description provided for @dispatcherNoTasks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задач нет'**
+  String get dispatcherNoTasks;
+
+  /// No description provided for @taskResolve.
+  ///
+  /// In ru, this message translates to:
+  /// **'Решено'**
+  String get taskResolve;
+
+  /// No description provided for @taskRideNotConfirmed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка не подтверждена'**
+  String get taskRideNotConfirmed;
+
+  /// No description provided for @taskDriverNotDeparted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водитель не выехал'**
+  String get taskDriverNotDeparted;
+
+  /// No description provided for @taskNotificationUndelivered.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомление не дошло — позвонить'**
+  String get taskNotificationUndelivered;
+
+  /// No description provided for @taskRideWithoutDriver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка без водителя'**
+  String get taskRideWithoutDriver;
+
+  /// No description provided for @smsConsoleTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить SMS'**
+  String get smsConsoleTitle;
+
+  /// No description provided for @smsConsoleSend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get smsConsoleSend;
+
+  /// No description provided for @smsConsoleBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текст сообщения'**
+  String get smsConsoleBody;
+
+  /// No description provided for @smsConsoleSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS поставлена в очередь'**
+  String get smsConsoleSent;
 }
 
 class _AppLocalizationsDelegate

@@ -20,46 +20,50 @@ import 'auth_token.dart' as _i6;
 import 'child.dart' as _i7;
 import 'circle_rank.dart' as _i8;
 import 'dispatcher_account.dart' as _i9;
-import 'driver.dart' as _i10;
-import 'family.dart' as _i11;
-import 'family_circle.dart' as _i12;
-import 'health/server_health.dart' as _i13;
-import 'institution.dart' as _i14;
-import 'institution_type.dart' as _i15;
-import 'ledger_entry.dart' as _i16;
-import 'ledger_entry_type.dart' as _i17;
-import 'notification_channel.dart' as _i18;
-import 'notification_outbox.dart' as _i19;
-import 'notification_status.dart' as _i20;
-import 'otp_code.dart' as _i21;
-import 'parent.dart' as _i22;
-import 'parent_role.dart' as _i23;
-import 'ride.dart' as _i24;
-import 'ride_event.dart' as _i25;
-import 'ride_event_submission.dart' as _i26;
-import 'ride_event_type.dart' as _i27;
-import 'ride_flow_error.dart' as _i28;
-import 'ride_flow_exception.dart' as _i29;
-import 'ride_location.dart' as _i30;
-import 'ride_location_point.dart' as _i31;
-import 'ride_status.dart' as _i32;
-import 'ride_view.dart' as _i33;
-import 'route_direction.dart' as _i34;
-import 'route_template.dart' as _i35;
-import 'sms_level.dart' as _i36;
-import 'tracking_state.dart' as _i37;
-import 'vetting_status.dart' as _i38;
-import 'package:child_client/src/protocol/family.dart' as _i39;
-import 'package:child_client/src/protocol/parent.dart' as _i40;
-import 'package:child_client/src/protocol/child.dart' as _i41;
-import 'package:child_client/src/protocol/driver.dart' as _i42;
-import 'package:child_client/src/protocol/institution.dart' as _i43;
-import 'package:child_client/src/protocol/family_circle.dart' as _i44;
-import 'package:child_client/src/protocol/route_template.dart' as _i45;
-import 'package:child_client/src/protocol/ride_view.dart' as _i46;
-import 'package:child_client/src/protocol/ride_event.dart' as _i47;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i48;
-import 'package:child_client/src/protocol/ride_location.dart' as _i49;
+import 'dispatcher_task.dart' as _i10;
+import 'dispatcher_task_kind.dart' as _i11;
+import 'driver.dart' as _i12;
+import 'family.dart' as _i13;
+import 'family_circle.dart' as _i14;
+import 'health/server_health.dart' as _i15;
+import 'institution.dart' as _i16;
+import 'institution_type.dart' as _i17;
+import 'ledger_entry.dart' as _i18;
+import 'ledger_entry_type.dart' as _i19;
+import 'notification_channel.dart' as _i20;
+import 'notification_outbox.dart' as _i21;
+import 'notification_status.dart' as _i22;
+import 'otp_code.dart' as _i23;
+import 'parent.dart' as _i24;
+import 'parent_role.dart' as _i25;
+import 'ride.dart' as _i26;
+import 'ride_event.dart' as _i27;
+import 'ride_event_submission.dart' as _i28;
+import 'ride_event_type.dart' as _i29;
+import 'ride_flow_error.dart' as _i30;
+import 'ride_flow_exception.dart' as _i31;
+import 'ride_location.dart' as _i32;
+import 'ride_location_point.dart' as _i33;
+import 'ride_status.dart' as _i34;
+import 'ride_view.dart' as _i35;
+import 'route_direction.dart' as _i36;
+import 'route_template.dart' as _i37;
+import 'sms_level.dart' as _i38;
+import 'tracking_state.dart' as _i39;
+import 'vetting_status.dart' as _i40;
+import 'package:child_client/src/protocol/family.dart' as _i41;
+import 'package:child_client/src/protocol/parent.dart' as _i42;
+import 'package:child_client/src/protocol/child.dart' as _i43;
+import 'package:child_client/src/protocol/driver.dart' as _i44;
+import 'package:child_client/src/protocol/institution.dart' as _i45;
+import 'package:child_client/src/protocol/family_circle.dart' as _i46;
+import 'package:child_client/src/protocol/route_template.dart' as _i47;
+import 'package:child_client/src/protocol/ride_view.dart' as _i48;
+import 'package:child_client/src/protocol/ride_event.dart' as _i49;
+import 'package:child_client/src/protocol/dispatcher_task.dart' as _i50;
+import 'package:child_client/src/protocol/notification_outbox.dart' as _i51;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i52;
+import 'package:child_client/src/protocol/ride_location.dart' as _i53;
 export 'account_role.dart';
 export 'auth_exception.dart';
 export 'auth_failure.dart';
@@ -68,6 +72,8 @@ export 'auth_token.dart';
 export 'child.dart';
 export 'circle_rank.dart';
 export 'dispatcher_account.dart';
+export 'dispatcher_task.dart';
+export 'dispatcher_task_kind.dart';
 export 'driver.dart';
 export 'family.dart';
 export 'family_circle.dart';
@@ -157,92 +163,98 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i9.DispatcherAccount) {
       return _i9.DispatcherAccount.fromJson(data) as T;
     }
-    if (t == _i10.Driver) {
-      return _i10.Driver.fromJson(data) as T;
+    if (t == _i10.DispatcherTask) {
+      return _i10.DispatcherTask.fromJson(data) as T;
     }
-    if (t == _i11.Family) {
-      return _i11.Family.fromJson(data) as T;
+    if (t == _i11.DispatcherTaskKind) {
+      return _i11.DispatcherTaskKind.fromJson(data) as T;
     }
-    if (t == _i12.FamilyCircle) {
-      return _i12.FamilyCircle.fromJson(data) as T;
+    if (t == _i12.Driver) {
+      return _i12.Driver.fromJson(data) as T;
     }
-    if (t == _i13.ServerHealth) {
-      return _i13.ServerHealth.fromJson(data) as T;
+    if (t == _i13.Family) {
+      return _i13.Family.fromJson(data) as T;
     }
-    if (t == _i14.Institution) {
-      return _i14.Institution.fromJson(data) as T;
+    if (t == _i14.FamilyCircle) {
+      return _i14.FamilyCircle.fromJson(data) as T;
     }
-    if (t == _i15.InstitutionType) {
-      return _i15.InstitutionType.fromJson(data) as T;
+    if (t == _i15.ServerHealth) {
+      return _i15.ServerHealth.fromJson(data) as T;
     }
-    if (t == _i16.LedgerEntry) {
-      return _i16.LedgerEntry.fromJson(data) as T;
+    if (t == _i16.Institution) {
+      return _i16.Institution.fromJson(data) as T;
     }
-    if (t == _i17.LedgerEntryType) {
-      return _i17.LedgerEntryType.fromJson(data) as T;
+    if (t == _i17.InstitutionType) {
+      return _i17.InstitutionType.fromJson(data) as T;
     }
-    if (t == _i18.NotificationChannel) {
-      return _i18.NotificationChannel.fromJson(data) as T;
+    if (t == _i18.LedgerEntry) {
+      return _i18.LedgerEntry.fromJson(data) as T;
     }
-    if (t == _i19.NotificationOutbox) {
-      return _i19.NotificationOutbox.fromJson(data) as T;
+    if (t == _i19.LedgerEntryType) {
+      return _i19.LedgerEntryType.fromJson(data) as T;
     }
-    if (t == _i20.NotificationStatus) {
-      return _i20.NotificationStatus.fromJson(data) as T;
+    if (t == _i20.NotificationChannel) {
+      return _i20.NotificationChannel.fromJson(data) as T;
     }
-    if (t == _i21.OtpCode) {
-      return _i21.OtpCode.fromJson(data) as T;
+    if (t == _i21.NotificationOutbox) {
+      return _i21.NotificationOutbox.fromJson(data) as T;
     }
-    if (t == _i22.Parent) {
-      return _i22.Parent.fromJson(data) as T;
+    if (t == _i22.NotificationStatus) {
+      return _i22.NotificationStatus.fromJson(data) as T;
     }
-    if (t == _i23.ParentRole) {
-      return _i23.ParentRole.fromJson(data) as T;
+    if (t == _i23.OtpCode) {
+      return _i23.OtpCode.fromJson(data) as T;
     }
-    if (t == _i24.Ride) {
-      return _i24.Ride.fromJson(data) as T;
+    if (t == _i24.Parent) {
+      return _i24.Parent.fromJson(data) as T;
     }
-    if (t == _i25.RideEvent) {
-      return _i25.RideEvent.fromJson(data) as T;
+    if (t == _i25.ParentRole) {
+      return _i25.ParentRole.fromJson(data) as T;
     }
-    if (t == _i26.RideEventSubmission) {
-      return _i26.RideEventSubmission.fromJson(data) as T;
+    if (t == _i26.Ride) {
+      return _i26.Ride.fromJson(data) as T;
     }
-    if (t == _i27.RideEventType) {
-      return _i27.RideEventType.fromJson(data) as T;
+    if (t == _i27.RideEvent) {
+      return _i27.RideEvent.fromJson(data) as T;
     }
-    if (t == _i28.RideFlowError) {
-      return _i28.RideFlowError.fromJson(data) as T;
+    if (t == _i28.RideEventSubmission) {
+      return _i28.RideEventSubmission.fromJson(data) as T;
     }
-    if (t == _i29.RideFlowException) {
-      return _i29.RideFlowException.fromJson(data) as T;
+    if (t == _i29.RideEventType) {
+      return _i29.RideEventType.fromJson(data) as T;
     }
-    if (t == _i30.RideLocation) {
-      return _i30.RideLocation.fromJson(data) as T;
+    if (t == _i30.RideFlowError) {
+      return _i30.RideFlowError.fromJson(data) as T;
     }
-    if (t == _i31.RideLocationPoint) {
-      return _i31.RideLocationPoint.fromJson(data) as T;
+    if (t == _i31.RideFlowException) {
+      return _i31.RideFlowException.fromJson(data) as T;
     }
-    if (t == _i32.RideStatus) {
-      return _i32.RideStatus.fromJson(data) as T;
+    if (t == _i32.RideLocation) {
+      return _i32.RideLocation.fromJson(data) as T;
     }
-    if (t == _i33.RideView) {
-      return _i33.RideView.fromJson(data) as T;
+    if (t == _i33.RideLocationPoint) {
+      return _i33.RideLocationPoint.fromJson(data) as T;
     }
-    if (t == _i34.RouteDirection) {
-      return _i34.RouteDirection.fromJson(data) as T;
+    if (t == _i34.RideStatus) {
+      return _i34.RideStatus.fromJson(data) as T;
     }
-    if (t == _i35.RouteTemplate) {
-      return _i35.RouteTemplate.fromJson(data) as T;
+    if (t == _i35.RideView) {
+      return _i35.RideView.fromJson(data) as T;
     }
-    if (t == _i36.SmsLevel) {
-      return _i36.SmsLevel.fromJson(data) as T;
+    if (t == _i36.RouteDirection) {
+      return _i36.RouteDirection.fromJson(data) as T;
     }
-    if (t == _i37.TrackingState) {
-      return _i37.TrackingState.fromJson(data) as T;
+    if (t == _i37.RouteTemplate) {
+      return _i37.RouteTemplate.fromJson(data) as T;
     }
-    if (t == _i38.VettingStatus) {
-      return _i38.VettingStatus.fromJson(data) as T;
+    if (t == _i38.SmsLevel) {
+      return _i38.SmsLevel.fromJson(data) as T;
+    }
+    if (t == _i39.TrackingState) {
+      return _i39.TrackingState.fromJson(data) as T;
+    }
+    if (t == _i40.VettingStatus) {
+      return _i40.VettingStatus.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.AccountRole?>()) {
       return (data != null ? _i2.AccountRole.fromJson(data) : null) as T;
@@ -268,151 +280,170 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i9.DispatcherAccount?>()) {
       return (data != null ? _i9.DispatcherAccount.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i10.Driver?>()) {
-      return (data != null ? _i10.Driver.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i10.DispatcherTask?>()) {
+      return (data != null ? _i10.DispatcherTask.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i11.Family?>()) {
-      return (data != null ? _i11.Family.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i12.FamilyCircle?>()) {
-      return (data != null ? _i12.FamilyCircle.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i13.ServerHealth?>()) {
-      return (data != null ? _i13.ServerHealth.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i14.Institution?>()) {
-      return (data != null ? _i14.Institution.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i15.InstitutionType?>()) {
-      return (data != null ? _i15.InstitutionType.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i16.LedgerEntry?>()) {
-      return (data != null ? _i16.LedgerEntry.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i17.LedgerEntryType?>()) {
-      return (data != null ? _i17.LedgerEntryType.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i18.NotificationChannel?>()) {
-      return (data != null ? _i18.NotificationChannel.fromJson(data) : null)
+    if (t == _i1.getType<_i11.DispatcherTaskKind?>()) {
+      return (data != null ? _i11.DispatcherTaskKind.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i19.NotificationOutbox?>()) {
-      return (data != null ? _i19.NotificationOutbox.fromJson(data) : null)
+    if (t == _i1.getType<_i12.Driver?>()) {
+      return (data != null ? _i12.Driver.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i13.Family?>()) {
+      return (data != null ? _i13.Family.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i14.FamilyCircle?>()) {
+      return (data != null ? _i14.FamilyCircle.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i15.ServerHealth?>()) {
+      return (data != null ? _i15.ServerHealth.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i16.Institution?>()) {
+      return (data != null ? _i16.Institution.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i17.InstitutionType?>()) {
+      return (data != null ? _i17.InstitutionType.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i18.LedgerEntry?>()) {
+      return (data != null ? _i18.LedgerEntry.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i19.LedgerEntryType?>()) {
+      return (data != null ? _i19.LedgerEntryType.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i20.NotificationChannel?>()) {
+      return (data != null ? _i20.NotificationChannel.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i20.NotificationStatus?>()) {
-      return (data != null ? _i20.NotificationStatus.fromJson(data) : null)
+    if (t == _i1.getType<_i21.NotificationOutbox?>()) {
+      return (data != null ? _i21.NotificationOutbox.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i21.OtpCode?>()) {
-      return (data != null ? _i21.OtpCode.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i22.Parent?>()) {
-      return (data != null ? _i22.Parent.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i23.ParentRole?>()) {
-      return (data != null ? _i23.ParentRole.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i24.Ride?>()) {
-      return (data != null ? _i24.Ride.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i25.RideEvent?>()) {
-      return (data != null ? _i25.RideEvent.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i26.RideEventSubmission?>()) {
-      return (data != null ? _i26.RideEventSubmission.fromJson(data) : null)
+    if (t == _i1.getType<_i22.NotificationStatus?>()) {
+      return (data != null ? _i22.NotificationStatus.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i27.RideEventType?>()) {
-      return (data != null ? _i27.RideEventType.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i23.OtpCode?>()) {
+      return (data != null ? _i23.OtpCode.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i28.RideFlowError?>()) {
-      return (data != null ? _i28.RideFlowError.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i24.Parent?>()) {
+      return (data != null ? _i24.Parent.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i29.RideFlowException?>()) {
-      return (data != null ? _i29.RideFlowException.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i25.ParentRole?>()) {
+      return (data != null ? _i25.ParentRole.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i30.RideLocation?>()) {
-      return (data != null ? _i30.RideLocation.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i26.Ride?>()) {
+      return (data != null ? _i26.Ride.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i31.RideLocationPoint?>()) {
-      return (data != null ? _i31.RideLocationPoint.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i27.RideEvent?>()) {
+      return (data != null ? _i27.RideEvent.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i32.RideStatus?>()) {
-      return (data != null ? _i32.RideStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i28.RideEventSubmission?>()) {
+      return (data != null ? _i28.RideEventSubmission.fromJson(data) : null)
+          as T;
     }
-    if (t == _i1.getType<_i33.RideView?>()) {
-      return (data != null ? _i33.RideView.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i29.RideEventType?>()) {
+      return (data != null ? _i29.RideEventType.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i34.RouteDirection?>()) {
-      return (data != null ? _i34.RouteDirection.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i30.RideFlowError?>()) {
+      return (data != null ? _i30.RideFlowError.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i35.RouteTemplate?>()) {
-      return (data != null ? _i35.RouteTemplate.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i31.RideFlowException?>()) {
+      return (data != null ? _i31.RideFlowException.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i36.SmsLevel?>()) {
-      return (data != null ? _i36.SmsLevel.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i32.RideLocation?>()) {
+      return (data != null ? _i32.RideLocation.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i37.TrackingState?>()) {
-      return (data != null ? _i37.TrackingState.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i33.RideLocationPoint?>()) {
+      return (data != null ? _i33.RideLocationPoint.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i38.VettingStatus?>()) {
-      return (data != null ? _i38.VettingStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i34.RideStatus?>()) {
+      return (data != null ? _i34.RideStatus.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i35.RideView?>()) {
+      return (data != null ? _i35.RideView.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i36.RouteDirection?>()) {
+      return (data != null ? _i36.RouteDirection.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i37.RouteTemplate?>()) {
+      return (data != null ? _i37.RouteTemplate.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i38.SmsLevel?>()) {
+      return (data != null ? _i38.SmsLevel.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i39.TrackingState?>()) {
+      return (data != null ? _i39.TrackingState.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i40.VettingStatus?>()) {
+      return (data != null ? _i40.VettingStatus.fromJson(data) : null) as T;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
-    if (t == List<_i39.Family>) {
-      return (data as List).map((e) => deserialize<_i39.Family>(e)).toList()
+    if (t == List<_i41.Family>) {
+      return (data as List).map((e) => deserialize<_i41.Family>(e)).toList()
           as T;
     }
-    if (t == List<_i40.Parent>) {
-      return (data as List).map((e) => deserialize<_i40.Parent>(e)).toList()
+    if (t == List<_i42.Parent>) {
+      return (data as List).map((e) => deserialize<_i42.Parent>(e)).toList()
           as T;
     }
-    if (t == List<_i41.Child>) {
-      return (data as List).map((e) => deserialize<_i41.Child>(e)).toList()
+    if (t == List<_i43.Child>) {
+      return (data as List).map((e) => deserialize<_i43.Child>(e)).toList()
           as T;
     }
-    if (t == List<_i42.Driver>) {
-      return (data as List).map((e) => deserialize<_i42.Driver>(e)).toList()
+    if (t == List<_i44.Driver>) {
+      return (data as List).map((e) => deserialize<_i44.Driver>(e)).toList()
           as T;
     }
-    if (t == List<_i43.Institution>) {
+    if (t == List<_i45.Institution>) {
       return (data as List)
-              .map((e) => deserialize<_i43.Institution>(e))
+              .map((e) => deserialize<_i45.Institution>(e))
               .toList()
           as T;
     }
-    if (t == List<_i44.FamilyCircle>) {
+    if (t == List<_i46.FamilyCircle>) {
       return (data as List)
-              .map((e) => deserialize<_i44.FamilyCircle>(e))
+              .map((e) => deserialize<_i46.FamilyCircle>(e))
               .toList()
           as T;
     }
-    if (t == List<_i45.RouteTemplate>) {
+    if (t == List<_i47.RouteTemplate>) {
       return (data as List)
-              .map((e) => deserialize<_i45.RouteTemplate>(e))
+              .map((e) => deserialize<_i47.RouteTemplate>(e))
               .toList()
           as T;
     }
-    if (t == List<_i46.RideView>) {
-      return (data as List).map((e) => deserialize<_i46.RideView>(e)).toList()
+    if (t == List<_i48.RideView>) {
+      return (data as List).map((e) => deserialize<_i48.RideView>(e)).toList()
           as T;
     }
-    if (t == List<_i47.RideEvent>) {
-      return (data as List).map((e) => deserialize<_i47.RideEvent>(e)).toList()
+    if (t == List<_i49.RideEvent>) {
+      return (data as List).map((e) => deserialize<_i49.RideEvent>(e)).toList()
           as T;
     }
-    if (t == List<_i48.RideLocationPoint>) {
+    if (t == List<_i50.DispatcherTask>) {
       return (data as List)
-              .map((e) => deserialize<_i48.RideLocationPoint>(e))
+              .map((e) => deserialize<_i50.DispatcherTask>(e))
               .toList()
           as T;
     }
-    if (t == List<_i49.RideLocation>) {
+    if (t == List<_i51.NotificationOutbox>) {
       return (data as List)
-              .map((e) => deserialize<_i49.RideLocation>(e))
+              .map((e) => deserialize<_i51.NotificationOutbox>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i52.RideLocationPoint>) {
+      return (data as List)
+              .map((e) => deserialize<_i52.RideLocationPoint>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i53.RideLocation>) {
+      return (data as List)
+              .map((e) => deserialize<_i53.RideLocation>(e))
               .toList()
           as T;
     }
@@ -429,35 +460,37 @@ class Protocol extends _i1.SerializationManager {
       _i7.Child => 'Child',
       _i8.CircleRank => 'CircleRank',
       _i9.DispatcherAccount => 'DispatcherAccount',
-      _i10.Driver => 'Driver',
-      _i11.Family => 'Family',
-      _i12.FamilyCircle => 'FamilyCircle',
-      _i13.ServerHealth => 'ServerHealth',
-      _i14.Institution => 'Institution',
-      _i15.InstitutionType => 'InstitutionType',
-      _i16.LedgerEntry => 'LedgerEntry',
-      _i17.LedgerEntryType => 'LedgerEntryType',
-      _i18.NotificationChannel => 'NotificationChannel',
-      _i19.NotificationOutbox => 'NotificationOutbox',
-      _i20.NotificationStatus => 'NotificationStatus',
-      _i21.OtpCode => 'OtpCode',
-      _i22.Parent => 'Parent',
-      _i23.ParentRole => 'ParentRole',
-      _i24.Ride => 'Ride',
-      _i25.RideEvent => 'RideEvent',
-      _i26.RideEventSubmission => 'RideEventSubmission',
-      _i27.RideEventType => 'RideEventType',
-      _i28.RideFlowError => 'RideFlowError',
-      _i29.RideFlowException => 'RideFlowException',
-      _i30.RideLocation => 'RideLocation',
-      _i31.RideLocationPoint => 'RideLocationPoint',
-      _i32.RideStatus => 'RideStatus',
-      _i33.RideView => 'RideView',
-      _i34.RouteDirection => 'RouteDirection',
-      _i35.RouteTemplate => 'RouteTemplate',
-      _i36.SmsLevel => 'SmsLevel',
-      _i37.TrackingState => 'TrackingState',
-      _i38.VettingStatus => 'VettingStatus',
+      _i10.DispatcherTask => 'DispatcherTask',
+      _i11.DispatcherTaskKind => 'DispatcherTaskKind',
+      _i12.Driver => 'Driver',
+      _i13.Family => 'Family',
+      _i14.FamilyCircle => 'FamilyCircle',
+      _i15.ServerHealth => 'ServerHealth',
+      _i16.Institution => 'Institution',
+      _i17.InstitutionType => 'InstitutionType',
+      _i18.LedgerEntry => 'LedgerEntry',
+      _i19.LedgerEntryType => 'LedgerEntryType',
+      _i20.NotificationChannel => 'NotificationChannel',
+      _i21.NotificationOutbox => 'NotificationOutbox',
+      _i22.NotificationStatus => 'NotificationStatus',
+      _i23.OtpCode => 'OtpCode',
+      _i24.Parent => 'Parent',
+      _i25.ParentRole => 'ParentRole',
+      _i26.Ride => 'Ride',
+      _i27.RideEvent => 'RideEvent',
+      _i28.RideEventSubmission => 'RideEventSubmission',
+      _i29.RideEventType => 'RideEventType',
+      _i30.RideFlowError => 'RideFlowError',
+      _i31.RideFlowException => 'RideFlowException',
+      _i32.RideLocation => 'RideLocation',
+      _i33.RideLocationPoint => 'RideLocationPoint',
+      _i34.RideStatus => 'RideStatus',
+      _i35.RideView => 'RideView',
+      _i36.RouteDirection => 'RouteDirection',
+      _i37.RouteTemplate => 'RouteTemplate',
+      _i38.SmsLevel => 'SmsLevel',
+      _i39.TrackingState => 'TrackingState',
+      _i40.VettingStatus => 'VettingStatus',
       _ => null,
     };
   }
@@ -488,63 +521,67 @@ class Protocol extends _i1.SerializationManager {
         return 'CircleRank';
       case _i9.DispatcherAccount():
         return 'DispatcherAccount';
-      case _i10.Driver():
+      case _i10.DispatcherTask():
+        return 'DispatcherTask';
+      case _i11.DispatcherTaskKind():
+        return 'DispatcherTaskKind';
+      case _i12.Driver():
         return 'Driver';
-      case _i11.Family():
+      case _i13.Family():
         return 'Family';
-      case _i12.FamilyCircle():
+      case _i14.FamilyCircle():
         return 'FamilyCircle';
-      case _i13.ServerHealth():
+      case _i15.ServerHealth():
         return 'ServerHealth';
-      case _i14.Institution():
+      case _i16.Institution():
         return 'Institution';
-      case _i15.InstitutionType():
+      case _i17.InstitutionType():
         return 'InstitutionType';
-      case _i16.LedgerEntry():
+      case _i18.LedgerEntry():
         return 'LedgerEntry';
-      case _i17.LedgerEntryType():
+      case _i19.LedgerEntryType():
         return 'LedgerEntryType';
-      case _i18.NotificationChannel():
+      case _i20.NotificationChannel():
         return 'NotificationChannel';
-      case _i19.NotificationOutbox():
+      case _i21.NotificationOutbox():
         return 'NotificationOutbox';
-      case _i20.NotificationStatus():
+      case _i22.NotificationStatus():
         return 'NotificationStatus';
-      case _i21.OtpCode():
+      case _i23.OtpCode():
         return 'OtpCode';
-      case _i22.Parent():
+      case _i24.Parent():
         return 'Parent';
-      case _i23.ParentRole():
+      case _i25.ParentRole():
         return 'ParentRole';
-      case _i24.Ride():
+      case _i26.Ride():
         return 'Ride';
-      case _i25.RideEvent():
+      case _i27.RideEvent():
         return 'RideEvent';
-      case _i26.RideEventSubmission():
+      case _i28.RideEventSubmission():
         return 'RideEventSubmission';
-      case _i27.RideEventType():
+      case _i29.RideEventType():
         return 'RideEventType';
-      case _i28.RideFlowError():
+      case _i30.RideFlowError():
         return 'RideFlowError';
-      case _i29.RideFlowException():
+      case _i31.RideFlowException():
         return 'RideFlowException';
-      case _i30.RideLocation():
+      case _i32.RideLocation():
         return 'RideLocation';
-      case _i31.RideLocationPoint():
+      case _i33.RideLocationPoint():
         return 'RideLocationPoint';
-      case _i32.RideStatus():
+      case _i34.RideStatus():
         return 'RideStatus';
-      case _i33.RideView():
+      case _i35.RideView():
         return 'RideView';
-      case _i34.RouteDirection():
+      case _i36.RouteDirection():
         return 'RouteDirection';
-      case _i35.RouteTemplate():
+      case _i37.RouteTemplate():
         return 'RouteTemplate';
-      case _i36.SmsLevel():
+      case _i38.SmsLevel():
         return 'SmsLevel';
-      case _i37.TrackingState():
+      case _i39.TrackingState():
         return 'TrackingState';
-      case _i38.VettingStatus():
+      case _i40.VettingStatus():
         return 'VettingStatus';
     }
     return null;
@@ -580,92 +617,98 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'DispatcherAccount') {
       return deserialize<_i9.DispatcherAccount>(data['data']);
     }
+    if (dataClassName == 'DispatcherTask') {
+      return deserialize<_i10.DispatcherTask>(data['data']);
+    }
+    if (dataClassName == 'DispatcherTaskKind') {
+      return deserialize<_i11.DispatcherTaskKind>(data['data']);
+    }
     if (dataClassName == 'Driver') {
-      return deserialize<_i10.Driver>(data['data']);
+      return deserialize<_i12.Driver>(data['data']);
     }
     if (dataClassName == 'Family') {
-      return deserialize<_i11.Family>(data['data']);
+      return deserialize<_i13.Family>(data['data']);
     }
     if (dataClassName == 'FamilyCircle') {
-      return deserialize<_i12.FamilyCircle>(data['data']);
+      return deserialize<_i14.FamilyCircle>(data['data']);
     }
     if (dataClassName == 'ServerHealth') {
-      return deserialize<_i13.ServerHealth>(data['data']);
+      return deserialize<_i15.ServerHealth>(data['data']);
     }
     if (dataClassName == 'Institution') {
-      return deserialize<_i14.Institution>(data['data']);
+      return deserialize<_i16.Institution>(data['data']);
     }
     if (dataClassName == 'InstitutionType') {
-      return deserialize<_i15.InstitutionType>(data['data']);
+      return deserialize<_i17.InstitutionType>(data['data']);
     }
     if (dataClassName == 'LedgerEntry') {
-      return deserialize<_i16.LedgerEntry>(data['data']);
+      return deserialize<_i18.LedgerEntry>(data['data']);
     }
     if (dataClassName == 'LedgerEntryType') {
-      return deserialize<_i17.LedgerEntryType>(data['data']);
+      return deserialize<_i19.LedgerEntryType>(data['data']);
     }
     if (dataClassName == 'NotificationChannel') {
-      return deserialize<_i18.NotificationChannel>(data['data']);
+      return deserialize<_i20.NotificationChannel>(data['data']);
     }
     if (dataClassName == 'NotificationOutbox') {
-      return deserialize<_i19.NotificationOutbox>(data['data']);
+      return deserialize<_i21.NotificationOutbox>(data['data']);
     }
     if (dataClassName == 'NotificationStatus') {
-      return deserialize<_i20.NotificationStatus>(data['data']);
+      return deserialize<_i22.NotificationStatus>(data['data']);
     }
     if (dataClassName == 'OtpCode') {
-      return deserialize<_i21.OtpCode>(data['data']);
+      return deserialize<_i23.OtpCode>(data['data']);
     }
     if (dataClassName == 'Parent') {
-      return deserialize<_i22.Parent>(data['data']);
+      return deserialize<_i24.Parent>(data['data']);
     }
     if (dataClassName == 'ParentRole') {
-      return deserialize<_i23.ParentRole>(data['data']);
+      return deserialize<_i25.ParentRole>(data['data']);
     }
     if (dataClassName == 'Ride') {
-      return deserialize<_i24.Ride>(data['data']);
+      return deserialize<_i26.Ride>(data['data']);
     }
     if (dataClassName == 'RideEvent') {
-      return deserialize<_i25.RideEvent>(data['data']);
+      return deserialize<_i27.RideEvent>(data['data']);
     }
     if (dataClassName == 'RideEventSubmission') {
-      return deserialize<_i26.RideEventSubmission>(data['data']);
+      return deserialize<_i28.RideEventSubmission>(data['data']);
     }
     if (dataClassName == 'RideEventType') {
-      return deserialize<_i27.RideEventType>(data['data']);
+      return deserialize<_i29.RideEventType>(data['data']);
     }
     if (dataClassName == 'RideFlowError') {
-      return deserialize<_i28.RideFlowError>(data['data']);
+      return deserialize<_i30.RideFlowError>(data['data']);
     }
     if (dataClassName == 'RideFlowException') {
-      return deserialize<_i29.RideFlowException>(data['data']);
+      return deserialize<_i31.RideFlowException>(data['data']);
     }
     if (dataClassName == 'RideLocation') {
-      return deserialize<_i30.RideLocation>(data['data']);
+      return deserialize<_i32.RideLocation>(data['data']);
     }
     if (dataClassName == 'RideLocationPoint') {
-      return deserialize<_i31.RideLocationPoint>(data['data']);
+      return deserialize<_i33.RideLocationPoint>(data['data']);
     }
     if (dataClassName == 'RideStatus') {
-      return deserialize<_i32.RideStatus>(data['data']);
+      return deserialize<_i34.RideStatus>(data['data']);
     }
     if (dataClassName == 'RideView') {
-      return deserialize<_i33.RideView>(data['data']);
+      return deserialize<_i35.RideView>(data['data']);
     }
     if (dataClassName == 'RouteDirection') {
-      return deserialize<_i34.RouteDirection>(data['data']);
+      return deserialize<_i36.RouteDirection>(data['data']);
     }
     if (dataClassName == 'RouteTemplate') {
-      return deserialize<_i35.RouteTemplate>(data['data']);
+      return deserialize<_i37.RouteTemplate>(data['data']);
     }
     if (dataClassName == 'SmsLevel') {
-      return deserialize<_i36.SmsLevel>(data['data']);
+      return deserialize<_i38.SmsLevel>(data['data']);
     }
     if (dataClassName == 'TrackingState') {
-      return deserialize<_i37.TrackingState>(data['data']);
+      return deserialize<_i39.TrackingState>(data['data']);
     }
     if (dataClassName == 'VettingStatus') {
-      return deserialize<_i38.VettingStatus>(data['data']);
+      return deserialize<_i40.VettingStatus>(data['data']);
     }
     return super.deserializeByClassName(data);
   }

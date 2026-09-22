@@ -1,0 +1,23 @@
+### Задача диспетчеру: то, что нельзя решить автоматически.
+###
+### Сюда попадают «тихие сбои»: водитель не подтвердил завтрашние поездки,
+### не выехал вовремя, не дошло ни push, ни SMS.
+class: DispatcherTask
+table: dispatcher_task
+fields:
+  kind: DispatcherTaskKind
+  ### Что случилось, человеческим языком — диспетчер читает и звонит.
+  text: String
+  rideId: int?, relation(parent=ride, onDelete=SetNull)
+  familyId: int?, relation(parent=family, onDelete=SetNull)
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  ### Ключ идемпотентности: одна и та же проблема не плодит задачи.
+  dedupeKey: String
+  createdAt: DateTime
+  resolvedAt: DateTime?
+indexes:
+  dispatcher_task_dedupe_idx:
+    fields: dedupeKey
+    unique: true
+  dispatcher_task_open_idx:
+    fields: resolvedAt

@@ -15,6 +15,7 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'dart:async' as _i2;
 import '../future_calls/cleanup_locations_future_call.dart' as _i3;
 import '../future_calls/generate_rides_future_call.dart' as _i4;
+import '../future_calls/process_outbox_future_call.dart' as _i5;
 
 /// Invokes a future call.
 typedef _InvokeFutureCall =
@@ -64,6 +65,9 @@ class FutureCalls extends _i1.FutureCallDispatch<_FutureCallRef> {
       'GenerateRidesInvokeFutureCall': GenerateRidesInvokeFutureCall(),
       'GenerateRidesGenerateUpcomingFutureCall':
           GenerateRidesGenerateUpcomingFutureCall(),
+      'ProcessOutboxInvokeFutureCall': ProcessOutboxInvokeFutureCall(),
+      'ProcessOutboxProcessOutboxFutureCall':
+          ProcessOutboxProcessOutboxFutureCall(),
     };
     _futureCallManager = futureCallManager;
     _serverId = serverId;
@@ -126,6 +130,10 @@ class _FutureCallRef {
   late final generateRides = _GenerateRidesFutureCallDispatcher(
     _invokeFutureCall,
   );
+
+  late final processOutbox = _ProcessOutboxFutureCallDispatcher(
+    _invokeFutureCall,
+  );
 }
 
 class _CleanupLocationsFutureCallDispatcher {
@@ -163,6 +171,26 @@ class _GenerateRidesFutureCallDispatcher {
   Future<void> generateUpcoming() {
     return _invokeFutureCall(
       'GenerateRidesGenerateUpcomingFutureCall',
+      null,
+    );
+  }
+}
+
+class _ProcessOutboxFutureCallDispatcher {
+  _ProcessOutboxFutureCallDispatcher(this._invokeFutureCall);
+
+  final _InvokeFutureCall _invokeFutureCall;
+
+  Future<void> invoke(_i1.SerializableModel? object) {
+    return _invokeFutureCall(
+      'ProcessOutboxInvokeFutureCall',
+      object,
+    );
+  }
+
+  Future<void> processOutbox() {
+    return _invokeFutureCall(
+      'ProcessOutboxProcessOutboxFutureCall',
       null,
     );
   }
@@ -218,5 +246,30 @@ class GenerateRidesGenerateUpcomingFutureCall extends _i1.FutureCall {
     _i1.SerializableModel? object,
   ) async {
     await _i4.GenerateRidesFutureCall().generateUpcoming(session);
+  }
+}
+
+class ProcessOutboxInvokeFutureCall
+    extends _i1.FutureCall<_i1.SerializableModel> {
+  @override
+  _i2.Future<void> invoke(
+    _i1.Session session,
+    _i1.SerializableModel? object,
+  ) async {
+    await _i5.ProcessOutboxFutureCall().invoke(
+      session,
+      object,
+    );
+  }
+}
+
+/// Один проход очереди и проверок, затем планирование следующего.
+class ProcessOutboxProcessOutboxFutureCall extends _i1.FutureCall {
+  @override
+  _i2.Future<void> invoke(
+    _i1.Session session,
+    _i1.SerializableModel? object,
+  ) async {
+    await _i5.ProcessOutboxFutureCall().processOutbox(session);
   }
 }

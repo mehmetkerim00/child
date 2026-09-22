@@ -524,6 +524,70 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['rideId'],
                   ),
         ),
+        'openTasks': _i1.MethodConnector(
+          name: 'openTasks',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .openTasks(session),
+        ),
+        'resolveTask': _i1.MethodConnector(
+          name: 'resolveTask',
+          params: {
+            'taskId': _i1.ParameterDescription(
+              name: 'taskId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['directory'] as _i4.DirectoryEndpoint).resolveTask(
+                    session,
+                    params['taskId'],
+                  ),
+        ),
+        'notifications': _i1.MethodConnector(
+          name: 'notifications',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .notifications(session),
+        ),
+        'sendManualSms': _i1.MethodConnector(
+          name: 'sendManualSms',
+          params: {
+            'phone': _i1.ParameterDescription(
+              name: 'phone',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'body': _i1.ParameterDescription(
+              name: 'body',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .sendManualSms(
+                    session,
+                    phone: params['phone'],
+                    body: params['body'],
+                  ),
+        ),
       },
     );
     connectors['profile'] = _i1.EndpointConnector(
@@ -787,6 +851,35 @@ class Endpoints extends _i1.EndpointDispatch {
                 session,
                 params['rideId'],
               ),
+        ),
+        'myNotifications': _i1.MethodConnector(
+          name: 'myNotifications',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routes'] as _i7.RoutesEndpoint)
+                  .myNotifications(session),
+        ),
+        'ackNotification': _i1.MethodConnector(
+          name: 'ackNotification',
+          params: {
+            'outboxId': _i1.ParameterDescription(
+              name: 'outboxId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['routes'] as _i7.RoutesEndpoint).ackNotification(
+                    session,
+                    params['outboxId'],
+                  ),
         ),
         'institutions': _i1.MethodConnector(
           name: 'institutions',

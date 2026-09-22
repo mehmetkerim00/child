@@ -24,13 +24,15 @@ import 'package:child_client/src/protocol/circle_rank.dart' as _i10;
 import 'package:child_client/src/protocol/route_template.dart' as _i11;
 import 'package:child_client/src/protocol/ride_view.dart' as _i12;
 import 'package:child_client/src/protocol/ride_event.dart' as _i13;
-import 'package:child_client/src/protocol/ride.dart' as _i14;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i15;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i16;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i17;
-import 'package:child_client/src/protocol/ride_location.dart' as _i18;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i19;
-import 'protocol.dart' as _i20;
+import 'package:child_client/src/protocol/dispatcher_task.dart' as _i14;
+import 'package:child_client/src/protocol/notification_outbox.dart' as _i15;
+import 'package:child_client/src/protocol/ride.dart' as _i16;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i17;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i18;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i19;
+import 'package:child_client/src/protocol/ride_location.dart' as _i20;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i21;
+import 'protocol.dart' as _i22;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -271,6 +273,43 @@ class EndpointDirectory extends _i1.EndpointRef {
         'rideEvents',
         {'rideId': rideId},
       );
+
+  /// Открытые задачи: то, что требует звонка или решения человека.
+  _i2.Future<List<_i14.DispatcherTask>> openTasks() =>
+      caller.callServerEndpoint<List<_i14.DispatcherTask>>(
+        'directory',
+        'openTasks',
+        {},
+      );
+
+  /// Задача решена — диспетчер закрывает её вручную.
+  _i2.Future<_i14.DispatcherTask?> resolveTask(int taskId) =>
+      caller.callServerEndpoint<_i14.DispatcherTask?>(
+        'directory',
+        'resolveTask',
+        {'taskId': taskId},
+      );
+
+  /// Очередь уведомлений — видно, что ушло, что ждёт и что не доставлено.
+  _i2.Future<List<_i15.NotificationOutbox>> notifications() =>
+      caller.callServerEndpoint<List<_i15.NotificationOutbox>>(
+        'directory',
+        'notifications',
+        {},
+      );
+
+  /// Ручная отправка SMS из консоли диспетчера.
+  _i2.Future<_i15.NotificationOutbox?> sendManualSms({
+    required String phone,
+    required String body,
+  }) => caller.callServerEndpoint<_i15.NotificationOutbox?>(
+    'directory',
+    'sendManualSms',
+    {
+      'phone': phone,
+      'body': body,
+    },
+  );
 }
 
 /// Данные вошедшего пользователя: семья и дети — родителю,
@@ -342,18 +381,18 @@ class EndpointRides extends _i1.EndpointRef {
       );
 
   /// Водитель подтверждает поездку: «завтра выйду».
-  _i2.Future<_i14.Ride> confirm(int rideId) =>
-      caller.callServerEndpoint<_i14.Ride>(
+  _i2.Future<_i16.Ride> confirm(int rideId) =>
+      caller.callServerEndpoint<_i16.Ride>(
         'rides',
         'confirm',
         {'rideId': rideId},
       );
 
   /// Водитель не может выйти: причина обязательна и уходит диспетчеру.
-  _i2.Future<_i14.Ride> decline(
+  _i2.Future<_i16.Ride> decline(
     int rideId,
     String reason,
-  ) => caller.callServerEndpoint<_i14.Ride>(
+  ) => caller.callServerEndpoint<_i16.Ride>(
     'rides',
     'decline',
     {
@@ -364,10 +403,10 @@ class EndpointRides extends _i1.EndpointRef {
 
   /// Принимает событие этапа поездки: «Выехал», «Забрал», «Передал» и так
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
-  _i2.Future<_i14.Ride> submitEvent(
+  _i2.Future<_i16.Ride> submitEvent(
     int rideId,
-    _i15.RideEventSubmission submission,
-  ) => caller.callServerEndpoint<_i14.Ride>(
+    _i17.RideEventSubmission submission,
+  ) => caller.callServerEndpoint<_i16.Ride>(
     'rides',
     'submitEvent',
     {
@@ -380,10 +419,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i16.TrackingState> pushLocations(
+  _i2.Future<_i18.TrackingState> pushLocations(
     int rideId,
-    List<_i17.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i16.TrackingState>(
+    List<_i19.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i18.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -443,8 +482,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i18.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i18.RideLocation>>(
+  _i2.Future<List<_i20.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i20.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -454,15 +493,32 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i18.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i20.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i18.RideLocation>,
-        _i18.RideLocation
+        _i2.Stream<_i20.RideLocation>,
+        _i20.RideLocation
       >(
         'routes',
         'watchRideLocation',
         {'rideId': rideId},
         {},
+      );
+
+  /// Лента уведомлений семьи: что и когда отправляли.
+  _i2.Future<List<_i15.NotificationOutbox>> myNotifications() =>
+      caller.callServerEndpoint<List<_i15.NotificationOutbox>>(
+        'routes',
+        'myNotifications',
+        {},
+      );
+
+  /// Приложение подтверждает получение push: SMS по этому событию
+  /// больше не нужна.
+  _i2.Future<void> ackNotification(int outboxId) =>
+      caller.callServerEndpoint<void>(
+        'routes',
+        'ackNotification',
+        {'outboxId': outboxId},
       );
 
   /// Учреждения — родитель выбирает, куда возить ребёнка.
@@ -490,8 +546,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i19.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i19.ServerHealth>(
+  _i2.Future<_i21.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i21.ServerHealth>(
         'health',
         'ping',
         {},
@@ -518,7 +574,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i20.Protocol(),
+         _i22.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

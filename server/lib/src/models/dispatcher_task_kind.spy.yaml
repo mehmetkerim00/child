@@ -1,0 +1,7 @@
+### Вид задачи диспетчеру.
+enum: DispatcherTaskKind
+values:
+  - rideNotConfirmed      ### водитель не подтвердил поездку на завтра
+  - driverNotDeparted     ### подтвердил, но не выехал вовремя
+  - notificationUndelivered ### не дошло ни push, ни SMS — звонить вручную
+  - rideWithoutDriver     ### поездка осталась без водителя

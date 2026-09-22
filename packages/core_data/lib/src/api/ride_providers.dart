@@ -54,7 +54,23 @@ final driverTomorrowRidesProvider = FutureProvider.autoDispose<List<RideView>>(
   (ref) => ref.watch(apiClientProvider).rides.tomorrow(),
 );
 
+/// Лента уведомлений семьи: что и когда отправляли.
+final myNotificationsProvider =
+    FutureProvider.autoDispose<List<NotificationOutbox>>(
+      (ref) => ref.watch(apiClientProvider).routes.myNotifications(),
+    );
+
 // --- Диспетчер --------------------------------------------------------------
+
+/// Открытые задачи диспетчера: то, что требует звонка.
+final openTasksProvider = FutureProvider.autoDispose<List<DispatcherTask>>(
+  (ref) => ref.watch(apiClientProvider).directory.openTasks(),
+);
+
+/// Очередь уведомлений: что ушло, что ждёт, что не доставлено.
+final outboxProvider = FutureProvider.autoDispose<List<NotificationOutbox>>(
+  (ref) => ref.watch(apiClientProvider).directory.notifications(),
+);
 
 /// Все шаблоны маршрутов.
 final allRoutesProvider = FutureProvider.autoDispose<List<RouteTemplate>>(

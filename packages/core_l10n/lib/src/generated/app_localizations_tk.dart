@@ -525,4 +525,58 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get rideOnMap => 'Kartada görkez';
+
+  @override
+  String get parentNotificationsTitle => 'Habarnamalar';
+
+  @override
+  String get notificationChannelPush => 'Push';
+
+  @override
+  String get notificationChannelSms => 'SMS';
+
+  @override
+  String get notificationQueued => 'Nobatda';
+
+  @override
+  String get notificationSent => 'Iberildi';
+
+  @override
+  String get notificationAcked => 'Gowşuryldy';
+
+  @override
+  String get notificationFailed => 'Gowşurylmady';
+
+  @override
+  String get dispatcherTasksTitle => 'Meseleler';
+
+  @override
+  String get dispatcherNoTasks => 'Mesele ýok';
+
+  @override
+  String get taskResolve => 'Çözüldi';
+
+  @override
+  String get taskRideNotConfirmed => 'Ýol tassyklanmady';
+
+  @override
+  String get taskDriverNotDeparted => 'Sürüji ýola çykmady';
+
+  @override
+  String get taskNotificationUndelivered => 'Habar gowşmady — jaň etmeli';
+
+  @override
+  String get taskRideWithoutDriver => 'Ýol sürüjisiz';
+
+  @override
+  String get smsConsoleTitle => 'SMS ibermek';
+
+  @override
+  String get smsConsoleSend => 'Iber';
+
+  @override
+  String get smsConsoleBody => 'Habaryň teksti';
+
+  @override
+  String get smsConsoleSent => 'SMS nobata goýuldy';
 }

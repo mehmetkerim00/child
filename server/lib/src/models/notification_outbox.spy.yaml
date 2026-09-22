@@ -1,18 +1,41 @@
 ### Очередь исходящих уведомлений — сердце SMS-фолбэка (MVP_PLAN §6).
+###
+### Одна строка = одна попытка доставить одно событие одному получателю
+### по одному каналу. Push и SMS по одному событию — две разные строки.
 class: NotificationOutbox
 table: notification_outbox
 fields:
+  ### Ключ идемпотентности: событие + получатель + канал.
+  ### Уникальный индекс не даёт отправить одно и то же дважды.
+  dedupeKey: String
   ### Событие, породившее уведомление, например ride.pickedUp.
   eventKind: String
+  ### Критические события уходят по SMS сразу, не дожидаясь ack.
+  critical: bool, default=false
   recipientPhone: String
+  ### Кому: родитель, водитель или диспетчер.
+  recipientRole: AccountRole
   channel: NotificationChannel
   status: NotificationStatus, default=queued
   attempts: int, default=0
-  ### Готовый текст сообщения на языке получателя.
+  ### Готовый текст на языке получателя.
   body: String
   rideId: int?, relation(parent=ride, onDelete=SetNull)
-  createdAt: DateTime, default=now
+  familyId: int?, relation(parent=family, onDelete=SetNull)
+  createdAt: DateTime
+  ### Когда можно делать следующую попытку (нарастающая пауза).
+  nextAttemptAt: DateTime?
   sentAt: DateTime?
+  ### Приложение подтвердило получение push.
+  ackedAt: DateTime?
+  ### До этого момента ждём ack, потом включаем SMS-фолбэк.
+  ackDeadline: DateTime?
+  lastError: String?
 indexes:
+  outbox_dedupe_idx:
+    fields: dedupeKey
+    unique: true
   outbox_status_idx:
     fields: status
+  outbox_family_idx:
+    fields: familyId

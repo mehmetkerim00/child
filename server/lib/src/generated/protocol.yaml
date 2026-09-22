@@ -26,6 +26,10 @@ directory:
   - generateUpcomingRides:
   - ridesForDate:
   - rideEvents:
+  - openTasks:
+  - resolveTask:
+  - notifications:
+  - sendManualSms:
 profile:
   - myFamily:
   - myChildren:
@@ -46,6 +50,8 @@ routes:
   - rideEvents:
   - rideTrack:
   - watchRideLocation:
+  - myNotifications:
+  - ackNotification:
   - institutions:
   - myUpcomingRides:
 health:

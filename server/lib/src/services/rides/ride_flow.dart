@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' as domain;
 import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
+import '../notifications/notification_service.dart';
 
 /// Применение событий поездки на сервере.
 ///
@@ -39,6 +40,7 @@ abstract final class RideFlow {
     required AccountRole byRole,
     required String codeWord,
     required String institutionCode,
+    NotificationService? notifications,
   }) async {
     final existing = await RideEvent.db.findFirstRow(
       session,
@@ -92,7 +94,7 @@ abstract final class RideFlow {
       (transition as domain.RideTransitionAllowed).status,
     );
 
-    await RideEvent.db.insertRow(
+    final storedEvent = await RideEvent.db.insertRow(
       session,
       RideEvent(
         rideId: ride.id!,
@@ -108,7 +110,7 @@ abstract final class RideFlow {
       ),
     );
 
-    return Ride.db.updateRow(
+    final updated = await Ride.db.updateRow(
       session,
       ride.copyWith(
         status: nextStatus,
@@ -116,6 +118,42 @@ abstract final class RideFlow {
             ? null
             : ride.driverId,
       ),
+    );
+
+    // Родитель узнаёт о каждом этапе: push, а критические события —
+    // ещё и SMS (MVP_PLAN §6).
+    await notifyRideEvent(
+      session,
+      ride: updated,
+      event: storedEvent,
+      notifications: notifications ?? NotificationService(),
+    );
+
+    return updated;
+  }
+
+  /// Ставит уведомления о событии поездки в очередь.
+  static Future<void> notifyRideEvent(
+    Session session, {
+    required Ride ride,
+    required RideEvent event,
+    required NotificationService notifications,
+  }) async {
+    final child = await Child.db.findById(session, ride.childId);
+    if (child == null) return;
+    final family = await Family.db.findById(session, child.familyId);
+    if (family == null) return;
+    final driver = ride.driverId == null
+        ? null
+        : await Driver.db.findById(session, ride.driverId!);
+
+    await notifications.enqueueRideEvent(
+      session,
+      ride: ride,
+      event: event,
+      child: child,
+      family: family,
+      driver: driver,
     );
   }
 

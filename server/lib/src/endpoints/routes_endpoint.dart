@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
 import 'session_subject.dart';
@@ -107,6 +108,27 @@ class RoutesEndpoint extends Endpoint {
       throw Exception('Поездка не вашего ребёнка');
     }
     return ride;
+  }
+
+  /// Лента уведомлений семьи: что и когда отправляли.
+  Future<List<NotificationOutbox>> myNotifications(Session session) async {
+    final parent = await session.requireParent();
+    return NotificationOutbox.db.find(
+      session,
+      where: (row) => row.familyId.equals(parent.familyId),
+      orderBy: (row) => row.createdAt,
+      orderDescending: true,
+      limit: 100,
+    );
+  }
+
+  /// Приложение подтверждает получение push: SMS по этому событию
+  /// больше не нужна.
+  Future<void> ackNotification(Session session, int outboxId) async {
+    final parent = await session.requireParent();
+    final row = await NotificationOutbox.db.findById(session, outboxId);
+    if (row == null || row.familyId != parent.familyId) return;
+    await NotificationService().ack(session, outboxId);
   }
 
   /// Учреждения — родитель выбирает, куда возить ребёнка.
