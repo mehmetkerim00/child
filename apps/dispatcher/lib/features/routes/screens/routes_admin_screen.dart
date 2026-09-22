@@ -185,7 +185,7 @@ class _RouteRow extends ConsumerWidget {
         .activateRoute(
           routeId: route.id!,
           driverId: driverId,
-          pricePerRide: int.tryParse(price.text.trim()) ?? 0,
+          pricePerRideTenge: int.tryParse(price.text.trim()) ?? 0,
         );
     ref.invalidate(allRoutesProvider);
     ref.invalidate(todayRidesProvider);

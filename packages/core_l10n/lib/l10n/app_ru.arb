@@ -238,5 +238,34 @@
   "smsConsoleTitle": "Отправить SMS",
   "smsConsoleSend": "Отправить",
   "smsConsoleBody": "Текст сообщения",
-  "smsConsoleSent": "SMS поставлена в очередь"
+  "smsConsoleSent": "SMS поставлена в очередь",
+  "parentBalanceTitle": "Баланс",
+  "balanceCurrent": "Остаток",
+  "balancePending": "Ожидает подтверждения",
+  "balanceLowWarning": "Денег меньше чем на три поездки — пора пополнить",
+  "balanceHowTo": "Как пополнить: передайте наличные водителю или диспетчеру. Водитель отметит приём в приложении, диспетчер подтвердит — деньги появятся на балансе.",
+  "balanceManat": "{amount} манат",
+  "@balanceManat": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "ledgerCashTopup": "Пополнение наличными",
+  "ledgerRideCharge": "Поездка",
+  "ledgerAdjust": "Корректировка",
+  "driverCashTitle": "Наличные",
+  "driverCashAccept": "Принять пополнение",
+  "driverCashFamily": "Семья",
+  "driverCashAmount": "Сумма, манатов",
+  "driverCashSignature": "Подпись родителя",
+  "driverCashPending": "Ждёт подтверждения диспетчера",
+  "driverCashConfirmed": "Подтверждено",
+  "driverCashRejected": "Отклонено",
+  "dispatcherTopUpsTitle": "Пополнения",
+  "dispatcherConfirm": "Подтвердить",
+  "dispatcherReject": "Отклонить",
+  "dispatcherRejectReason": "Причина отказа",
+  "moneyTab": "Деньги"
 }

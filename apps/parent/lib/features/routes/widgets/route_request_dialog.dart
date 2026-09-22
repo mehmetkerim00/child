@@ -154,7 +154,7 @@ Future<RouteTemplate?> showRouteRequestDialog(
                             .map((i) => i.address)
                             .firstOrNull,
                         direction: direction,
-                        pricePerRide: 0,
+                        pricePerRideTenge: 0,
                         active: false,
                       ),
                     ),

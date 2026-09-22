@@ -1,0 +1,12 @@
+### Баланс семьи для экрана родителя. Все суммы — в тенге.
+class: BalanceView
+fields:
+  ### Подтверждённый остаток.
+  balanceTenge: int
+  ### Наличные, принятые водителем, но ещё не подтверждённые диспетчером.
+  pendingTopUpTenge: int
+  ### Цена одной поездки по активным маршрутам семьи.
+  ridePriceTenge: int
+  ### Денег меньше чем на три поездки — пора пополнять (MVP_PLAN §7).
+  lowBalance: bool
+  entries: List<LedgerEntry>

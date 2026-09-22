@@ -14,7 +14,8 @@ fields:
   toAddress: String?
   direction: RouteDirection
   driverId: int?, relation(parent=driver, onDelete=SetNull)
-  pricePerRide: int, default=0
+  ### Цена поездки в тенге (целое число).
+  pricePerRideTenge: int, default=0
   ### false — заявка ждёт активации диспетчером.
   active: bool, default=false
   createdAt: DateTime, default=now

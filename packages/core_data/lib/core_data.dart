@@ -10,6 +10,8 @@ export 'package:child_client/child_client.dart'
         AuthException,
         AuthFailureReason,
         AuthResult,
+        BalanceView,
+        CashTopUp,
         Child,
         CircleRank,
         Client,
@@ -20,6 +22,8 @@ export 'package:child_client/child_client.dart'
         Family,
         FamilyCircle,
         Institution,
+        LedgerEntry,
+        LedgerEntryType,
         InstitutionType,
         NotificationChannel,
         NotificationOutbox,
@@ -44,6 +48,7 @@ export 'package:child_client/child_client.dart'
         VettingStatus;
 
 export 'src/api/directory_providers.dart';
+export 'src/api/money_providers.dart';
 export 'src/api/ride_providers.dart';
 export 'src/api/providers.dart';
 export 'src/auth/auth_controller.dart';

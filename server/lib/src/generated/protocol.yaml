@@ -30,6 +30,11 @@ directory:
   - resolveTask:
   - notifications:
   - sendManualSms:
+  - pendingTopUps:
+  - confirmTopUp:
+  - rejectTopUp:
+  - adjustBalance:
+  - familyBalance:
 profile:
   - myFamily:
   - myChildren:
@@ -43,6 +48,9 @@ rides:
   - submitEvent:
   - pushLocations:
   - events:
+  - myFamilies:
+  - recordCashTopUp:
+  - myCashTopUps:
   - tomorrowDate:
 routes:
   - requestRoute:
@@ -50,6 +58,7 @@ routes:
   - rideEvents:
   - rideTrack:
   - watchRideLocation:
+  - myBalance:
   - myNotifications:
   - ackNotification:
   - institutions:

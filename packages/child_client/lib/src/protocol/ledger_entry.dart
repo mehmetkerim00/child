@@ -14,30 +14,33 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'ledger_entry_type.dart' as _i2;
 
-/// Операция по балансу семьи. Баланс = сумма операций.
+/// Запись в книге операций семьи. Баланс = сумма всех записей.
+///
+/// Книга только дописывается: записи никогда не меняются и не удаляются.
+/// Ошибку исправляют новой корректирующей записью с причиной — так
+/// видно и саму ошибку, и то, кто её исправил.
 abstract class LedgerEntry implements _i1.SerializableModel {
   LedgerEntry._({
     this.id,
     required this.familyId,
     required this.type,
-    required this.amount,
+    required this.amountTenge,
     this.rideId,
     this.driverId,
     this.note,
-    bool? confirmed,
+    required this.dedupeKey,
     DateTime? createdAt,
-  }) : confirmed = confirmed ?? false,
-       createdAt = createdAt ?? DateTime.now();
+  }) : createdAt = createdAt ?? DateTime.now();
 
   factory LedgerEntry({
     int? id,
     required int familyId,
     required _i2.LedgerEntryType type,
-    required int amount,
+    required int amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    required String dedupeKey,
     DateTime? createdAt,
   }) = _LedgerEntryImpl;
 
@@ -46,13 +49,11 @@ abstract class LedgerEntry implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       familyId: jsonSerialization['familyId'] as int,
       type: _i2.LedgerEntryType.fromJson((jsonSerialization['type'] as String)),
-      amount: jsonSerialization['amount'] as int,
+      amountTenge: jsonSerialization['amountTenge'] as int,
       rideId: jsonSerialization['rideId'] as int?,
       driverId: jsonSerialization['driverId'] as int?,
       note: jsonSerialization['note'] as String?,
-      confirmed: jsonSerialization['confirmed'] == null
-          ? null
-          : _i1.BoolJsonExtension.fromJson(jsonSerialization['confirmed']),
+      dedupeKey: jsonSerialization['dedupeKey'] as String,
       createdAt: jsonSerialization['createdAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['createdAt']),
@@ -68,17 +69,21 @@ abstract class LedgerEntry implements _i1.SerializableModel {
 
   _i2.LedgerEntryType type;
 
-  /// Сумма в манатах: пополнение — со знаком плюс, списание — минус.
-  int amount;
+  /// Сумма в тенге (минорных единицах маната, 1 манат = 100 тенге).
+  /// Только целые числа: дробная арифметика в деньгах недопустима.
+  /// Пополнение со знаком плюс, списание — минус.
+  int amountTenge;
 
   int? rideId;
 
   int? driverId;
 
+  /// Для корректировок причина обязательна.
   String? note;
 
-  /// Наличные подтверждает диспетчер.
-  bool confirmed;
+  /// Ключ идемпотентности: одна поездка списывается ровно один раз,
+  /// одно пополнение зачисляется ровно один раз.
+  String dedupeKey;
 
   DateTime createdAt;
 
@@ -89,11 +94,11 @@ abstract class LedgerEntry implements _i1.SerializableModel {
     int? id,
     int? familyId,
     _i2.LedgerEntryType? type,
-    int? amount,
+    int? amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    String? dedupeKey,
     DateTime? createdAt,
   });
   @override
@@ -103,11 +108,11 @@ abstract class LedgerEntry implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'familyId': familyId,
       'type': type.toJson(),
-      'amount': amount,
+      'amountTenge': amountTenge,
       if (rideId != null) 'rideId': rideId,
       if (driverId != null) 'driverId': driverId,
       if (note != null) 'note': note,
-      'confirmed': confirmed,
+      'dedupeKey': dedupeKey,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -125,21 +130,21 @@ class _LedgerEntryImpl extends LedgerEntry {
     int? id,
     required int familyId,
     required _i2.LedgerEntryType type,
-    required int amount,
+    required int amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    required String dedupeKey,
     DateTime? createdAt,
   }) : super._(
          id: id,
          familyId: familyId,
          type: type,
-         amount: amount,
+         amountTenge: amountTenge,
          rideId: rideId,
          driverId: driverId,
          note: note,
-         confirmed: confirmed,
+         dedupeKey: dedupeKey,
          createdAt: createdAt,
        );
 
@@ -151,22 +156,22 @@ class _LedgerEntryImpl extends LedgerEntry {
     Object? id = _Undefined,
     int? familyId,
     _i2.LedgerEntryType? type,
-    int? amount,
+    int? amountTenge,
     Object? rideId = _Undefined,
     Object? driverId = _Undefined,
     Object? note = _Undefined,
-    bool? confirmed,
+    String? dedupeKey,
     DateTime? createdAt,
   }) {
     return LedgerEntry(
       id: id is int? ? id : this.id,
       familyId: familyId ?? this.familyId,
       type: type ?? this.type,
-      amount: amount ?? this.amount,
+      amountTenge: amountTenge ?? this.amountTenge,
       rideId: rideId is int? ? rideId : this.rideId,
       driverId: driverId is int? ? driverId : this.driverId,
       note: note is String? ? note : this.note,
-      confirmed: confirmed ?? this.confirmed,
+      dedupeKey: dedupeKey ?? this.dedupeKey,
       createdAt: createdAt ?? this.createdAt,
     );
   }

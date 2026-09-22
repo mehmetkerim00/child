@@ -26,13 +26,16 @@ import 'package:child_client/src/protocol/ride_view.dart' as _i12;
 import 'package:child_client/src/protocol/ride_event.dart' as _i13;
 import 'package:child_client/src/protocol/dispatcher_task.dart' as _i14;
 import 'package:child_client/src/protocol/notification_outbox.dart' as _i15;
-import 'package:child_client/src/protocol/ride.dart' as _i16;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i17;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i18;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i19;
-import 'package:child_client/src/protocol/ride_location.dart' as _i20;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i21;
-import 'protocol.dart' as _i22;
+import 'package:child_client/src/protocol/cash_top_up.dart' as _i16;
+import 'package:child_client/src/protocol/ledger_entry.dart' as _i17;
+import 'package:child_client/src/protocol/balance_view.dart' as _i18;
+import 'package:child_client/src/protocol/ride.dart' as _i19;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i20;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i21;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i22;
+import 'package:child_client/src/protocol/ride_location.dart' as _i23;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i24;
+import 'protocol.dart' as _i25;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -231,14 +234,14 @@ class EndpointDirectory extends _i1.EndpointRef {
   _i2.Future<_i11.RouteTemplate> activateRoute({
     required int routeId,
     required int driverId,
-    required int pricePerRide,
+    required int pricePerRideTenge,
   }) => caller.callServerEndpoint<_i11.RouteTemplate>(
     'directory',
     'activateRoute',
     {
       'routeId': routeId,
       'driverId': driverId,
-      'pricePerRide': pricePerRide,
+      'pricePerRideTenge': pricePerRideTenge,
     },
   );
 
@@ -310,6 +313,58 @@ class EndpointDirectory extends _i1.EndpointRef {
       'body': body,
     },
   );
+
+  /// Приёмы наличных, ожидающие подтверждения.
+  _i2.Future<List<_i16.CashTopUp>> pendingTopUps() =>
+      caller.callServerEndpoint<List<_i16.CashTopUp>>(
+        'directory',
+        'pendingTopUps',
+        {},
+      );
+
+  /// Подтверждение приёма наличных: деньги попадают в книгу операций.
+  _i2.Future<_i17.LedgerEntry?> confirmTopUp(int topUpId) =>
+      caller.callServerEndpoint<_i17.LedgerEntry?>(
+        'directory',
+        'confirmTopUp',
+        {'topUpId': topUpId},
+      );
+
+  /// Отказ: денег не было или сумма неверна.
+  _i2.Future<_i16.CashTopUp> rejectTopUp({
+    required int topUpId,
+    required String reason,
+  }) => caller.callServerEndpoint<_i16.CashTopUp>(
+    'directory',
+    'rejectTopUp',
+    {
+      'topUpId': topUpId,
+      'reason': reason,
+    },
+  );
+
+  /// Корректировка баланса — только новой записью и только с причиной.
+  _i2.Future<_i17.LedgerEntry?> adjustBalance({
+    required int familyId,
+    required int amountTenge,
+    required String reason,
+  }) => caller.callServerEndpoint<_i17.LedgerEntry?>(
+    'directory',
+    'adjustBalance',
+    {
+      'familyId': familyId,
+      'amountTenge': amountTenge,
+      'reason': reason,
+    },
+  );
+
+  /// Баланс конкретной семьи для панели диспетчера.
+  _i2.Future<_i18.BalanceView> familyBalance(int familyId) =>
+      caller.callServerEndpoint<_i18.BalanceView>(
+        'directory',
+        'familyBalance',
+        {'familyId': familyId},
+      );
 }
 
 /// Данные вошедшего пользователя: семья и дети — родителю,
@@ -381,18 +436,18 @@ class EndpointRides extends _i1.EndpointRef {
       );
 
   /// Водитель подтверждает поездку: «завтра выйду».
-  _i2.Future<_i16.Ride> confirm(int rideId) =>
-      caller.callServerEndpoint<_i16.Ride>(
+  _i2.Future<_i19.Ride> confirm(int rideId) =>
+      caller.callServerEndpoint<_i19.Ride>(
         'rides',
         'confirm',
         {'rideId': rideId},
       );
 
   /// Водитель не может выйти: причина обязательна и уходит диспетчеру.
-  _i2.Future<_i16.Ride> decline(
+  _i2.Future<_i19.Ride> decline(
     int rideId,
     String reason,
-  ) => caller.callServerEndpoint<_i16.Ride>(
+  ) => caller.callServerEndpoint<_i19.Ride>(
     'rides',
     'decline',
     {
@@ -403,10 +458,10 @@ class EndpointRides extends _i1.EndpointRef {
 
   /// Принимает событие этапа поездки: «Выехал», «Забрал», «Передал» и так
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
-  _i2.Future<_i16.Ride> submitEvent(
+  _i2.Future<_i19.Ride> submitEvent(
     int rideId,
-    _i17.RideEventSubmission submission,
-  ) => caller.callServerEndpoint<_i16.Ride>(
+    _i20.RideEventSubmission submission,
+  ) => caller.callServerEndpoint<_i19.Ride>(
     'rides',
     'submitEvent',
     {
@@ -419,10 +474,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i18.TrackingState> pushLocations(
+  _i2.Future<_i21.TrackingState> pushLocations(
     int rideId,
-    List<_i19.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i18.TrackingState>(
+    List<_i22.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i21.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -437,6 +492,42 @@ class EndpointRides extends _i1.EndpointRef {
         'rides',
         'events',
         {'rideId': rideId},
+      );
+
+  /// Семьи из «круга» водителя — кому он может принять наличные.
+  _i2.Future<List<_i4.Family>> myFamilies() =>
+      caller.callServerEndpoint<List<_i4.Family>>(
+        'rides',
+        'myFamilies',
+        {},
+      );
+
+  /// Водитель принял наличные от родителя.
+  ///
+  /// Это ещё не зачисление: деньги попадут в книгу операций после
+  /// подтверждения диспетчером.
+  _i2.Future<_i16.CashTopUp> recordCashTopUp({
+    required int familyId,
+    required int amountTenge,
+    required bool hasSignature,
+    String? note,
+  }) => caller.callServerEndpoint<_i16.CashTopUp>(
+    'rides',
+    'recordCashTopUp',
+    {
+      'familyId': familyId,
+      'amountTenge': amountTenge,
+      'hasSignature': hasSignature,
+      'note': note,
+    },
+  );
+
+  /// Пополнения, которые водитель принял за последние дни.
+  _i2.Future<List<_i16.CashTopUp>> myCashTopUps() =>
+      caller.callServerEndpoint<List<_i16.CashTopUp>>(
+        'rides',
+        'myCashTopUps',
+        {},
       );
 
   /// Местная дата «завтра» по Ашхабаду: приложение не считает её само.
@@ -482,8 +573,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i20.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i20.RideLocation>>(
+  _i2.Future<List<_i23.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i23.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -493,14 +584,22 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i20.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i23.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i20.RideLocation>,
-        _i20.RideLocation
+        _i2.Stream<_i23.RideLocation>,
+        _i23.RideLocation
       >(
         'routes',
         'watchRideLocation',
         {'rideId': rideId},
+        {},
+      );
+
+  /// Баланс семьи: остаток, ожидающие пополнения и история операций.
+  _i2.Future<_i18.BalanceView> myBalance() =>
+      caller.callServerEndpoint<_i18.BalanceView>(
+        'routes',
+        'myBalance',
         {},
       );
 
@@ -546,8 +645,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i21.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i21.ServerHealth>(
+  _i2.Future<_i24.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i24.ServerHealth>(
         'health',
         'ping',
         {},
@@ -574,7 +673,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i22.Protocol(),
+         _i25.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

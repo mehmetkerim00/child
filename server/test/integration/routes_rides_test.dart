@@ -75,7 +75,7 @@ void main() {
       // Родитель мог бы попробовать назначить водителя и цену сам —
       // сервер обязан их сбросить.
       driverId: driver.id,
-      pricePerRide: 999,
+      pricePerRideTenge: 999,
       active: true,
     );
 
@@ -84,7 +84,7 @@ void main() {
 
       expect(created.active, isFalse);
       expect(created.driverId, isNull);
-      expect(created.pricePerRide, 0);
+      expect(created.pricePerRideTenge, 0);
       expect(await endpoints.routes.myRoutes(asParent), hasLength(1));
     });
 
@@ -114,12 +114,12 @@ void main() {
         asDispatcher,
         routeId: requested.id!,
         driverId: driver.id!,
-        pricePerRide: 35,
+        pricePerRideTenge: 35,
       );
 
       expect(activated.active, isTrue);
       expect(activated.driverId, driver.id);
-      expect(activated.pricePerRide, 35);
+      expect(activated.pricePerRideTenge, 35);
 
       // Поездки созданы на сегодня и завтра по Ашхабаду.
       final rides = await Ride.db.find(session);
@@ -136,7 +136,7 @@ void main() {
         asDispatcher,
         routeId: requested.id!,
         driverId: driver.id!,
-        pricePerRide: 35,
+        pricePerRideTenge: 35,
       );
       final ride = (await endpoints.rides.tomorrow(asDriver)).single.ride;
 
@@ -158,7 +158,7 @@ void main() {
         asDispatcher,
         routeId: requested.id!,
         driverId: driver.id!,
-        pricePerRide: 35,
+        pricePerRideTenge: 35,
       );
       final ride = (await endpoints.rides.tomorrow(asDriver)).single.ride;
 

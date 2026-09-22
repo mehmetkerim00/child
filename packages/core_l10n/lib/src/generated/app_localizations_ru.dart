@@ -580,4 +580,74 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get smsConsoleSent => 'SMS поставлена в очередь';
+
+  @override
+  String get parentBalanceTitle => 'Баланс';
+
+  @override
+  String get balanceCurrent => 'Остаток';
+
+  @override
+  String get balancePending => 'Ожидает подтверждения';
+
+  @override
+  String get balanceLowWarning =>
+      'Денег меньше чем на три поездки — пора пополнить';
+
+  @override
+  String get balanceHowTo =>
+      'Как пополнить: передайте наличные водителю или диспетчеру. Водитель отметит приём в приложении, диспетчер подтвердит — деньги появятся на балансе.';
+
+  @override
+  String balanceManat(String amount) {
+    return '$amount манат';
+  }
+
+  @override
+  String get ledgerCashTopup => 'Пополнение наличными';
+
+  @override
+  String get ledgerRideCharge => 'Поездка';
+
+  @override
+  String get ledgerAdjust => 'Корректировка';
+
+  @override
+  String get driverCashTitle => 'Наличные';
+
+  @override
+  String get driverCashAccept => 'Принять пополнение';
+
+  @override
+  String get driverCashFamily => 'Семья';
+
+  @override
+  String get driverCashAmount => 'Сумма, манатов';
+
+  @override
+  String get driverCashSignature => 'Подпись родителя';
+
+  @override
+  String get driverCashPending => 'Ждёт подтверждения диспетчера';
+
+  @override
+  String get driverCashConfirmed => 'Подтверждено';
+
+  @override
+  String get driverCashRejected => 'Отклонено';
+
+  @override
+  String get dispatcherTopUpsTitle => 'Пополнения';
+
+  @override
+  String get dispatcherConfirm => 'Подтвердить';
+
+  @override
+  String get dispatcherReject => 'Отклонить';
+
+  @override
+  String get dispatcherRejectReason => 'Причина отказа';
+
+  @override
+  String get moneyTab => 'Деньги';
 }

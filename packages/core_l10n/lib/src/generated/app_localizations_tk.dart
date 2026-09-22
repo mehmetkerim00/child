@@ -579,4 +579,73 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get smsConsoleSent => 'SMS nobata goýuldy';
+
+  @override
+  String get parentBalanceTitle => 'Balans';
+
+  @override
+  String get balanceCurrent => 'Galyndy';
+
+  @override
+  String get balancePending => 'Tassyklanmagyna garaşýar';
+
+  @override
+  String get balanceLowWarning => 'Üç ýoldan az pul galdy — doldurmaly';
+
+  @override
+  String get balanceHowTo =>
+      'Nädip doldurmaly: nagt puly sürüjä ýa-da dispetçere beriň. Sürüji kabul edenini belleýär, dispetçer tassyklaýar — pul balansda peýda bolýar.';
+
+  @override
+  String balanceManat(String amount) {
+    return '$amount manat';
+  }
+
+  @override
+  String get ledgerCashTopup => 'Nagt bilen doldurmak';
+
+  @override
+  String get ledgerRideCharge => 'Ýol';
+
+  @override
+  String get ledgerAdjust => 'Düzediş';
+
+  @override
+  String get driverCashTitle => 'Nagt pul';
+
+  @override
+  String get driverCashAccept => 'Doldurmany kabul et';
+
+  @override
+  String get driverCashFamily => 'Maşgala';
+
+  @override
+  String get driverCashAmount => 'Möçberi, manat';
+
+  @override
+  String get driverCashSignature => 'Ene-atanyň goly';
+
+  @override
+  String get driverCashPending => 'Dispetçeriň tassyklamasyna garaşýar';
+
+  @override
+  String get driverCashConfirmed => 'Tassyklandy';
+
+  @override
+  String get driverCashRejected => 'Ret edildi';
+
+  @override
+  String get dispatcherTopUpsTitle => 'Doldurmalar';
+
+  @override
+  String get dispatcherConfirm => 'Tassykla';
+
+  @override
+  String get dispatcherReject => 'Ret et';
+
+  @override
+  String get dispatcherRejectReason => 'Ret etmegiň sebäbi';
+
+  @override
+  String get moneyTab => 'Pul';
 }

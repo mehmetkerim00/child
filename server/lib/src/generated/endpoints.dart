@@ -439,8 +439,8 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<int>(),
               nullable: false,
             ),
-            'pricePerRide': _i1.ParameterDescription(
-              name: 'pricePerRide',
+            'pricePerRideTenge': _i1.ParameterDescription(
+              name: 'pricePerRideTenge',
               type: _i1.getType<int>(),
               nullable: false,
             ),
@@ -454,7 +454,7 @@ class Endpoints extends _i1.EndpointDispatch {
                     session,
                     routeId: params['routeId'],
                     driverId: params['driverId'],
-                    pricePerRide: params['pricePerRide'],
+                    pricePerRideTenge: params['pricePerRideTenge'],
                   ),
         ),
         'deactivateRoute': _i1.MethodConnector(
@@ -586,6 +586,110 @@ class Endpoints extends _i1.EndpointDispatch {
                     session,
                     phone: params['phone'],
                     body: params['body'],
+                  ),
+        ),
+        'pendingTopUps': _i1.MethodConnector(
+          name: 'pendingTopUps',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .pendingTopUps(session),
+        ),
+        'confirmTopUp': _i1.MethodConnector(
+          name: 'confirmTopUp',
+          params: {
+            'topUpId': _i1.ParameterDescription(
+              name: 'topUpId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .confirmTopUp(
+                    session,
+                    params['topUpId'],
+                  ),
+        ),
+        'rejectTopUp': _i1.MethodConnector(
+          name: 'rejectTopUp',
+          params: {
+            'topUpId': _i1.ParameterDescription(
+              name: 'topUpId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'reason': _i1.ParameterDescription(
+              name: 'reason',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['directory'] as _i4.DirectoryEndpoint).rejectTopUp(
+                    session,
+                    topUpId: params['topUpId'],
+                    reason: params['reason'],
+                  ),
+        ),
+        'adjustBalance': _i1.MethodConnector(
+          name: 'adjustBalance',
+          params: {
+            'familyId': _i1.ParameterDescription(
+              name: 'familyId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'amountTenge': _i1.ParameterDescription(
+              name: 'amountTenge',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'reason': _i1.ParameterDescription(
+              name: 'reason',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .adjustBalance(
+                    session,
+                    familyId: params['familyId'],
+                    amountTenge: params['amountTenge'],
+                    reason: params['reason'],
+                  ),
+        ),
+        'familyBalance': _i1.MethodConnector(
+          name: 'familyBalance',
+          params: {
+            'familyId': _i1.ParameterDescription(
+              name: 'familyId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .familyBalance(
+                    session,
+                    params['familyId'],
                   ),
         ),
       },
@@ -770,6 +874,64 @@ class Endpoints extends _i1.EndpointDispatch {
                 params['rideId'],
               ),
         ),
+        'myFamilies': _i1.MethodConnector(
+          name: 'myFamilies',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['rides'] as _i6.RidesEndpoint).myFamilies(session),
+        ),
+        'recordCashTopUp': _i1.MethodConnector(
+          name: 'recordCashTopUp',
+          params: {
+            'familyId': _i1.ParameterDescription(
+              name: 'familyId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'amountTenge': _i1.ParameterDescription(
+              name: 'amountTenge',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'hasSignature': _i1.ParameterDescription(
+              name: 'hasSignature',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+            'note': _i1.ParameterDescription(
+              name: 'note',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['rides'] as _i6.RidesEndpoint).recordCashTopUp(
+                    session,
+                    familyId: params['familyId'],
+                    amountTenge: params['amountTenge'],
+                    hasSignature: params['hasSignature'],
+                    note: params['note'],
+                  ),
+        ),
+        'myCashTopUps': _i1.MethodConnector(
+          name: 'myCashTopUps',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['rides'] as _i6.RidesEndpoint).myCashTopUps(
+                session,
+              ),
+        ),
         'tomorrowDate': _i1.MethodConnector(
           name: 'tomorrowDate',
           params: {},
@@ -850,6 +1012,17 @@ class Endpoints extends _i1.EndpointDispatch {
               ) async => (endpoints['routes'] as _i7.RoutesEndpoint).rideTrack(
                 session,
                 params['rideId'],
+              ),
+        ),
+        'myBalance': _i1.MethodConnector(
+          name: 'myBalance',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routes'] as _i7.RoutesEndpoint).myBalance(
+                session,
               ),
         ),
         'myNotifications': _i1.MethodConnector(

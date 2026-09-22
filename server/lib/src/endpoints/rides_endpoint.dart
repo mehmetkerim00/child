@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/money/ledger_service.dart';
 import '../services/rides/ride_flow.dart';
 import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -138,6 +139,67 @@ class RidesEndpoint extends Endpoint {
       session,
       where: (e) => e.rideId.equals(rideId),
       orderBy: (e) => e.at,
+    );
+  }
+
+  /// Семьи из «круга» водителя — кому он может принять наличные.
+  Future<List<Family>> myFamilies(Session session) async {
+    final driver = await session.requireDriver();
+    final circle = await FamilyCircle.db.find(
+      session,
+      where: (row) => row.driverId.equals(driver.id),
+    );
+    final ids = circle.map((row) => row.familyId).toSet();
+    if (ids.isEmpty) return [];
+    return Family.db.find(
+      session,
+      where: (row) => row.id.inSet(ids),
+      orderBy: (row) => row.name,
+    );
+  }
+
+  /// Водитель принял наличные от родителя.
+  ///
+  /// Это ещё не зачисление: деньги попадут в книгу операций после
+  /// подтверждения диспетчером.
+  Future<CashTopUp> recordCashTopUp(
+    Session session, {
+    required int familyId,
+    required int amountTenge,
+    bool hasSignature = false,
+    String? note,
+  }) async {
+    final driver = await session.requireDriver();
+
+    // Чужой семье наличные не принимаем.
+    final inCircle = await FamilyCircle.db.findFirstRow(
+      session,
+      where: (row) =>
+          row.driverId.equals(driver.id) & row.familyId.equals(familyId),
+    );
+    if (inCircle == null) {
+      throw Exception('Эта семья не закреплена за вами');
+    }
+
+    return LedgerService().recordCashTopUp(
+      session,
+      familyId: familyId,
+      driverId: driver.id!,
+      amountTenge: amountTenge,
+      hasSignature: hasSignature,
+      note: note,
+    );
+  }
+
+  /// Пополнения, которые водитель принял за последние дни.
+  Future<List<CashTopUp>> myCashTopUps(Session session) async {
+    final driver = await session.requireDriver();
+    return CashTopUp.db.find(
+      session,
+      where: (row) => row.driverId.equals(driver.id),
+      orderBy: (row) => row.createdAt,
+      orderDescending: true,
+      limit: 50,
     );
   }
 

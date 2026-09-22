@@ -1,0 +1,27 @@
+### Приём наличных водителем — заявка, а не деньги.
+###
+### Деньги попадают в книгу операций только после подтверждения
+### диспетчером: до этого сумма видна родителю как «ожидает подтверждения».
+### Сама заявка — рабочий документ, её статус меняется; книга операций
+### при этом остаётся неизменяемой.
+class: CashTopUp
+table: cash_top_up
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  driverId: int, relation(parent=driver, onDelete=Cascade)
+  ### Сумма в тенге (целое число).
+  amountTenge: int
+  ### Родитель расписался на экране водителя.
+  hasSignature: bool, default=false
+  note: String?
+  createdAt: DateTime, default=now
+  confirmedAt: DateTime?
+  ### Кто из диспетчеров подтвердил.
+  confirmedBy: int?, relation(parent=dispatcher_account, onDelete=SetNull)
+  rejectedAt: DateTime?
+  rejectReason: String?
+indexes:
+  cash_top_up_family_idx:
+    fields: familyId
+  cash_top_up_open_idx:
+    fields: confirmedAt

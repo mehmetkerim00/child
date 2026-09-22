@@ -52,7 +52,7 @@ void main() {
           fromAddress: 'ул. Героглы 1',
           direction: RouteDirection.toInstitution,
           driverId: driver.id,
-          pricePerRide: 30,
+          pricePerRideTenge: 30,
           active: active,
         ),
       );

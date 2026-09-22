@@ -1,6 +1,7 @@
 import 'package:core_l10n/core_l10n.dart';
 import 'package:flutter/material.dart';
 
+import '../balance/screens/balance_screen.dart';
 import '../home/screens/home_screen.dart';
 import '../notifications/screens/notifications_screen.dart';
 import '../routes/screens/routes_screen.dart';
@@ -22,7 +23,12 @@ class _ParentShellState extends State<ParentShell> {
     return Scaffold(
       body: IndexedStack(
         index: _tab,
-        children: const [HomeScreen(), RoutesScreen(), NotificationsScreen()],
+        children: const [
+          HomeScreen(),
+          RoutesScreen(),
+          BalanceScreen(),
+          NotificationsScreen(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
@@ -35,6 +41,10 @@ class _ParentShellState extends State<ParentShell> {
           NavigationDestination(
             icon: const Icon(Icons.route),
             label: l10n.parentRoutesTitle,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.account_balance_wallet),
+            label: l10n.parentBalanceTitle,
           ),
           NavigationDestination(
             icon: const Icon(Icons.notifications),

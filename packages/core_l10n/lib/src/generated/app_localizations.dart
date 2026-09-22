@@ -1195,6 +1195,138 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'SMS поставлена в очередь'**
   String get smsConsoleSent;
+
+  /// No description provided for @parentBalanceTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Баланс'**
+  String get parentBalanceTitle;
+
+  /// No description provided for @balanceCurrent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток'**
+  String get balanceCurrent;
+
+  /// No description provided for @balancePending.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидает подтверждения'**
+  String get balancePending;
+
+  /// No description provided for @balanceLowWarning.
+  ///
+  /// In ru, this message translates to:
+  /// **'Денег меньше чем на три поездки — пора пополнить'**
+  String get balanceLowWarning;
+
+  /// No description provided for @balanceHowTo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как пополнить: передайте наличные водителю или диспетчеру. Водитель отметит приём в приложении, диспетчер подтвердит — деньги появятся на балансе.'**
+  String get balanceHowTo;
+
+  /// No description provided for @balanceManat.
+  ///
+  /// In ru, this message translates to:
+  /// **'{amount} манат'**
+  String balanceManat(String amount);
+
+  /// No description provided for @ledgerCashTopup.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пополнение наличными'**
+  String get ledgerCashTopup;
+
+  /// No description provided for @ledgerRideCharge.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка'**
+  String get ledgerRideCharge;
+
+  /// No description provided for @ledgerAdjust.
+  ///
+  /// In ru, this message translates to:
+  /// **'Корректировка'**
+  String get ledgerAdjust;
+
+  /// No description provided for @driverCashTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Наличные'**
+  String get driverCashTitle;
+
+  /// No description provided for @driverCashAccept.
+  ///
+  /// In ru, this message translates to:
+  /// **'Принять пополнение'**
+  String get driverCashAccept;
+
+  /// No description provided for @driverCashFamily.
+  ///
+  /// In ru, this message translates to:
+  /// **'Семья'**
+  String get driverCashFamily;
+
+  /// No description provided for @driverCashAmount.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма, манатов'**
+  String get driverCashAmount;
+
+  /// No description provided for @driverCashSignature.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подпись родителя'**
+  String get driverCashSignature;
+
+  /// No description provided for @driverCashPending.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ждёт подтверждения диспетчера'**
+  String get driverCashPending;
+
+  /// No description provided for @driverCashConfirmed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждено'**
+  String get driverCashConfirmed;
+
+  /// No description provided for @driverCashRejected.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонено'**
+  String get driverCashRejected;
+
+  /// No description provided for @dispatcherTopUpsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пополнения'**
+  String get dispatcherTopUpsTitle;
+
+  /// No description provided for @dispatcherConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердить'**
+  String get dispatcherConfirm;
+
+  /// No description provided for @dispatcherReject.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонить'**
+  String get dispatcherReject;
+
+  /// No description provided for @dispatcherRejectReason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина отказа'**
+  String get dispatcherRejectReason;
+
+  /// No description provided for @moneyTab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Деньги'**
+  String get moneyTab;
 }
 
 class _AppLocalizationsDelegate

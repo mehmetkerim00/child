@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/money/ledger_service.dart';
 import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -34,7 +35,7 @@ class RoutesEndpoint extends Endpoint {
         id: null,
         // Водителя и цену назначает диспетчер при активации.
         driverId: null,
-        pricePerRide: 0,
+        pricePerRideTenge: 0,
         active: false,
         createdAt: DateTime.now().toUtc(),
       ),
@@ -108,6 +109,12 @@ class RoutesEndpoint extends Endpoint {
       throw Exception('Поездка не вашего ребёнка');
     }
     return ride;
+  }
+
+  /// Баланс семьи: остаток, ожидающие пополнения и история операций.
+  Future<BalanceView> myBalance(Session session) async {
+    final parent = await session.requireParent();
+    return LedgerService().balanceView(session, parent.familyId);
   }
 
   /// Лента уведомлений семьи: что и когда отправляли.

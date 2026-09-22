@@ -1,17 +1,28 @@
-### Операция по балансу семьи. Баланс = сумма операций.
+### Запись в книге операций семьи. Баланс = сумма всех записей.
+###
+### Книга только дописывается: записи никогда не меняются и не удаляются.
+### Ошибку исправляют новой корректирующей записью с причиной — так
+### видно и саму ошибку, и то, кто её исправил.
 class: LedgerEntry
 table: ledger_entry
 fields:
   familyId: int, relation(parent=family, onDelete=Cascade)
   type: LedgerEntryType
-  ### Сумма в манатах: пополнение — со знаком плюс, списание — минус.
-  amount: int
+  ### Сумма в тенге (минорных единицах маната, 1 манат = 100 тенге).
+  ### Только целые числа: дробная арифметика в деньгах недопустима.
+  ### Пополнение со знаком плюс, списание — минус.
+  amountTenge: int
   rideId: int?, relation(parent=ride, onDelete=SetNull)
   driverId: int?, relation(parent=driver, onDelete=SetNull)
+  ### Для корректировок причина обязательна.
   note: String?
-  ### Наличные подтверждает диспетчер.
-  confirmed: bool, default=false
+  ### Ключ идемпотентности: одна поездка списывается ровно один раз,
+  ### одно пополнение зачисляется ровно один раз.
+  dedupeKey: String
   createdAt: DateTime, default=now
 indexes:
   ledger_family_idx:
     fields: familyId
+  ledger_dedupe_idx:
+    fields: dedupeKey
+    unique: true

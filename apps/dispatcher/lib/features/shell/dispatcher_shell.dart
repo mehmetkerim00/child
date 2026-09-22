@@ -2,6 +2,7 @@ import 'package:core_l10n/core_l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../crud/screens/directory_screen.dart';
+import '../money/screens/top_ups_screen.dart';
 import '../routes/screens/routes_admin_screen.dart';
 import '../tasks/screens/tasks_screen.dart';
 import '../today_board/screens/today_board_screen.dart';
@@ -36,6 +37,7 @@ class _DispatcherShellState extends State<DispatcherShell> {
         children: const [
           TodayBoardScreen(),
           TasksScreen(),
+          TopUpsScreen(),
           RoutesAdminScreen(),
           DirectoryScreen(),
         ],
@@ -51,6 +53,10 @@ class _DispatcherShellState extends State<DispatcherShell> {
           NavigationDestination(
             icon: const Icon(Icons.assignment_late),
             label: l10n.dispatcherTasksTitle,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.payments),
+            label: l10n.dispatcherTopUpsTitle,
           ),
           NavigationDestination(
             icon: const Icon(Icons.route),

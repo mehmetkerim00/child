@@ -4,6 +4,8 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/money/ledger_service.dart';
+import 'session_subject.dart';
 import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_generator.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -165,7 +167,7 @@ class DirectoryEndpoint extends Endpoint {
     Session session, {
     required int routeId,
     required int driverId,
-    required int pricePerRide,
+    required int pricePerRideTenge,
   }) async {
     final route = await RouteTemplate.db.findById(session, routeId);
     if (route == null) throw Exception('Маршрут не найден');
@@ -174,7 +176,7 @@ class DirectoryEndpoint extends Endpoint {
       session,
       route.copyWith(
         driverId: driverId,
-        pricePerRide: pricePerRide,
+        pricePerRideTenge: pricePerRideTenge,
         active: true,
       ),
     );
@@ -258,4 +260,55 @@ class DirectoryEndpoint extends Endpoint {
     await service.processQueue(session);
     return row;
   }
+
+  // --- Деньги ---------------------------------------------------------------
+
+  /// Приёмы наличных, ожидающие подтверждения.
+  Future<List<CashTopUp>> pendingTopUps(Session session) => CashTopUp.db.find(
+    session,
+    where: (row) => row.confirmedAt.equals(null) & row.rejectedAt.equals(null),
+    orderBy: (row) => row.createdAt,
+  );
+
+  /// Подтверждение приёма наличных: деньги попадают в книгу операций.
+  Future<LedgerEntry?> confirmTopUp(Session session, int topUpId) async {
+    final dispatcherId = session.subjectIdFor(AccountRole.dispatcher);
+    return LedgerService().confirmCashTopUp(
+      session,
+      topUpId: topUpId,
+      dispatcherId: dispatcherId,
+    );
+  }
+
+  /// Отказ: денег не было или сумма неверна.
+  Future<CashTopUp> rejectTopUp(
+    Session session, {
+    required int topUpId,
+    required String reason,
+  }) {
+    return LedgerService().rejectCashTopUp(
+      session,
+      topUpId: topUpId,
+      reason: reason,
+    );
+  }
+
+  /// Корректировка баланса — только новой записью и только с причиной.
+  Future<LedgerEntry?> adjustBalance(
+    Session session, {
+    required int familyId,
+    required int amountTenge,
+    required String reason,
+  }) {
+    return LedgerService().adjust(
+      session,
+      familyId: familyId,
+      amountTenge: amountTenge,
+      reason: reason,
+    );
+  }
+
+  /// Баланс конкретной семьи для панели диспетчера.
+  Future<BalanceView> familyBalance(Session session, int familyId) =>
+      LedgerService().balanceView(session, familyId);
 }

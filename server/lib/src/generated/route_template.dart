@@ -30,10 +30,10 @@ abstract class RouteTemplate
     this.toAddress,
     required this.direction,
     this.driverId,
-    int? pricePerRide,
+    int? pricePerRideTenge,
     bool? active,
     DateTime? createdAt,
-  }) : pricePerRide = pricePerRide ?? 0,
+  }) : pricePerRideTenge = pricePerRideTenge ?? 0,
        active = active ?? false,
        createdAt = createdAt ?? DateTime.now();
 
@@ -49,7 +49,7 @@ abstract class RouteTemplate
     String? toAddress,
     required _i2.RouteDirection direction,
     int? driverId,
-    int? pricePerRide,
+    int? pricePerRideTenge,
     bool? active,
     DateTime? createdAt,
   }) = _RouteTemplateImpl;
@@ -71,7 +71,7 @@ abstract class RouteTemplate
         (jsonSerialization['direction'] as String),
       ),
       driverId: jsonSerialization['driverId'] as int?,
-      pricePerRide: jsonSerialization['pricePerRide'] as int?,
+      pricePerRideTenge: jsonSerialization['pricePerRideTenge'] as int?,
       active: jsonSerialization['active'] == null
           ? null
           : _i1.BoolJsonExtension.fromJson(jsonSerialization['active']),
@@ -110,7 +110,8 @@ abstract class RouteTemplate
 
   int? driverId;
 
-  int pricePerRide;
+  /// Цена поездки в тенге (целое число).
+  int pricePerRideTenge;
 
   /// false — заявка ждёт активации диспетчером.
   bool active;
@@ -135,7 +136,7 @@ abstract class RouteTemplate
     String? toAddress,
     _i2.RouteDirection? direction,
     int? driverId,
-    int? pricePerRide,
+    int? pricePerRideTenge,
     bool? active,
     DateTime? createdAt,
   });
@@ -154,7 +155,7 @@ abstract class RouteTemplate
       if (toAddress != null) 'toAddress': toAddress,
       'direction': direction.toJson(),
       if (driverId != null) 'driverId': driverId,
-      'pricePerRide': pricePerRide,
+      'pricePerRideTenge': pricePerRideTenge,
       'active': active,
       'createdAt': createdAt.toJson(),
     };
@@ -175,7 +176,7 @@ abstract class RouteTemplate
       if (toAddress != null) 'toAddress': toAddress,
       'direction': direction.toJson(),
       if (driverId != null) 'driverId': driverId,
-      'pricePerRide': pricePerRide,
+      'pricePerRideTenge': pricePerRideTenge,
       'active': active,
       'createdAt': createdAt.toJson(),
     };
@@ -226,7 +227,7 @@ class _RouteTemplateImpl extends RouteTemplate {
     String? toAddress,
     required _i2.RouteDirection direction,
     int? driverId,
-    int? pricePerRide,
+    int? pricePerRideTenge,
     bool? active,
     DateTime? createdAt,
   }) : super._(
@@ -241,7 +242,7 @@ class _RouteTemplateImpl extends RouteTemplate {
          toAddress: toAddress,
          direction: direction,
          driverId: driverId,
-         pricePerRide: pricePerRide,
+         pricePerRideTenge: pricePerRideTenge,
          active: active,
          createdAt: createdAt,
        );
@@ -262,7 +263,7 @@ class _RouteTemplateImpl extends RouteTemplate {
     Object? toAddress = _Undefined,
     _i2.RouteDirection? direction,
     Object? driverId = _Undefined,
-    int? pricePerRide,
+    int? pricePerRideTenge,
     bool? active,
     DateTime? createdAt,
   }) {
@@ -280,7 +281,7 @@ class _RouteTemplateImpl extends RouteTemplate {
       toAddress: toAddress is String? ? toAddress : this.toAddress,
       direction: direction ?? this.direction,
       driverId: driverId is int? ? driverId : this.driverId,
-      pricePerRide: pricePerRide ?? this.pricePerRide,
+      pricePerRideTenge: pricePerRideTenge ?? this.pricePerRideTenge,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -343,8 +344,8 @@ class RouteTemplateUpdateTable extends _i1.UpdateTable<RouteTemplateTable> {
     value,
   );
 
-  _i1.ColumnValue<int, int> pricePerRide(int value) => _i1.ColumnValue(
-    table.pricePerRide,
+  _i1.ColumnValue<int, int> pricePerRideTenge(int value) => _i1.ColumnValue(
+    table.pricePerRideTenge,
     value,
   );
 
@@ -405,8 +406,8 @@ class RouteTemplateTable extends _i1.Table<int?> {
       'driverId',
       this,
     );
-    pricePerRide = _i1.ColumnInt(
-      'pricePerRide',
+    pricePerRideTenge = _i1.ColumnInt(
+      'pricePerRideTenge',
       this,
       hasDefault: true,
     );
@@ -446,7 +447,8 @@ class RouteTemplateTable extends _i1.Table<int?> {
 
   late final _i1.ColumnInt driverId;
 
-  late final _i1.ColumnInt pricePerRide;
+  /// Цена поездки в тенге (целое число).
+  late final _i1.ColumnInt pricePerRideTenge;
 
   /// false — заявка ждёт активации диспетчером.
   late final _i1.ColumnBool active;
@@ -466,7 +468,7 @@ class RouteTemplateTable extends _i1.Table<int?> {
     toAddress,
     direction,
     driverId,
-    pricePerRide,
+    pricePerRideTenge,
     active,
     createdAt,
   ];

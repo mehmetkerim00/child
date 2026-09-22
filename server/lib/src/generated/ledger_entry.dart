@@ -14,31 +14,34 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'ledger_entry_type.dart' as _i2;
 
-/// Операция по балансу семьи. Баланс = сумма операций.
+/// Запись в книге операций семьи. Баланс = сумма всех записей.
+///
+/// Книга только дописывается: записи никогда не меняются и не удаляются.
+/// Ошибку исправляют новой корректирующей записью с причиной — так
+/// видно и саму ошибку, и то, кто её исправил.
 abstract class LedgerEntry
     implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   LedgerEntry._({
     this.id,
     required this.familyId,
     required this.type,
-    required this.amount,
+    required this.amountTenge,
     this.rideId,
     this.driverId,
     this.note,
-    bool? confirmed,
+    required this.dedupeKey,
     DateTime? createdAt,
-  }) : confirmed = confirmed ?? false,
-       createdAt = createdAt ?? DateTime.now();
+  }) : createdAt = createdAt ?? DateTime.now();
 
   factory LedgerEntry({
     int? id,
     required int familyId,
     required _i2.LedgerEntryType type,
-    required int amount,
+    required int amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    required String dedupeKey,
     DateTime? createdAt,
   }) = _LedgerEntryImpl;
 
@@ -47,13 +50,11 @@ abstract class LedgerEntry
       id: jsonSerialization['id'] as int?,
       familyId: jsonSerialization['familyId'] as int,
       type: _i2.LedgerEntryType.fromJson((jsonSerialization['type'] as String)),
-      amount: jsonSerialization['amount'] as int,
+      amountTenge: jsonSerialization['amountTenge'] as int,
       rideId: jsonSerialization['rideId'] as int?,
       driverId: jsonSerialization['driverId'] as int?,
       note: jsonSerialization['note'] as String?,
-      confirmed: jsonSerialization['confirmed'] == null
-          ? null
-          : _i1.BoolJsonExtension.fromJson(jsonSerialization['confirmed']),
+      dedupeKey: jsonSerialization['dedupeKey'] as String,
       createdAt: jsonSerialization['createdAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['createdAt']),
@@ -71,17 +72,21 @@ abstract class LedgerEntry
 
   _i2.LedgerEntryType type;
 
-  /// Сумма в манатах: пополнение — со знаком плюс, списание — минус.
-  int amount;
+  /// Сумма в тенге (минорных единицах маната, 1 манат = 100 тенге).
+  /// Только целые числа: дробная арифметика в деньгах недопустима.
+  /// Пополнение со знаком плюс, списание — минус.
+  int amountTenge;
 
   int? rideId;
 
   int? driverId;
 
+  /// Для корректировок причина обязательна.
   String? note;
 
-  /// Наличные подтверждает диспетчер.
-  bool confirmed;
+  /// Ключ идемпотентности: одна поездка списывается ровно один раз,
+  /// одно пополнение зачисляется ровно один раз.
+  String dedupeKey;
 
   DateTime createdAt;
 
@@ -95,11 +100,11 @@ abstract class LedgerEntry
     int? id,
     int? familyId,
     _i2.LedgerEntryType? type,
-    int? amount,
+    int? amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    String? dedupeKey,
     DateTime? createdAt,
   });
   @override
@@ -109,11 +114,11 @@ abstract class LedgerEntry
       if (id != null) 'id': id,
       'familyId': familyId,
       'type': type.toJson(),
-      'amount': amount,
+      'amountTenge': amountTenge,
       if (rideId != null) 'rideId': rideId,
       if (driverId != null) 'driverId': driverId,
       if (note != null) 'note': note,
-      'confirmed': confirmed,
+      'dedupeKey': dedupeKey,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -125,11 +130,11 @@ abstract class LedgerEntry
       if (id != null) 'id': id,
       'familyId': familyId,
       'type': type.toJson(),
-      'amount': amount,
+      'amountTenge': amountTenge,
       if (rideId != null) 'rideId': rideId,
       if (driverId != null) 'driverId': driverId,
       if (note != null) 'note': note,
-      'confirmed': confirmed,
+      'dedupeKey': dedupeKey,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -171,21 +176,21 @@ class _LedgerEntryImpl extends LedgerEntry {
     int? id,
     required int familyId,
     required _i2.LedgerEntryType type,
-    required int amount,
+    required int amountTenge,
     int? rideId,
     int? driverId,
     String? note,
-    bool? confirmed,
+    required String dedupeKey,
     DateTime? createdAt,
   }) : super._(
          id: id,
          familyId: familyId,
          type: type,
-         amount: amount,
+         amountTenge: amountTenge,
          rideId: rideId,
          driverId: driverId,
          note: note,
-         confirmed: confirmed,
+         dedupeKey: dedupeKey,
          createdAt: createdAt,
        );
 
@@ -197,22 +202,22 @@ class _LedgerEntryImpl extends LedgerEntry {
     Object? id = _Undefined,
     int? familyId,
     _i2.LedgerEntryType? type,
-    int? amount,
+    int? amountTenge,
     Object? rideId = _Undefined,
     Object? driverId = _Undefined,
     Object? note = _Undefined,
-    bool? confirmed,
+    String? dedupeKey,
     DateTime? createdAt,
   }) {
     return LedgerEntry(
       id: id is int? ? id : this.id,
       familyId: familyId ?? this.familyId,
       type: type ?? this.type,
-      amount: amount ?? this.amount,
+      amountTenge: amountTenge ?? this.amountTenge,
       rideId: rideId is int? ? rideId : this.rideId,
       driverId: driverId is int? ? driverId : this.driverId,
       note: note is String? ? note : this.note,
-      confirmed: confirmed ?? this.confirmed,
+      dedupeKey: dedupeKey ?? this.dedupeKey,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -233,8 +238,8 @@ class LedgerEntryUpdateTable extends _i1.UpdateTable<LedgerEntryTable> {
     value,
   );
 
-  _i1.ColumnValue<int, int> amount(int value) => _i1.ColumnValue(
-    table.amount,
+  _i1.ColumnValue<int, int> amountTenge(int value) => _i1.ColumnValue(
+    table.amountTenge,
     value,
   );
 
@@ -253,8 +258,8 @@ class LedgerEntryUpdateTable extends _i1.UpdateTable<LedgerEntryTable> {
     value,
   );
 
-  _i1.ColumnValue<bool, bool> confirmed(bool value) => _i1.ColumnValue(
-    table.confirmed,
+  _i1.ColumnValue<String, String> dedupeKey(String value) => _i1.ColumnValue(
+    table.dedupeKey,
     value,
   );
 
@@ -277,8 +282,8 @@ class LedgerEntryTable extends _i1.Table<int?> {
       this,
       _i1.EnumSerialization.byName,
     );
-    amount = _i1.ColumnInt(
-      'amount',
+    amountTenge = _i1.ColumnInt(
+      'amountTenge',
       this,
     );
     rideId = _i1.ColumnInt(
@@ -293,10 +298,9 @@ class LedgerEntryTable extends _i1.Table<int?> {
       'note',
       this,
     );
-    confirmed = _i1.ColumnBool(
-      'confirmed',
+    dedupeKey = _i1.ColumnString(
+      'dedupeKey',
       this,
-      hasDefault: true,
     );
     createdAt = _i1.ColumnDateTime(
       'createdAt',
@@ -311,17 +315,21 @@ class LedgerEntryTable extends _i1.Table<int?> {
 
   late final _i1.ColumnEnum<_i2.LedgerEntryType> type;
 
-  /// Сумма в манатах: пополнение — со знаком плюс, списание — минус.
-  late final _i1.ColumnInt amount;
+  /// Сумма в тенге (минорных единицах маната, 1 манат = 100 тенге).
+  /// Только целые числа: дробная арифметика в деньгах недопустима.
+  /// Пополнение со знаком плюс, списание — минус.
+  late final _i1.ColumnInt amountTenge;
 
   late final _i1.ColumnInt rideId;
 
   late final _i1.ColumnInt driverId;
 
+  /// Для корректировок причина обязательна.
   late final _i1.ColumnString note;
 
-  /// Наличные подтверждает диспетчер.
-  late final _i1.ColumnBool confirmed;
+  /// Ключ идемпотентности: одна поездка списывается ровно один раз,
+  /// одно пополнение зачисляется ровно один раз.
+  late final _i1.ColumnString dedupeKey;
 
   late final _i1.ColumnDateTime createdAt;
 
@@ -330,11 +338,11 @@ class LedgerEntryTable extends _i1.Table<int?> {
     id,
     familyId,
     type,
-    amount,
+    amountTenge,
     rideId,
     driverId,
     note,
-    confirmed,
+    dedupeKey,
     createdAt,
   ];
 }

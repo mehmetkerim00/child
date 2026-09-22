@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' as domain;
 import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
+import '../money/ledger_service.dart';
 import '../notifications/notification_service.dart';
 
 /// Применение событий поездки на сервере.
@@ -41,6 +42,7 @@ abstract final class RideFlow {
     required String codeWord,
     required String institutionCode,
     NotificationService? notifications,
+    LedgerService? ledger,
   }) async {
     final existing = await RideEvent.db.findFirstRow(
       session,
@@ -119,6 +121,12 @@ abstract final class RideFlow {
             : ride.driverId,
       ),
     );
+
+    // Поездка состоялась — списываем её стоимость. Повторные события
+    // «передал» ничего не спишут: ключ идемпотентности один на поездку.
+    if (nextStatus == RideStatus.handedOver) {
+      await (ledger ?? LedgerService()).chargeRide(session, updated);
+    }
 
     // Родитель узнаёт о каждом этапе: push, а критические события —
     // ещё и SMS (MVP_PLAN §6).
