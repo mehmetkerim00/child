@@ -12,12 +12,14 @@ void main() {
           locale: locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: childLocalizationsDelegates,
-          home: Builder(builder: (context) {
-            l10n = context.l10n;
-            // Системные строки Material доступны и для tk (через фолбэк).
-            MaterialLocalizations.of(context);
-            return const SizedBox();
-          }),
+          home: Builder(
+            builder: (context) {
+              l10n = context.l10n;
+              // Системные строки Material доступны и для tk (через фолбэк).
+              MaterialLocalizations.of(context);
+              return const SizedBox();
+            },
+          ),
         ),
       );
       for (final status in RideStatus.values) {

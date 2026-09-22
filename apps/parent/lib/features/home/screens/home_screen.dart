@@ -24,9 +24,17 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: ChildSpacing.m),
           const ServerStatusSection(),
           const SizedBox(height: ChildSpacing.xl),
-          Icon(Icons.directions_car_outlined, size: 64, color: Theme.of(context).colorScheme.outline),
+          Icon(
+            Icons.directions_car_outlined,
+            size: 64,
+            color: Theme.of(context).colorScheme.outline,
+          ),
           const SizedBox(height: ChildSpacing.s),
-          Text(l10n.parentTodayEmpty, textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            l10n.parentTodayEmpty,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ],
       ),
     );

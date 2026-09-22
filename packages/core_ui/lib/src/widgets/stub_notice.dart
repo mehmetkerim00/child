@@ -22,7 +22,10 @@ class StubNotice extends StatelessWidget {
           Icon(Icons.construction, color: scheme.onSecondaryContainer),
           const SizedBox(width: ChildSpacing.s),
           Expanded(
-            child: Text(text, style: TextStyle(color: scheme.onSecondaryContainer)),
+            child: Text(
+              text,
+              style: TextStyle(color: scheme.onSecondaryContainer),
+            ),
           ),
         ],
       ),

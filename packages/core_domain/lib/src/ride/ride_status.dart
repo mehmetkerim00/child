@@ -27,7 +27,9 @@ enum RideStatus {
 
   /// Поездка завершена, дальнейших переходов нет.
   bool get isTerminal =>
-      this == handedOver || this == cancelledByFamily || this == cancelledNoDriver;
+      this == handedOver ||
+      this == cancelledByFamily ||
+      this == cancelledNoDriver;
 
   /// Отклонение от основного пути (задержка, отмена, замена водителя).
   bool get isException => !happyPath.contains(this);

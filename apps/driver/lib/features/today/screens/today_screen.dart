@@ -30,9 +30,9 @@ class TodayScreen extends StatelessWidget {
               BigActionButton(
                 label: l10n.driverActionDeparted,
                 icon: Icons.directions_car,
-                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.driverStubAction)),
-                ),
+                onPressed: () => ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(l10n.driverStubAction))),
               ),
             ],
           ),

@@ -22,7 +22,9 @@ class StatusColumn extends StatelessWidget {
       width: 220,
       margin: const EdgeInsets.only(right: ChildSpacing.m),
       decoration: BoxDecoration(
-        color: isProblem ? ChildColors.danger.withValues(alpha: 0.08) : theme.colorScheme.surfaceContainerHighest,
+        color: isProblem
+            ? ChildColors.danger.withValues(alpha: 0.08)
+            : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(ChildRadius.card),
         border: Border(top: BorderSide(color: accent, width: 4)),
       ),
@@ -30,9 +32,17 @@ class StatusColumn extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: theme.textTheme.titleMedium?.copyWith(color: accent)),
+          Text(
+            title,
+            style: theme.textTheme.titleMedium?.copyWith(color: accent),
+          ),
           const SizedBox(height: ChildSpacing.m),
-          Text(emptyText, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline)),
+          Text(
+            emptyText,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.outline,
+            ),
+          ),
         ],
       ),
     );

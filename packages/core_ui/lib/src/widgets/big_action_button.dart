@@ -28,7 +28,10 @@ class BigActionButton extends StatelessWidget {
         icon: icon == null ? null : Icon(icon, size: 32),
         label: Text(label, style: ChildTypography.driverAction),
         style: FilledButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: ChildSpacing.m, horizontal: ChildSpacing.l),
+          padding: const EdgeInsets.symmetric(
+            vertical: ChildSpacing.m,
+            horizontal: ChildSpacing.l,
+          ),
         ),
       ),
     );

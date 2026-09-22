@@ -29,12 +29,19 @@ abstract final class ChildTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         color: scheme.surfaceContainerHighest,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ChildRadius.card)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ChildRadius.card),
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size(ChildSizes.minTapTarget, ChildSizes.minTapTarget),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ChildRadius.button)),
+          minimumSize: const Size(
+            ChildSizes.minTapTarget,
+            ChildSizes.minTapTarget,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ChildRadius.button),
+          ),
         ),
       ),
     );

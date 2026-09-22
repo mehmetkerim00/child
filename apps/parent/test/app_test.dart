@@ -6,12 +6,18 @@ import 'package:parent/app.dart';
 
 /// Смоук-тест: приложение стартует с заглушкой сервера и меняет язык.
 void main() {
-  testWidgets('стартует, показывает статус сервера и переключает язык', (tester) async {
+  testWidgets('стартует, показывает статус сервера и переключает язык', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           serverHealthProvider.overrideWith(
-            (ref) async => ServerHealth(status: 'ok', serverVersion: '0.0.0-test', serverTime: DateTime.utc(2026)),
+            (ref) async => ServerHealth(
+              status: 'ok',
+              serverVersion: '0.0.0-test',
+              serverTime: DateTime.utc(2026),
+            ),
           ),
         ],
         child: const App(),

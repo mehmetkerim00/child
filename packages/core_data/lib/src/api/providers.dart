@@ -4,7 +4,9 @@ import 'package:riverpod/riverpod.dart';
 import '../config/app_config.dart';
 
 /// Конфигурация сборки. В тестах переопределяется через ProviderScope.
-final appConfigProvider = Provider<AppConfig>((ref) => AppConfig.fromEnvironment());
+final appConfigProvider = Provider<AppConfig>(
+  (ref) => AppConfig.fromEnvironment(),
+);
 
 /// Клиент Serverpod — единая точка доступа к API.
 final apiClientProvider = Provider<Client>((ref) {

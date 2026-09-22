@@ -17,7 +17,9 @@ class TodayBoardScreen extends StatelessWidget {
     final l10n = context.l10n;
     // Колонки основного пути (без «запланирована» — она в проблемах, пока
     // водитель не подтвердил) + колонка исключений.
-    final columns = RideStatus.happyPath.where((s) => s != RideStatus.scheduled);
+    final columns = RideStatus.happyPath.where(
+      (s) => s != RideStatus.scheduled,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.dispatcherBoardTitle),
@@ -36,12 +38,16 @@ class TodayBoardScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 StatusColumn(
-                  title: '${l10n.rideStatus(RideStatus.scheduled)} · ${l10n.rideStatus(RideStatus.delayed)}',
+                  title:
+                      '${l10n.rideStatus(RideStatus.scheduled)} · ${l10n.rideStatus(RideStatus.delayed)}',
                   emptyText: l10n.dispatcherBoardEmpty,
                   isProblem: true,
                 ),
                 for (final status in columns)
-                  StatusColumn(title: l10n.rideStatus(status), emptyText: l10n.dispatcherBoardEmpty),
+                  StatusColumn(
+                    title: l10n.rideStatus(status),
+                    emptyText: l10n.dispatcherBoardEmpty,
+                  ),
               ],
             ),
           ),

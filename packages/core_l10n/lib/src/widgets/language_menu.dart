@@ -14,7 +14,8 @@ class LanguageMenu extends ConsumerWidget {
     return PopupMenuButton<Locale>(
       icon: const Icon(Icons.translate),
       tooltip: l10n.language,
-      onSelected: (locale) => ref.read(appLocaleProvider.notifier).state = locale,
+      onSelected: (locale) =>
+          ref.read(appLocaleProvider.notifier).state = locale,
       itemBuilder: (context) => [
         PopupMenuItem(value: const Locale('ru'), child: Text(l10n.languageRu)),
         PopupMenuItem(value: const Locale('tk'), child: Text(l10n.languageTk)),

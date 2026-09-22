@@ -14,7 +14,10 @@ class ServerStatusSection extends ConsumerWidget {
     final l10n = context.l10n;
     final health = ref.watch(serverHealthProvider);
     final (status, message) = switch (health) {
-      AsyncData(:final value) => (ServerStatus.ok, l10n.serverOk(value.serverVersion)),
+      AsyncData(:final value) => (
+        ServerStatus.ok,
+        l10n.serverOk(value.serverVersion),
+      ),
       AsyncError() => (ServerStatus.unavailable, l10n.serverUnavailable),
       _ => (ServerStatus.checking, l10n.serverChecking),
     };
