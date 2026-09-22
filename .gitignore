@@ -1,0 +1,11 @@
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.DS_Store
+pubspec_overrides.yaml
+# секреты сервера
+server/config/passwords.yaml
+server/config/firebase_service_account_key.json

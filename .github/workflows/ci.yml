@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  analyze-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.10'
+          cache: true
+      - run: dart pub global activate melos 8.9.0
+      - run: flutter pub get
+      - run: melos run analyze
+      - run: melos run test
+
+  server-test:
+    runs-on: ubuntu-latest
+    env:
+      SERVERPOD_PASSWORD_database: 'child_test_password'
+      SERVERPOD_PASSWORD_redis: 'child_test_redis'
+      SERVERPOD_PASSWORD_jwtHmacSha512PrivateKey: 'child_test_jwt_key'
+      SERVERPOD_PASSWORD_jwtRefreshTokenHashPepper: 'child_test_jwt_pepper'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.10'
+          cache: true
+      - name: Postgres для тестов
+        working-directory: server
+        run: docker compose up -d --quiet-pull postgres_test redis_test
+      - run: flutter pub get
+      - name: Тесты сервера
+        working-directory: server
+        run: dart test
+      - if: always()
+        working-directory: server
+        run: docker compose down -v
+
+  build-apk:
+    runs-on: ubuntu-latest
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.10'
+          cache: true
+      - run: flutter pub get
+      - name: APK родителя
+        working-directory: apps/parent
+        run: flutter build apk --debug --dart-define=FLAVOR=dev
+      - name: APK водителя
+        working-directory: apps/driver
+        run: flutter build apk --debug --dart-define=FLAVOR=dev
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-debug
+          path: |
+            apps/parent/build/app/outputs/flutter-apk/app-debug.apk
+            apps/driver/build/app/outputs/flutter-apk/app-debug.apk

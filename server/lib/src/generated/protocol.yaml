@@ -1,0 +1,4 @@
+jwtRefresh:
+  - refreshAccessToken:
+health:
+  - ping:

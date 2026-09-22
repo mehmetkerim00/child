@@ -1,0 +1,28 @@
+name: core_l10n
+description: Общие строки UI (ru/tk) для всех приложений проекта child.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  core_domain:
+    path: ../core_domain
+  flutter_riverpod: ^2.6.1
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  generate: true

@@ -1,0 +1,10 @@
+### Ответ проверки связи с сервером.
+class: ServerHealth
+
+fields:
+  ### Всегда "ok", если сервер ответил.
+  status: String
+  ### Версия бэкенда (для проверки «доступна новая версия» в будущем).
+  serverVersion: String
+  ### Время сервера (UTC).
+  serverTime: DateTime

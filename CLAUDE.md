@@ -16,9 +16,11 @@
   что дальше) → коммит. Не делать всё сразу.
 
 ## Команды
-- melos bootstrap — установка зависимостей
-- melos run analyze / melos run test
-- cd server && docker compose up -d && dart bin/main.dart — бэкенд локально
+- flutter pub get — зависимости всего монорепо (pub workspace)
+- melos run analyze / melos run test — анализ и тесты
+- melos run generate:server — код Serverpod (модели, эндпоинты, клиент)
+- ./tools/dev_up.sh — PostgreSQL + бэкенд локально (API на :8180)
+- melos run test:server — тесты сервера (тестовая база на :9090)
 
 ## Работа с заказчиком (постоянные правила)
 - Работай автономно: не задавай вопросов, если ответ есть в MVP_PLAN.md или

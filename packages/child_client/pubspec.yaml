@@ -1,0 +1,12 @@
+name: child_client
+description: Клиент API, сгенерированный Serverpod (не править руками — `melos run generate:server`).
+publish_to: none
+
+environment:
+  sdk: ^3.10.0
+
+resolution: workspace
+
+dependencies:
+  serverpod_auth_core_client: 3.4.13
+  serverpod_client: 3.4.13
