@@ -16,22 +16,28 @@ import '../endpoints/auth_endpoint.dart' as _i2;
 import '../endpoints/chat_endpoint.dart' as _i3;
 import '../endpoints/dev_endpoint.dart' as _i4;
 import '../endpoints/directory_endpoint.dart' as _i5;
-import '../endpoints/institution_endpoint.dart' as _i6;
-import '../endpoints/profile_endpoint.dart' as _i7;
-import '../endpoints/rides_endpoint.dart' as _i8;
-import '../endpoints/routes_endpoint.dart' as _i9;
-import '../health/health_endpoint.dart' as _i10;
-import 'package:child_server/src/generated/quick_phrase.dart' as _i11;
-import 'package:child_server/src/generated/family.dart' as _i12;
-import 'package:child_server/src/generated/parent.dart' as _i13;
-import 'package:child_server/src/generated/child.dart' as _i14;
-import 'package:child_server/src/generated/driver.dart' as _i15;
-import 'package:child_server/src/generated/institution.dart' as _i16;
-import 'package:child_server/src/generated/circle_rank.dart' as _i17;
-import 'package:child_server/src/generated/ride_event_submission.dart' as _i18;
-import 'package:child_server/src/generated/ride_location_point.dart' as _i19;
-import 'package:child_server/src/generated/route_template.dart' as _i20;
-import 'package:child_server/src/generated/future_calls.dart' as _i21;
+import '../endpoints/hiring_endpoint.dart' as _i6;
+import '../endpoints/institution_endpoint.dart' as _i7;
+import '../endpoints/owner_endpoint.dart' as _i8;
+import '../endpoints/profile_endpoint.dart' as _i9;
+import '../endpoints/rides_endpoint.dart' as _i10;
+import '../endpoints/routes_endpoint.dart' as _i11;
+import '../health/health_endpoint.dart' as _i12;
+import 'package:child_server/src/generated/quick_phrase.dart' as _i13;
+import 'package:child_server/src/generated/family.dart' as _i14;
+import 'package:child_server/src/generated/parent.dart' as _i15;
+import 'package:child_server/src/generated/child.dart' as _i16;
+import 'package:child_server/src/generated/driver.dart' as _i17;
+import 'package:child_server/src/generated/institution.dart' as _i18;
+import 'package:child_server/src/generated/circle_rank.dart' as _i19;
+import 'package:child_server/src/generated/driver_application.dart' as _i20;
+import 'package:child_server/src/generated/application_status.dart' as _i21;
+import 'package:child_server/src/generated/check_kind.dart' as _i22;
+import 'package:child_server/src/generated/incident_severity.dart' as _i23;
+import 'package:child_server/src/generated/ride_event_submission.dart' as _i24;
+import 'package:child_server/src/generated/ride_location_point.dart' as _i25;
+import 'package:child_server/src/generated/route_template.dart' as _i26;
+import 'package:child_server/src/generated/future_calls.dart' as _i27;
 export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _i1.EndpointDispatch {
@@ -62,37 +68,61 @@ class Endpoints extends _i1.EndpointDispatch {
           'directory',
           null,
         ),
-      'institution': _i6.InstitutionEndpoint()
+      'driverApplication': _i6.DriverApplicationEndpoint()
+        ..initialize(
+          server,
+          'driverApplication',
+          null,
+        ),
+      'hiring': _i6.HiringEndpoint()
+        ..initialize(
+          server,
+          'hiring',
+          null,
+        ),
+      'training': _i6.TrainingEndpoint()
+        ..initialize(
+          server,
+          'training',
+          null,
+        ),
+      'institution': _i7.InstitutionEndpoint()
         ..initialize(
           server,
           'institution',
           null,
         ),
-      'institutionAdmin': _i6.InstitutionAdminEndpoint()
+      'institutionAdmin': _i7.InstitutionAdminEndpoint()
         ..initialize(
           server,
           'institutionAdmin',
           null,
         ),
-      'profile': _i7.ProfileEndpoint()
+      'owner': _i8.OwnerEndpoint()
+        ..initialize(
+          server,
+          'owner',
+          null,
+        ),
+      'profile': _i9.ProfileEndpoint()
         ..initialize(
           server,
           'profile',
           null,
         ),
-      'rides': _i8.RidesEndpoint()
+      'rides': _i10.RidesEndpoint()
         ..initialize(
           server,
           'rides',
           null,
         ),
-      'routes': _i9.RoutesEndpoint()
+      'routes': _i11.RoutesEndpoint()
         ..initialize(
           server,
           'routes',
           null,
         ),
-      'health': _i10.HealthEndpoint()
+      'health': _i12.HealthEndpoint()
         ..initialize(
           server,
           'health',
@@ -227,7 +257,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'phrase': _i1.ParameterDescription(
               name: 'phrase',
-              type: _i1.getType<_i11.QuickPhrase?>(),
+              type: _i1.getType<_i13.QuickPhrase?>(),
               nullable: true,
             ),
           },
@@ -289,7 +319,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'family': _i1.ParameterDescription(
               name: 'family',
-              type: _i1.getType<_i12.Family>(),
+              type: _i1.getType<_i14.Family>(),
               nullable: false,
             ),
           },
@@ -346,7 +376,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'parent': _i1.ParameterDescription(
               name: 'parent',
-              type: _i1.getType<_i13.Parent>(),
+              type: _i1.getType<_i15.Parent>(),
               nullable: false,
             ),
           },
@@ -384,7 +414,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'child': _i1.ParameterDescription(
               name: 'child',
-              type: _i1.getType<_i14.Child>(),
+              type: _i1.getType<_i16.Child>(),
               nullable: false,
             ),
           },
@@ -432,7 +462,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'driver': _i1.ParameterDescription(
               name: 'driver',
-              type: _i1.getType<_i15.Driver>(),
+              type: _i1.getType<_i17.Driver>(),
               nullable: false,
             ),
           },
@@ -461,7 +491,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'institution': _i1.ParameterDescription(
               name: 'institution',
-              type: _i1.getType<_i16.Institution>(),
+              type: _i1.getType<_i18.Institution>(),
               nullable: false,
             ),
           },
@@ -509,7 +539,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'rank': _i1.ParameterDescription(
               name: 'rank',
-              type: _i1.getType<_i17.CircleRank>(),
+              type: _i1.getType<_i19.CircleRank>(),
               nullable: false,
             ),
           },
@@ -901,6 +931,395 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['driverApplication'] = _i1.EndpointConnector(
+      name: 'driverApplication',
+      endpoint: endpoints['driverApplication']!,
+      methodConnectors: {
+        'submit': _i1.MethodConnector(
+          name: 'submit',
+          params: {
+            'application': _i1.ParameterDescription(
+              name: 'application',
+              type: _i1.getType<_i20.DriverApplication>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['driverApplication']
+                          as _i6.DriverApplicationEndpoint)
+                      .submit(
+                        session,
+                        params['application'],
+                      ),
+        ),
+      },
+    );
+    connectors['hiring'] = _i1.EndpointConnector(
+      name: 'hiring',
+      endpoint: endpoints['hiring']!,
+      methodConnectors: {
+        'applications': _i1.MethodConnector(
+          name: 'applications',
+          params: {
+            'status': _i1.ParameterDescription(
+              name: 'status',
+              type: _i1.getType<_i21.ApplicationStatus?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['hiring'] as _i6.HiringEndpoint).applications(
+                    session,
+                    status: params['status'],
+                  ),
+        ),
+        'checks': _i1.MethodConnector(
+          name: 'checks',
+          params: {
+            'applicationId': _i1.ParameterDescription(
+              name: 'applicationId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).checks(
+                session,
+                params['applicationId'],
+              ),
+        ),
+        'setCheck': _i1.MethodConnector(
+          name: 'setCheck',
+          params: {
+            'applicationId': _i1.ParameterDescription(
+              name: 'applicationId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'kind': _i1.ParameterDescription(
+              name: 'kind',
+              type: _i1.getType<_i22.CheckKind>(),
+              nullable: false,
+            ),
+            'passed': _i1.ParameterDescription(
+              name: 'passed',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+            'note': _i1.ParameterDescription(
+              name: 'note',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).setCheck(
+                session,
+                applicationId: params['applicationId'],
+                kind: params['kind'],
+                passed: params['passed'],
+                note: params['note'],
+              ),
+        ),
+        'setStatus': _i1.MethodConnector(
+          name: 'setStatus',
+          params: {
+            'applicationId': _i1.ParameterDescription(
+              name: 'applicationId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'status': _i1.ParameterDescription(
+              name: 'status',
+              type: _i1.getType<_i21.ApplicationStatus>(),
+              nullable: false,
+            ),
+            'rejectedReason': _i1.ParameterDescription(
+              name: 'rejectedReason',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).setStatus(
+                session,
+                applicationId: params['applicationId'],
+                status: params['status'],
+                rejectedReason: params['rejectedReason'],
+              ),
+        ),
+        'hire': _i1.MethodConnector(
+          name: 'hire',
+          params: {
+            'applicationId': _i1.ParameterDescription(
+              name: 'applicationId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).hire(
+                session,
+                params['applicationId'],
+              ),
+        ),
+        'trainingPassed': _i1.MethodConnector(
+          name: 'trainingPassed',
+          params: {
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['hiring'] as _i6.HiringEndpoint).trainingPassed(
+                    session,
+                    params['driverId'],
+                  ),
+        ),
+        'calculatePayout': _i1.MethodConnector(
+          name: 'calculatePayout',
+          params: {
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'fromDate': _i1.ParameterDescription(
+              name: 'fromDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'toDate': _i1.ParameterDescription(
+              name: 'toDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'blockPayTenge': _i1.ParameterDescription(
+              name: 'blockPayTenge',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'perRideTenge': _i1.ParameterDescription(
+              name: 'perRideTenge',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['hiring'] as _i6.HiringEndpoint).calculatePayout(
+                    session,
+                    driverId: params['driverId'],
+                    fromDate: params['fromDate'],
+                    toDate: params['toDate'],
+                    blockPayTenge: params['blockPayTenge'],
+                    perRideTenge: params['perRideTenge'],
+                  ),
+        ),
+        'payouts': _i1.MethodConnector(
+          name: 'payouts',
+          params: {
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).payouts(
+                session,
+                driverId: params['driverId'],
+              ),
+        ),
+        'markPaid': _i1.MethodConnector(
+          name: 'markPaid',
+          params: {
+            'payoutId': _i1.ParameterDescription(
+              name: 'payoutId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).markPaid(
+                session,
+                params['payoutId'],
+              ),
+        ),
+        'incidents': _i1.MethodConnector(
+          name: 'incidents',
+          params: {
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['hiring'] as _i6.HiringEndpoint).incidents(
+                session,
+                driverId: params['driverId'],
+              ),
+        ),
+        'logIncident': _i1.MethodConnector(
+          name: 'logIncident',
+          params: {
+            'severity': _i1.ParameterDescription(
+              name: 'severity',
+              type: _i1.getType<_i23.IncidentSeverity>(),
+              nullable: false,
+            ),
+            'description': _i1.ParameterDescription(
+              name: 'description',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'driverId': _i1.ParameterDescription(
+              name: 'driverId',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'familyId': _i1.ParameterDescription(
+              name: 'familyId',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['hiring'] as _i6.HiringEndpoint).logIncident(
+                    session,
+                    severity: params['severity'],
+                    description: params['description'],
+                    driverId: params['driverId'],
+                    rideId: params['rideId'],
+                    familyId: params['familyId'],
+                  ),
+        ),
+        'resolveIncident': _i1.MethodConnector(
+          name: 'resolveIncident',
+          params: {
+            'incidentId': _i1.ParameterDescription(
+              name: 'incidentId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'resolution': _i1.ParameterDescription(
+              name: 'resolution',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['hiring'] as _i6.HiringEndpoint).resolveIncident(
+                    session,
+                    incidentId: params['incidentId'],
+                    resolution: params['resolution'],
+                  ),
+        ),
+      },
+    );
+    connectors['training'] = _i1.EndpointConnector(
+      name: 'training',
+      endpoint: endpoints['training']!,
+      methodConnectors: {
+        'myTrainingPassed': _i1.MethodConnector(
+          name: 'myTrainingPassed',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['training'] as _i6.TrainingEndpoint)
+                  .myTrainingPassed(session),
+        ),
+        'myResults': _i1.MethodConnector(
+          name: 'myResults',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['training'] as _i6.TrainingEndpoint)
+                  .myResults(session),
+        ),
+        'submitTest': _i1.MethodConnector(
+          name: 'submitTest',
+          params: {
+            'correct': _i1.ParameterDescription(
+              name: 'correct',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'total': _i1.ParameterDescription(
+              name: 'total',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['training'] as _i6.TrainingEndpoint).submitTest(
+                    session,
+                    correct: params['correct'],
+                    total: params['total'],
+                  ),
+        ),
+      },
+    );
     connectors['institution'] = _i1.EndpointConnector(
       name: 'institution',
       endpoint: endpoints['institution']!,
@@ -924,7 +1343,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['institution'] as _i6.InstitutionEndpoint).dayView(
+                  (endpoints['institution'] as _i7.InstitutionEndpoint).dayView(
                     session,
                     params['token'],
                     date: params['date'],
@@ -958,7 +1377,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['institution'] as _i6.InstitutionEndpoint)
+              ) async => (endpoints['institution'] as _i7.InstitutionEndpoint)
                   .confirmArrival(
                     session,
                     token: params['token'],
@@ -993,7 +1412,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async =>
                   (endpoints['institutionAdmin']
-                          as _i6.InstitutionAdminEndpoint)
+                          as _i7.InstitutionAdminEndpoint)
                       .issueAccess(
                         session,
                         institutionId: params['institutionId'],
@@ -1015,7 +1434,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async =>
                   (endpoints['institutionAdmin']
-                          as _i6.InstitutionAdminEndpoint)
+                          as _i7.InstitutionAdminEndpoint)
                       .accesses(
                         session,
                         params['institutionId'],
@@ -1036,11 +1455,121 @@ class Endpoints extends _i1.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async =>
                   (endpoints['institutionAdmin']
-                          as _i6.InstitutionAdminEndpoint)
+                          as _i7.InstitutionAdminEndpoint)
                       .revokeAccess(
                         session,
                         params['accessId'],
                       ),
+        ),
+      },
+    );
+    connectors['owner'] = _i1.EndpointConnector(
+      name: 'owner',
+      endpoint: endpoints['owner']!,
+      methodConnectors: {
+        'report': _i1.MethodConnector(
+          name: 'report',
+          params: {
+            'fromDate': _i1.ParameterDescription(
+              name: 'fromDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'toDate': _i1.ParameterDescription(
+              name: 'toDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'smsPriceTenge': _i1.ParameterDescription(
+              name: 'smsPriceTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'blockPayTenge': _i1.ParameterDescription(
+              name: 'blockPayTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'perRideTenge': _i1.ParameterDescription(
+              name: 'perRideTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['owner'] as _i8.OwnerEndpoint).report(
+                session,
+                fromDate: params['fromDate'],
+                toDate: params['toDate'],
+                smsPriceTenge: params['smsPriceTenge'],
+                blockPayTenge: params['blockPayTenge'],
+                perRideTenge: params['perRideTenge'],
+              ),
+        ),
+        'today': _i1.MethodConnector(
+          name: 'today',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['owner'] as _i8.OwnerEndpoint).today(session),
+        ),
+        'exportLink': _i1.MethodConnector(
+          name: 'exportLink',
+          params: {
+            'fromDate': _i1.ParameterDescription(
+              name: 'fromDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'toDate': _i1.ParameterDescription(
+              name: 'toDate',
+              type: _i1.getType<DateTime>(),
+              nullable: false,
+            ),
+            'smsPriceTenge': _i1.ParameterDescription(
+              name: 'smsPriceTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'blockPayTenge': _i1.ParameterDescription(
+              name: 'blockPayTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'perRideTenge': _i1.ParameterDescription(
+              name: 'perRideTenge',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['owner'] as _i8.OwnerEndpoint).exportLink(
+                session,
+                fromDate: params['fromDate'],
+                toDate: params['toDate'],
+                smsPriceTenge: params['smsPriceTenge'],
+                blockPayTenge: params['blockPayTenge'],
+                perRideTenge: params['perRideTenge'],
+              ),
+        ),
+        'familyBalances': _i1.MethodConnector(
+          name: 'familyBalances',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['owner'] as _i8.OwnerEndpoint)
+                  .familyBalances(session),
         ),
       },
     );
@@ -1055,7 +1584,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i7.ProfileEndpoint).myFamily(
+              ) async => (endpoints['profile'] as _i9.ProfileEndpoint).myFamily(
                 session,
               ),
         ),
@@ -1066,7 +1595,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i7.ProfileEndpoint)
+              ) async => (endpoints['profile'] as _i9.ProfileEndpoint)
                   .myChildren(session),
         ),
         'myDrivers': _i1.MethodConnector(
@@ -1076,7 +1605,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i7.ProfileEndpoint)
+              ) async => (endpoints['profile'] as _i9.ProfileEndpoint)
                   .myDrivers(session),
         ),
         'myDriverProfile': _i1.MethodConnector(
@@ -1086,7 +1615,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['profile'] as _i7.ProfileEndpoint)
+              ) async => (endpoints['profile'] as _i9.ProfileEndpoint)
                   .myDriverProfile(session),
         ),
       },
@@ -1103,7 +1632,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rides'] as _i8.RidesEndpoint).today(session),
+                  (endpoints['rides'] as _i10.RidesEndpoint).today(session),
         ),
         'tomorrow': _i1.MethodConnector(
           name: 'tomorrow',
@@ -1113,7 +1642,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rides'] as _i8.RidesEndpoint).tomorrow(session),
+                  (endpoints['rides'] as _i10.RidesEndpoint).tomorrow(session),
         ),
         'confirm': _i1.MethodConnector(
           name: 'confirm',
@@ -1128,7 +1657,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).confirm(
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).confirm(
                 session,
                 params['rideId'],
               ),
@@ -1151,7 +1680,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).decline(
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).decline(
                 session,
                 params['rideId'],
                 params['reason'],
@@ -1167,7 +1696,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'submission': _i1.ParameterDescription(
               name: 'submission',
-              type: _i1.getType<_i18.RideEventSubmission>(),
+              type: _i1.getType<_i24.RideEventSubmission>(),
               nullable: false,
             ),
           },
@@ -1175,7 +1704,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).submitEvent(
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).submitEvent(
                 session,
                 params['rideId'],
                 params['submission'],
@@ -1194,7 +1723,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).rideSeats(
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).rideSeats(
                 session,
                 params['rideId'],
               ),
@@ -1209,7 +1738,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'points': _i1.ParameterDescription(
               name: 'points',
-              type: _i1.getType<List<_i19.RideLocationPoint>>(),
+              type: _i1.getType<List<_i25.RideLocationPoint>>(),
               nullable: false,
             ),
           },
@@ -1218,7 +1747,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rides'] as _i8.RidesEndpoint).pushLocations(
+                  (endpoints['rides'] as _i10.RidesEndpoint).pushLocations(
                     session,
                     params['rideId'],
                     params['points'],
@@ -1237,7 +1766,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).events(
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).events(
                 session,
                 params['rideId'],
               ),
@@ -1249,8 +1778,9 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['rides'] as _i8.RidesEndpoint).myFamilies(session),
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint).myFamilies(
+                session,
+              ),
         ),
         'recordCashTopUp': _i1.MethodConnector(
           name: 'recordCashTopUp',
@@ -1281,7 +1811,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['rides'] as _i8.RidesEndpoint).recordCashTopUp(
+                  (endpoints['rides'] as _i10.RidesEndpoint).recordCashTopUp(
                     session,
                     familyId: params['familyId'],
                     amountTenge: params['amountTenge'],
@@ -1296,9 +1826,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).myCashTopUps(
-                session,
-              ),
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint)
+                  .myCashTopUps(session),
         ),
         'tomorrowDate': _i1.MethodConnector(
           name: 'tomorrowDate',
@@ -1307,9 +1836,8 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['rides'] as _i8.RidesEndpoint).tomorrowDate(
-                session,
-              ),
+              ) async => (endpoints['rides'] as _i10.RidesEndpoint)
+                  .tomorrowDate(session),
         ),
       },
     );
@@ -1322,7 +1850,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'draft': _i1.ParameterDescription(
               name: 'draft',
-              type: _i1.getType<_i20.RouteTemplate>(),
+              type: _i1.getType<_i26.RouteTemplate>(),
               nullable: false,
             ),
           },
@@ -1331,7 +1859,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['routes'] as _i9.RoutesEndpoint).requestRoute(
+                  (endpoints['routes'] as _i11.RoutesEndpoint).requestRoute(
                     session,
                     params['draft'],
                   ),
@@ -1343,8 +1871,9 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['routes'] as _i9.RoutesEndpoint).myRoutes(session),
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint).myRoutes(
+                session,
+              ),
         ),
         'rideEvents': _i1.MethodConnector(
           name: 'rideEvents',
@@ -1359,10 +1888,11 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint).rideEvents(
-                session,
-                params['rideId'],
-              ),
+              ) async =>
+                  (endpoints['routes'] as _i11.RoutesEndpoint).rideEvents(
+                    session,
+                    params['rideId'],
+                  ),
         ),
         'rideTrack': _i1.MethodConnector(
           name: 'rideTrack',
@@ -1377,7 +1907,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint).rideTrack(
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint).rideTrack(
                 session,
                 params['rideId'],
               ),
@@ -1389,7 +1919,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint).myBalance(
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint).myBalance(
                 session,
               ),
         ),
@@ -1417,7 +1947,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['routes'] as _i9.RoutesEndpoint).declareAbsence(
+                  (endpoints['routes'] as _i11.RoutesEndpoint).declareAbsence(
                     session,
                     rideId: params['rideId'],
                     childId: params['childId'],
@@ -1431,7 +1961,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint)
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint)
                   .myNotifications(session),
         ),
         'ackNotification': _i1.MethodConnector(
@@ -1448,7 +1978,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['routes'] as _i9.RoutesEndpoint).ackNotification(
+                  (endpoints['routes'] as _i11.RoutesEndpoint).ackNotification(
                     session,
                     params['outboxId'],
                   ),
@@ -1460,7 +1990,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint)
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint)
                   .institutions(session),
         ),
         'myUpcomingRides': _i1.MethodConnector(
@@ -1470,7 +2000,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['routes'] as _i9.RoutesEndpoint)
+              ) async => (endpoints['routes'] as _i11.RoutesEndpoint)
                   .myUpcomingRides(session),
         ),
         'watchRideLocation': _i1.MethodStreamConnector(
@@ -1489,8 +2019,8 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
                 Map<String, Stream> streamParams,
-              ) =>
-                  (endpoints['routes'] as _i9.RoutesEndpoint).watchRideLocation(
+              ) => (endpoints['routes'] as _i11.RoutesEndpoint)
+                  .watchRideLocation(
                     session,
                     params['rideId'],
                   ),
@@ -1509,7 +2039,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['health'] as _i10.HealthEndpoint).ping(session),
+                  (endpoints['health'] as _i12.HealthEndpoint).ping(session),
         ),
       },
     );
@@ -1517,6 +2047,6 @@ class Endpoints extends _i1.EndpointDispatch {
 
   @override
   _i1.FutureCallDispatch? get futureCalls {
-    return _i21.FutureCalls();
+    return _i27.FutureCalls();
   }
 }

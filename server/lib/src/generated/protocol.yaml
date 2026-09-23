@@ -45,6 +45,25 @@ directory:
   - mergeIntoPool:
   - poolCapacity:
   - rideSeats:
+driverApplication:
+  - submit:
+hiring:
+  - applications:
+  - checks:
+  - setCheck:
+  - setStatus:
+  - hire:
+  - trainingPassed:
+  - calculatePayout:
+  - payouts:
+  - markPaid:
+  - incidents:
+  - logIncident:
+  - resolveIncident:
+training:
+  - myTrainingPassed:
+  - myResults:
+  - submitTest:
 institution:
   - dayView:
   - confirmArrival:
@@ -52,6 +71,11 @@ institutionAdmin:
   - issueAccess:
   - accesses:
   - revokeAccess:
+owner:
+  - report:
+  - today:
+  - exportLink:
+  - familyBalances:
 profile:
   - myFamily:
   - myChildren:

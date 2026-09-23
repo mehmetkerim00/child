@@ -36,14 +36,24 @@ import 'package:child_client/src/protocol/pool_candidate.dart' as _i22;
 import 'package:child_client/src/protocol/ride.dart' as _i23;
 import 'package:child_client/src/protocol/pool_capacity.dart' as _i24;
 import 'package:child_client/src/protocol/ride_seat.dart' as _i25;
-import 'package:child_client/src/protocol/institution_day_view.dart' as _i26;
-import 'package:child_client/src/protocol/institution_access.dart' as _i27;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i28;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i29;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i30;
-import 'package:child_client/src/protocol/ride_location.dart' as _i31;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i32;
-import 'protocol.dart' as _i33;
+import 'package:child_client/src/protocol/driver_application.dart' as _i26;
+import 'package:child_client/src/protocol/application_status.dart' as _i27;
+import 'package:child_client/src/protocol/application_check.dart' as _i28;
+import 'package:child_client/src/protocol/check_kind.dart' as _i29;
+import 'package:child_client/src/protocol/payout_period.dart' as _i30;
+import 'package:child_client/src/protocol/incident.dart' as _i31;
+import 'package:child_client/src/protocol/incident_severity.dart' as _i32;
+import 'package:child_client/src/protocol/training_result.dart' as _i33;
+import 'package:child_client/src/protocol/institution_day_view.dart' as _i34;
+import 'package:child_client/src/protocol/institution_access.dart' as _i35;
+import 'package:child_client/src/protocol/owner_report.dart' as _i36;
+import 'package:child_client/src/protocol/family_balance_row.dart' as _i37;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i38;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i39;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i40;
+import 'package:child_client/src/protocol/ride_location.dart' as _i41;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i42;
+import 'protocol.dart' as _i43;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -487,6 +497,212 @@ class EndpointDirectory extends _i1.EndpointRef {
       );
 }
 
+/// Приём анкет кандидатов — открытый эндпоинт.
+///
+/// Кандидат заполняет анкету с телефона: аккаунта у него ещё нет.
+/// {@category Endpoint}
+class EndpointDriverApplication extends _i1.EndpointRef {
+  EndpointDriverApplication(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'driverApplication';
+
+  /// Подать анкету.
+  _i2.Future<_i26.DriverApplication> submit(
+    _i26.DriverApplication application,
+  ) => caller.callServerEndpoint<_i26.DriverApplication>(
+    'driverApplication',
+    'submit',
+    {'application': application},
+  );
+}
+
+/// Конвейер найма и работа с водителями — только диспетчер.
+/// {@category Endpoint}
+class EndpointHiring extends _i1.EndpointRef {
+  EndpointHiring(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'hiring';
+
+  /// Анкеты по этапам.
+  _i2.Future<List<_i26.DriverApplication>> applications({
+    _i27.ApplicationStatus? status,
+  }) => caller.callServerEndpoint<List<_i26.DriverApplication>>(
+    'hiring',
+    'applications',
+    {'status': status},
+  );
+
+  /// Чек-лист проверки кандидата.
+  _i2.Future<List<_i28.ApplicationCheck>> checks(int applicationId) =>
+      caller.callServerEndpoint<List<_i28.ApplicationCheck>>(
+        'hiring',
+        'checks',
+        {'applicationId': applicationId},
+      );
+
+  /// Отметить пункт чек-листа.
+  _i2.Future<_i28.ApplicationCheck> setCheck({
+    required int applicationId,
+    required _i29.CheckKind kind,
+    required bool passed,
+    String? note,
+  }) => caller.callServerEndpoint<_i28.ApplicationCheck>(
+    'hiring',
+    'setCheck',
+    {
+      'applicationId': applicationId,
+      'kind': kind,
+      'passed': passed,
+      'note': note,
+    },
+  );
+
+  /// Перевести кандидата на другой этап.
+  _i2.Future<_i26.DriverApplication> setStatus({
+    required int applicationId,
+    required _i27.ApplicationStatus status,
+    String? rejectedReason,
+  }) => caller.callServerEndpoint<_i26.DriverApplication>(
+    'hiring',
+    'setStatus',
+    {
+      'applicationId': applicationId,
+      'status': status,
+      'rejectedReason': rejectedReason,
+    },
+  );
+
+  /// Нанять: создать аккаунт водителя из анкеты.
+  _i2.Future<_i10.Driver> hire(int applicationId) =>
+      caller.callServerEndpoint<_i10.Driver>(
+        'hiring',
+        'hire',
+        {'applicationId': applicationId},
+      );
+
+  /// Готов ли водитель к работе: сдан ли тест после обучения.
+  _i2.Future<bool> trainingPassed(int driverId) =>
+      caller.callServerEndpoint<bool>(
+        'hiring',
+        'trainingPassed',
+        {'driverId': driverId},
+      );
+
+  /// Расчёт водителю за период.
+  _i2.Future<_i30.PayoutPeriod> calculatePayout({
+    required int driverId,
+    required DateTime fromDate,
+    required DateTime toDate,
+    required int blockPayTenge,
+    required int perRideTenge,
+  }) => caller.callServerEndpoint<_i30.PayoutPeriod>(
+    'hiring',
+    'calculatePayout',
+    {
+      'driverId': driverId,
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'blockPayTenge': blockPayTenge,
+      'perRideTenge': perRideTenge,
+    },
+  );
+
+  /// Расчёты за периоды — для выгрузки на выплату.
+  _i2.Future<List<_i30.PayoutPeriod>> payouts({int? driverId}) =>
+      caller.callServerEndpoint<List<_i30.PayoutPeriod>>(
+        'hiring',
+        'payouts',
+        {'driverId': driverId},
+      );
+
+  /// Отметить выплату произведённой.
+  _i2.Future<_i30.PayoutPeriod?> markPaid(int payoutId) =>
+      caller.callServerEndpoint<_i30.PayoutPeriod?>(
+        'hiring',
+        'markPaid',
+        {'payoutId': payoutId},
+      );
+
+  /// Журнал инцидентов.
+  _i2.Future<List<_i31.Incident>> incidents({int? driverId}) =>
+      caller.callServerEndpoint<List<_i31.Incident>>(
+        'hiring',
+        'incidents',
+        {'driverId': driverId},
+      );
+
+  /// Зафиксировать инцидент.
+  _i2.Future<_i31.Incident> logIncident({
+    required _i32.IncidentSeverity severity,
+    required String description,
+    int? driverId,
+    int? rideId,
+    int? familyId,
+  }) => caller.callServerEndpoint<_i31.Incident>(
+    'hiring',
+    'logIncident',
+    {
+      'severity': severity,
+      'description': description,
+      'driverId': driverId,
+      'rideId': rideId,
+      'familyId': familyId,
+    },
+  );
+
+  /// Закрыть инцидент решением.
+  _i2.Future<_i31.Incident> resolveIncident({
+    required int incidentId,
+    required String resolution,
+  }) => caller.callServerEndpoint<_i31.Incident>(
+    'hiring',
+    'resolveIncident',
+    {
+      'incidentId': incidentId,
+      'resolution': resolution,
+    },
+  );
+}
+
+/// Обучение в приложении водителя.
+/// {@category Endpoint}
+class EndpointTraining extends _i1.EndpointRef {
+  EndpointTraining(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'training';
+
+  /// Сдан ли тест — от этого зависит назначение маршрутов.
+  _i2.Future<bool> myTrainingPassed() => caller.callServerEndpoint<bool>(
+    'training',
+    'myTrainingPassed',
+    {},
+  );
+
+  /// Мои попытки теста.
+  _i2.Future<List<_i33.TrainingResult>> myResults() =>
+      caller.callServerEndpoint<List<_i33.TrainingResult>>(
+        'training',
+        'myResults',
+        {},
+      );
+
+  /// Записать результат теста.
+  _i2.Future<_i33.TrainingResult> submitTest({
+    required int correct,
+    required int total,
+  }) => caller.callServerEndpoint<_i33.TrainingResult>(
+    'training',
+    'submitTest',
+    {
+      'correct': correct,
+      'total': total,
+    },
+  );
+}
+
 /// Кабинет учреждения: работает по ссылке, без входа и установки.
 ///
 /// Воспитателю не нужен аккаунт — у него ссылка с токеном. Поэтому
@@ -499,10 +715,10 @@ class EndpointInstitution extends _i1.EndpointRef {
   String get name => 'institution';
 
   /// Список детей на сегодня по ссылке доступа.
-  _i2.Future<_i26.InstitutionDayView?> dayView(
+  _i2.Future<_i34.InstitutionDayView?> dayView(
     String token, {
     DateTime? date,
-  }) => caller.callServerEndpoint<_i26.InstitutionDayView?>(
+  }) => caller.callServerEndpoint<_i34.InstitutionDayView?>(
     'institution',
     'dayView',
     {
@@ -551,8 +767,8 @@ class EndpointInstitutionAdmin extends _i1.EndpointRef {
   );
 
   /// Выданные ссылки учреждения.
-  _i2.Future<List<_i27.InstitutionAccess>> accesses(int institutionId) =>
-      caller.callServerEndpoint<List<_i27.InstitutionAccess>>(
+  _i2.Future<List<_i35.InstitutionAccess>> accesses(int institutionId) =>
+      caller.callServerEndpoint<List<_i35.InstitutionAccess>>(
         'institutionAdmin',
         'accesses',
         {'institutionId': institutionId},
@@ -564,6 +780,79 @@ class EndpointInstitutionAdmin extends _i1.EndpointRef {
         'institutionAdmin',
         'revokeAccess',
         {'accessId': accessId},
+      );
+}
+
+/// Отчёты владельцу.
+///
+/// Роль отдельная от диспетчера: диспетчер управляет поездками и не видит
+/// выручку, владелец видит деньги и не трогает чужой рабочий день.
+/// {@category Endpoint}
+class EndpointOwner extends _i1.EndpointRef {
+  EndpointOwner(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'owner';
+
+  /// Отчёт за период.
+  _i2.Future<_i36.OwnerReport> report({
+    required DateTime fromDate,
+    required DateTime toDate,
+    int? smsPriceTenge,
+    int? blockPayTenge,
+    int? perRideTenge,
+  }) => caller.callServerEndpoint<_i36.OwnerReport>(
+    'owner',
+    'report',
+    {
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'smsPriceTenge': smsPriceTenge,
+      'blockPayTenge': blockPayTenge,
+      'perRideTenge': perRideTenge,
+    },
+  );
+
+  /// Отчёт за сегодня — то, что владелец открывает чаще всего.
+  _i2.Future<_i36.OwnerReport> today() =>
+      caller.callServerEndpoint<_i36.OwnerReport>(
+        'owner',
+        'today',
+        {},
+      );
+
+  /// Одноразовая ссылка на выгрузку в таблицу.
+  ///
+  /// Возвращает путь вида `/hasabat.csv?t=...`: его открывают на ноутбуке,
+  /// где такие файлы и смотрят. Токен живёт 15 минут и сгорает после
+  /// первого скачивания.
+  _i2.Future<String> exportLink({
+    required DateTime fromDate,
+    required DateTime toDate,
+    int? smsPriceTenge,
+    int? blockPayTenge,
+    int? perRideTenge,
+  }) => caller.callServerEndpoint<String>(
+    'owner',
+    'exportLink',
+    {
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'smsPriceTenge': smsPriceTenge,
+      'blockPayTenge': blockPayTenge,
+      'perRideTenge': perRideTenge,
+    },
+  );
+
+  /// Балансы всех семей: кто в минусе и на сколько.
+  ///
+  /// Минус — это уже сделанные поездки, за которые не заплатили. Владелец
+  /// должен видеть этот список раньше, чем он станет большим.
+  _i2.Future<List<_i37.FamilyBalanceRow>> familyBalances() =>
+      caller.callServerEndpoint<List<_i37.FamilyBalanceRow>>(
+        'owner',
+        'familyBalances',
+        {},
       );
 }
 
@@ -660,7 +949,7 @@ class EndpointRides extends _i1.EndpointRef {
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
   _i2.Future<_i23.Ride> submitEvent(
     int rideId,
-    _i28.RideEventSubmission submission,
+    _i38.RideEventSubmission submission,
   ) => caller.callServerEndpoint<_i23.Ride>(
     'rides',
     'submitEvent',
@@ -682,10 +971,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i29.TrackingState> pushLocations(
+  _i2.Future<_i39.TrackingState> pushLocations(
     int rideId,
-    List<_i30.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i29.TrackingState>(
+    List<_i40.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i39.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -781,8 +1070,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i31.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i31.RideLocation>>(
+  _i2.Future<List<_i41.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i41.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -792,10 +1081,10 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i31.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i41.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i31.RideLocation>,
-        _i31.RideLocation
+        _i2.Stream<_i41.RideLocation>,
+        _i41.RideLocation
       >(
         'routes',
         'watchRideLocation',
@@ -870,8 +1159,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i32.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i32.ServerHealth>(
+  _i2.Future<_i42.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i42.ServerHealth>(
         'health',
         'ping',
         {},
@@ -898,7 +1187,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i33.Protocol(),
+         _i43.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -911,8 +1200,12 @@ class Client extends _i1.ServerpodClientShared {
     chat = EndpointChat(this);
     dev = EndpointDev(this);
     directory = EndpointDirectory(this);
+    driverApplication = EndpointDriverApplication(this);
+    hiring = EndpointHiring(this);
+    training = EndpointTraining(this);
     institution = EndpointInstitution(this);
     institutionAdmin = EndpointInstitutionAdmin(this);
+    owner = EndpointOwner(this);
     profile = EndpointProfile(this);
     rides = EndpointRides(this);
     routes = EndpointRoutes(this);
@@ -927,9 +1220,17 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointDirectory directory;
 
+  late final EndpointDriverApplication driverApplication;
+
+  late final EndpointHiring hiring;
+
+  late final EndpointTraining training;
+
   late final EndpointInstitution institution;
 
   late final EndpointInstitutionAdmin institutionAdmin;
+
+  late final EndpointOwner owner;
 
   late final EndpointProfile profile;
 
@@ -945,8 +1246,12 @@ class Client extends _i1.ServerpodClientShared {
     'chat': chat,
     'dev': dev,
     'directory': directory,
+    'driverApplication': driverApplication,
+    'hiring': hiring,
+    'training': training,
     'institution': institution,
     'institutionAdmin': institutionAdmin,
+    'owner': owner,
     'profile': profile,
     'rides': rides,
     'routes': routes,

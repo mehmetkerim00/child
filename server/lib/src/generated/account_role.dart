@@ -17,7 +17,8 @@ import 'package:serverpod/serverpod.dart' as _i1;
 enum AccountRole implements _i1.SerializableModel {
   parent,
   driver,
-  dispatcher
+  dispatcher,
+  owner
   ;
 
   static AccountRole fromJson(String name) {
@@ -28,6 +29,8 @@ enum AccountRole implements _i1.SerializableModel {
         return AccountRole.driver;
       case 'dispatcher':
         return AccountRole.dispatcher;
+      case 'owner':
+        return AccountRole.owner;
       default:
         throw ArgumentError(
           'Value "$name" cannot be converted to "AccountRole"',

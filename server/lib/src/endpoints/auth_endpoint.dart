@@ -117,6 +117,16 @@ class AuthEndpoint extends Endpoint {
   }
 
   Future<_Account?> _findAccount(Session session, String phone) async {
+    // Владелец первым: его номер может совпадать с диспетчерским, и
+    // тогда он должен входить как владелец, а не терять доступ к деньгам.
+    final owner = await OwnerAccount.db.findFirstRow(
+      session,
+      where: (o) => o.phone.equals(phone) & o.active.equals(true),
+    );
+    if (owner != null) {
+      return _Account(AccountRole.owner, owner.id!, owner.name);
+    }
+
     final dispatcher = await DispatcherAccount.db.findFirstRow(
       session,
       where: (d) => d.phone.equals(phone) & d.active.equals(true),

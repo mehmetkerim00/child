@@ -40,3 +40,11 @@ AuthResult testDispatcherSession({String name = 'Мерджен'}) => AuthResult
   displayName: name,
   subjectId: 1,
 );
+
+/// Готовая сессия владельца для тестов.
+AuthResult testOwnerSession({String name = 'Владелец'}) => AuthResult(
+  token: 'test-token',
+  role: AccountRole.owner,
+  displayName: name,
+  subjectId: 1,
+);

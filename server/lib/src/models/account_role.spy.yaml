@@ -4,3 +4,4 @@ values:
   - parent
   - driver
   - dispatcher
+  - owner

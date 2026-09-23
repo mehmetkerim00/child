@@ -32,4 +32,12 @@ extension SessionSubject on Session {
     if (driver == null) throw Exception('Доступно только водителю');
     return driver;
   }
+
+  /// Вошедший владелец. Бросает исключение, если роль другая.
+  Future<OwnerAccount> requireOwner() async {
+    final id = subjectIdFor(AccountRole.owner);
+    final owner = id == null ? null : await OwnerAccount.db.findById(this, id);
+    if (owner == null) throw Exception('Доступно только владельцу');
+    return owner;
+  }
 }

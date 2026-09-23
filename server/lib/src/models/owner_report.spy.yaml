@@ -1,0 +1,20 @@
+### Отчёт владельцу за период.
+class: OwnerReport
+fields:
+  fromDate: DateTime
+  toDate: DateTime
+  days: List<DayStats>
+  drivers: List<DriverLoad>
+  routes: List<RouteEconomics>
+  ### Сумма всех балансов семей: сколько денег сервис уже держит.
+  familyBalanceTenge: int
+  ### Сколько семей ушли в минус.
+  familiesInDebt: int
+  revenueTenge: int
+  smsCostTenge: int
+  driverPayTenge: int
+  marginTenge: int
+  ### Доля доведённых до конца поездок, проценты.
+  completionPercent: int
+  ### Часы, в которые за период не было ни одной поездки (0–23).
+  emptyHours: List<int>

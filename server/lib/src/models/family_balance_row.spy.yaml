@@ -1,0 +1,8 @@
+### Баланс одной семьи для панели владельца.
+class: FamilyBalanceRow
+fields:
+  familyId: int
+  familyName: String
+  balanceTenge: int
+  ### Долг: баланс ушёл в минус — поездки уже сделаны, деньги не внесены.
+  inDebt: bool

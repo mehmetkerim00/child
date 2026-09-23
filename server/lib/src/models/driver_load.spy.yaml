@@ -1,0 +1,13 @@
+### Загрузка одного водителя за период.
+class: DriverLoad
+fields:
+  driverId: int
+  driverName: String
+  ### Завершённые поездки.
+  rides: int
+  ### Оплачиваемые блоки (утро/день).
+  blocks: int
+  ### Поездок на блок: меньше одной — блок оплачен почти впустую.
+  ridesPerBlock: double
+  ### Сорванные поездки: отказы и неявки.
+  failed: int

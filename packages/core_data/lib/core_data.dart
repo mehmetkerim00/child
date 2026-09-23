@@ -18,11 +18,17 @@ export 'package:child_client/child_client.dart'
         CircleRank,
         Client,
         DispatcherAccount,
+        ApplicationCheck,
+        ApplicationStatus,
+        CheckKind,
         DispatcherTask,
         DispatcherTaskKind,
         Driver,
+        DriverApplication,
         Family,
         FamilyCircle,
+        Incident,
+        IncidentSeverity,
         Institution,
         InstitutionAccess,
         LedgerEntry,
@@ -48,16 +54,26 @@ export 'package:child_client/child_client.dart'
         RideStatus,
         RideView,
         RouteDirection,
+        OwnerReport,
+        OwnerAccount,
+        DayStats,
+        DriverLoad,
+        RouteEconomics,
+        FamilyBalanceRow,
+        PayoutPeriod,
         RouteTemplate,
+        TrainingResult,
         TrackingState,
         ServerHealth,
         SmsLevel,
         VettingStatus;
 
 export 'src/api/chat_providers.dart';
+export 'src/api/hiring_providers.dart';
 export 'src/api/institution_providers.dart';
 export 'src/api/directory_providers.dart';
 export 'src/api/money_providers.dart';
+export 'src/api/owner_providers.dart';
 export 'src/api/ride_providers.dart';
 export 'src/api/providers.dart';
 export 'src/auth/auth_controller.dart';

@@ -1,0 +1,15 @@
+### Экономика одного маршрута за период.
+###
+### Главный вопрос владельца: какие маршруты убыточны. Считаем честно:
+### выручка минус SMS минус доля выплаты водителю.
+class: RouteEconomics
+fields:
+  routeId: int
+  childName: String
+  destination: String
+  rides: int
+  revenueTenge: int
+  smsCostTenge: int
+  driverPayTenge: int
+  ### Выручка − SMS − выплата водителю.
+  marginTenge: int

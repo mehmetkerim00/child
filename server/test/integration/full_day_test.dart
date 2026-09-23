@@ -73,6 +73,7 @@ void main() {
     late TestSessionBuilder asParent;
     late TestSessionBuilder asDriver;
     late TestSessionBuilder asDispatcher;
+    late TestSessionBuilder asOwner;
 
     /// Сиды: одна семья, один ребёнок, один водитель, школа и два маршрута.
     setUp(() async {
@@ -114,6 +115,10 @@ void main() {
       final dispatcher = await DispatcherAccount.db.insertRow(
         session,
         DispatcherAccount(phone: '+99365009999', name: 'Мерджен'),
+      );
+      final owner = await OwnerAccount.db.insertRow(
+        session,
+        OwnerAccount(phone: '+99365008888', name: 'Владелец'),
       );
       await FamilyCircle.db.insertRow(
         session,
@@ -162,6 +167,17 @@ void main() {
         ),
       );
 
+      // Водитель сдал обучение: без этого маршруты не назначаются.
+      await TrainingResult.db.insertRow(
+        session,
+        TrainingResult(
+          driverId: driver.id!,
+          correct: 10,
+          total: 10,
+          passed: true,
+        ),
+      );
+
       asParent = sessionBuilder.copyWith(
         authentication: AuthenticationOverride.authenticationInfo(
           'parent:${parent.id}',
@@ -178,6 +194,12 @@ void main() {
         authentication: AuthenticationOverride.authenticationInfo(
           'dispatcher:${dispatcher.id}',
           {const Scope('dispatcher')},
+        ),
+      );
+      asOwner = sessionBuilder.copyWith(
+        authentication: AuthenticationOverride.authenticationInfo(
+          'owner:${owner.id}',
+          {const Scope('owner')},
         ),
       );
     });
@@ -452,6 +474,43 @@ void main() {
         sms.messages.where((m) => m.contains('без водителя')),
         isNotEmpty,
       );
+
+      // --- Владелец смотрит на день цифрами ------------------------------
+      //
+      // Последняя проверка дня: сходится ли то, что видел владелец, с тем,
+      // что реально произошло. Если отчёт разойдётся с книгой операций,
+      // решения будут приниматься по выдуманным числам.
+      final report = await endpoints.owner.report(
+        asOwner,
+        fromDate: today,
+        toDate: today,
+      );
+
+      expect(
+        report.revenueTenge,
+        _ridePriceTenge * 2,
+        reason: 'выручка дня — ровно два состоявшихся рейса',
+      );
+      expect(report.days.single.completed, 2);
+      expect(report.routes, hasLength(2), reason: 'утро и обратный путь');
+      expect(
+        report.marginTenge,
+        lessThan(report.revenueTenge),
+        reason: 'из выручки вычитаются SMS и выплата водителю',
+      );
+
+      final balances = await endpoints.owner.familyBalances(asOwner);
+      expect(
+        balances.firstWhere((row) => row.familyId == family.id).balanceTenge,
+        balance.balanceTenge,
+        reason: 'владелец и родитель видят один и тот же баланс',
+      );
+
+      // Диспетчеру этот отчёт недоступен: деньги — не его работа.
+      await expectLater(
+        endpoints.owner.report(asDispatcher, fromDate: today, toDate: today),
+        throwsA(isA<Exception>()),
+      );
     });
 
     test('утро с пулом: три ребёнка в одной машине', () async {
@@ -634,6 +693,182 @@ void main() {
       expect(view.childrenInCar, 3);
       expect(view.seats, hasLength(1));
       expect(view.childName, child.name);
+    });
+
+    /// Путь нового водителя: анкета → проверки → наём → обучение → маршрут.
+    ///
+    /// Это вторая половина дня диспетчера. Смысл прогона — убедиться, что
+    /// непроверенный и необученный человек не получит ребёнка, даже если
+    /// диспетчер торопится и жмёт «Нанять».
+    test('конвейер водителя: анкета, проверки, обучение, расчёт', () async {
+      // 1. Кандидат заполняет анкету с телефона: аккаунта у него ещё нет.
+      final application = await endpoints.driverApplication.submit(
+        sessionBuilder,
+        DriverApplication(
+          fullName: 'Гульнара Атаева',
+          phone: '+99365117777',
+          experienceWithChildren: 'Воспитатель детского сада, 8 лет',
+          drivingYears: 6,
+          carModel: 'Hyundai Accent',
+          carPlate: 'AG 7788 AH',
+          isFemale: true,
+          hasChildSeat: true,
+        ),
+      );
+      expect(application.status, ApplicationStatus.submitted);
+
+      // Повторная отправка анкеты не плодит дубликаты: связь рвётся.
+      final again = await endpoints.driverApplication.submit(
+        sessionBuilder,
+        DriverApplication(
+          fullName: 'Гульнара Атаева',
+          phone: '8 65 11-77-77',
+          experienceWithChildren: 'Воспитатель детского сада, 8 лет',
+          drivingYears: 6,
+          carModel: 'Hyundai Accent',
+          carPlate: 'AG 7788 AH',
+        ),
+      );
+      expect(again.id, application.id, reason: 'одна анкета на номер');
+
+      // 2. Наём до закрытия чек-листа невозможен.
+      await expectLater(
+        endpoints.hiring.hire(asDispatcher, application.id!),
+        throwsA(isA<Exception>()),
+        reason: 'нельзя нанять непроверенного человека',
+      );
+
+      // 3. Диспетчер проходит чек-лист. Справка о несудимости — последней:
+      // проверяем, что до неё наём всё ещё закрыт.
+      for (final kind in const [
+        CheckKind.passport,
+        CheckKind.drivingLicense,
+        CheckKind.carDocuments,
+        CheckKind.interview,
+        CheckKind.childSeatDemo,
+      ]) {
+        await endpoints.hiring.setCheck(
+          asDispatcher,
+          applicationId: application.id!,
+          kind: kind,
+          passed: true,
+        );
+      }
+      await expectLater(
+        endpoints.hiring.hire(asDispatcher, application.id!),
+        throwsA(isA<Exception>()),
+        reason: 'без справки о несудимости — нет',
+      );
+
+      await endpoints.hiring.setCheck(
+        asDispatcher,
+        applicationId: application.id!,
+        kind: CheckKind.criminalRecord,
+        passed: true,
+      );
+
+      // 4. Наём: из анкеты создаётся аккаунт водителя.
+      final hired = await endpoints.hiring.hire(asDispatcher, application.id!);
+      expect(hired.name, 'Гульнара Атаева');
+      expect(hired.isFemale, isTrue, reason: 'семьи просят женщину-водителя');
+      expect(hired.childSeats, 1);
+      expect(hired.vettingStatus, VettingStatus.verified);
+
+      // Повторное нажатие «Нанять» не создаёт второго водителя.
+      final hiredAgain = await endpoints.hiring.hire(
+        asDispatcher,
+        application.id!,
+      );
+      expect(hiredAgain.id, hired.id);
+
+      // 5. Маршрут новому водителю не назначается: обучение не сдано.
+      final asNewDriver = sessionBuilder.copyWith(
+        authentication: AuthenticationOverride.authenticationInfo(
+          'driver:${hired.id}',
+          {const Scope('driver')},
+        ),
+      );
+      expect(await endpoints.training.myTrainingPassed(asNewDriver), isFalse);
+      await expectLater(
+        endpoints.directory.activateRoute(
+          asDispatcher,
+          routeId: morningRoute.id!,
+          driverId: hired.id!,
+          pricePerRideTenge: _ridePriceTenge,
+        ),
+        throwsA(isA<Exception>()),
+        reason: 'необученный водитель детей не возит',
+      );
+
+      // 6. Тест сдан наполовину — этого мало.
+      final failed = await endpoints.training.submitTest(
+        asNewDriver,
+        correct: 5,
+        total: 10,
+      );
+      expect(failed.passed, isFalse);
+      expect(await endpoints.training.myTrainingPassed(asNewDriver), isFalse);
+
+      // 7. Вторая попытка: 9 из 10 — порог пройден.
+      final passed = await endpoints.training.submitTest(
+        asNewDriver,
+        correct: 9,
+        total: 10,
+      );
+      expect(passed.passed, isTrue);
+      expect(passed.attempt, 2, reason: 'попытки нумеруются');
+      expect(await endpoints.training.myTrainingPassed(asNewDriver), isTrue);
+
+      // 8. Теперь маршрут назначается.
+      final route = await endpoints.directory.activateRoute(
+        asDispatcher,
+        routeId: morningRoute.id!,
+        driverId: hired.id!,
+        pricePerRideTenge: _ridePriceTenge,
+      );
+      expect(route.driverId, hired.id);
+
+      // 9. Инцидент: опоздание. Закрыть без решения нельзя.
+      final incident = await endpoints.hiring.logIncident(
+        asDispatcher,
+        severity: IncidentSeverity.note,
+        description: 'Опоздала на 12 минут, семью не предупредила',
+        driverId: hired.id,
+      );
+      expect(incident.resolvedAt, isNull);
+      await expectLater(
+        endpoints.hiring.resolveIncident(
+          asDispatcher,
+          incidentId: incident.id!,
+          resolution: '   ',
+        ),
+        throwsA(isA<Exception>()),
+        reason: 'журнал инцидентов без решений бесполезен',
+      );
+
+      final resolved = await endpoints.hiring.resolveIncident(
+        asDispatcher,
+        incidentId: incident.id!,
+        resolution: 'Разобрали: напоминание отмечать задержку в приложении',
+      );
+      expect(resolved.resolvedAt, isNotNull);
+
+      // 10. Расчёт за неделю у водителя без выполненных поездок: блоков нет,
+      // но запись создаётся — диспетчер видит ноль, а не пустоту.
+      final today = AshgabatTime.today();
+      final payout = await endpoints.hiring.calculatePayout(
+        asDispatcher,
+        driverId: hired.id!,
+        fromDate: AshgabatTime.addDays(today, -7),
+        toDate: today,
+        blockPayTenge: 10000,
+        perRideTenge: 2000,
+      );
+      expect(payout.totalTenge, 0);
+      expect(payout.paidAt, isNull);
+
+      final paid = await endpoints.hiring.markPaid(asDispatcher, payout.id!);
+      expect(paid!.paidAt, isNotNull);
     });
   });
 }

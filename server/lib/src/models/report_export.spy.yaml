@@ -1,0 +1,22 @@
+### Одноразовая ссылка на выгрузку отчёта.
+###
+### Файл с выручкой и балансами семей открывается в браузере без входа,
+### поэтому ссылка живёт минуты и сгорает после первого скачивания.
+class: ReportExport
+table: report_export
+fields:
+  tokenHash: String
+  ownerId: int, relation(parent=owner_account, onDelete=Cascade)
+  fromDate: DateTime
+  toDate: DateTime
+  ### Ставки, по которым считать: они же были на экране у владельца.
+  smsPriceTenge: int
+  blockPayTenge: int
+  perRideTenge: int
+  createdAt: DateTime
+  expiresAt: DateTime
+  usedAt: DateTime?
+indexes:
+  report_export_token_idx:
+    fields: tokenHash
+    unique: true

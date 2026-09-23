@@ -1,0 +1,16 @@
+### Владелец сервиса: видит деньги и отчёты, но не управляет поездками.
+###
+### Роль отдельная от диспетчера намеренно: диспетчер не должен видеть
+### выручку и балансы всех семей, владелец — не должен случайно менять
+### чужую поездку.
+class: OwnerAccount
+table: owner_account
+fields:
+  phone: String
+  name: String
+  active: bool, default=true
+  createdAt: DateTime, default=now
+indexes:
+  owner_phone_idx:
+    fields: phone
+    unique: true
