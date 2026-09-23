@@ -5,3 +5,4 @@ values:
   - driverNotDeparted     ### подтвердил, но не выехал вовремя
   - notificationUndelivered ### не дошло ни push, ни SMS — звонить вручную
   - rideWithoutDriver     ### поездка осталась без водителя
+  - systemDegraded        ### деградация сервиса: очередь, SMS, база

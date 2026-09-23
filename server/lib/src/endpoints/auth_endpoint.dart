@@ -2,6 +2,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/security/rate_limiter.dart';
 import '../services/sms/sms_gateway.dart';
 
 /// Вход по номеру телефона и одноразовому коду.
@@ -16,6 +17,12 @@ class AuthEndpoint extends Endpoint {
     final account = await _findAccount(session, phone);
     if (account == null) {
       throw AuthException(reason: AuthFailureReason.unknownPhone);
+    }
+
+    // Иначе чужим номером можно завалить человека ночными SMS за наш
+    // счёт: код запрашивается без входа, по одному номеру.
+    if (!await RateLimiter().allowAuthCode(session, phone)) {
+      throw AuthException(reason: AuthFailureReason.tooManyAttempts);
     }
 
     final code = PhoneAuth.generateCode();

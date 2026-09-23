@@ -3,6 +3,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/monitoring/monitoring_service.dart';
 import '../services/reports/report_service.dart';
 import 'session_subject.dart';
 
@@ -80,6 +81,15 @@ class OwnerEndpoint extends Endpoint {
     );
 
     return '/hasabat.csv?t=$token';
+  }
+
+  /// Состояние сервиса прямо сейчас.
+  ///
+  /// Те же цифры, по которым сервер сам поднимает тревогу: владелец
+  /// должен видеть их без звонка разработчику.
+  Future<SystemHealth> systemHealth(Session session) async {
+    await session.requireOwner();
+    return MonitoringService().snapshot(session);
   }
 
   /// Балансы всех семей: кто в минусе и на сколько.

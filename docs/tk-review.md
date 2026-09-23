@@ -13,7 +13,7 @@
 Фигурные скобки вроде `{name}` — подстановка (имя, время,
 количество). Их нужно сохранить в переводе как есть.
 
-Всего строк: 331
+Всего строк: 359
 
 | Ключ | Русский | Туркменский | Правка |
 |---|---|---|---|
@@ -348,3 +348,31 @@
 | `trainingQ10a` | Везти аккуратно без кресла | Oturgyçsyz seresaply äkitmeli | |
 | `trainingQ10b` | Сообщить диспетчеру: ехать нельзя | Dispetçere habar bermeli: gitmek bolmaýar | |
 | `trainingQ10c` | Посадить на колени взрослому | Ulynyň dyzyna oturtmaly | |
+| `ownerTitle` | Отчёты | Hasabatlar | |
+| `ownerToday` | Сегодня | Şu gün | |
+| `ownerWeek` | Неделя | Hepde | |
+| `ownerMonth` | Месяц | Aý | |
+| `ownerRides` | Поездок | Saparlar | |
+| `ownerCompleted` | Довезли | Eltildi | |
+| `ownerCancelled` | Сорвано | Bozuldy | |
+| `ownerCompletion` | Выполняемость | Ýerine ýetirilişi | |
+| `ownerRevenue` | Выручка | Girdeji | |
+| `ownerSmsCost` | SMS | SMS | |
+| `ownerDriverPay` | Водителям | Sürüjilere | |
+| `ownerMargin` | Валовая маржа | Arassa girdeji | |
+| `ownerDriverLoad` | Загрузка водителей | Sürüjileriň ýüki | |
+| `ownerRouteEconomics` | Экономика маршрутов | Ugurlaryň ykdysadyýeti | |
+| `ownerEmptyHours` | Пустые часы | Boş sagatlar | |
+| `ownerNoEmptyHours` | Пустых часов нет | Boş sagat ýok | |
+| `ownerBalances` | Балансы семей | Maşgalalaryň balansy | |
+| `ownerInDebt` | В минусе: {count} | Minusda: {count} | |
+| `ownerRidesPerBlock` | Поездок на блок | Bloga sapar | |
+| `ownerExport` | Выгрузить таблицу | Tablisany ýükle | |
+| `ownerExportHint` | Ссылка сработает один раз и только 15 минут. Откройте её на компьютере — файл открывается в Excel. | Salgy bir gezek we diňe 15 minut işleýär. Ony kompýuterde açyň — faýl Excel-de açylýar. | |
+| `ownerExportCopy` | Скопировать ссылку | Salgyny göçür | |
+| `ownerRates` | Ставки расчёта | Hasaplaşyk nyrhlary | |
+| `ownerSmsPrice` | SMS, тенге | SMS, teňňe | |
+| `ownerBlockPay` | Блок, тенге | Blok, teňňe | |
+| `ownerPerRide` | Поездка, тенге | Sapar, teňňe | |
+| `ownerLossMaking` | Убыточный маршрут | Zyýanly ugur | |
+| `taskSystemDegraded` | Сбой сервиса | Hyzmatda näsazlyk | |

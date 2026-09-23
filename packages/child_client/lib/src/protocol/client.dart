@@ -47,13 +47,14 @@ import 'package:child_client/src/protocol/training_result.dart' as _i33;
 import 'package:child_client/src/protocol/institution_day_view.dart' as _i34;
 import 'package:child_client/src/protocol/institution_access.dart' as _i35;
 import 'package:child_client/src/protocol/owner_report.dart' as _i36;
-import 'package:child_client/src/protocol/family_balance_row.dart' as _i37;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i38;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i39;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i40;
-import 'package:child_client/src/protocol/ride_location.dart' as _i41;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i42;
-import 'protocol.dart' as _i43;
+import 'package:child_client/src/protocol/system_health.dart' as _i37;
+import 'package:child_client/src/protocol/family_balance_row.dart' as _i38;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i39;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i40;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i41;
+import 'package:child_client/src/protocol/ride_location.dart' as _i42;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i43;
+import 'protocol.dart' as _i44;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -844,12 +845,23 @@ class EndpointOwner extends _i1.EndpointRef {
     },
   );
 
+  /// Состояние сервиса прямо сейчас.
+  ///
+  /// Те же цифры, по которым сервер сам поднимает тревогу: владелец
+  /// должен видеть их без звонка разработчику.
+  _i2.Future<_i37.SystemHealth> systemHealth() =>
+      caller.callServerEndpoint<_i37.SystemHealth>(
+        'owner',
+        'systemHealth',
+        {},
+      );
+
   /// Балансы всех семей: кто в минусе и на сколько.
   ///
   /// Минус — это уже сделанные поездки, за которые не заплатили. Владелец
   /// должен видеть этот список раньше, чем он станет большим.
-  _i2.Future<List<_i37.FamilyBalanceRow>> familyBalances() =>
-      caller.callServerEndpoint<List<_i37.FamilyBalanceRow>>(
+  _i2.Future<List<_i38.FamilyBalanceRow>> familyBalances() =>
+      caller.callServerEndpoint<List<_i38.FamilyBalanceRow>>(
         'owner',
         'familyBalances',
         {},
@@ -949,7 +961,7 @@ class EndpointRides extends _i1.EndpointRef {
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
   _i2.Future<_i23.Ride> submitEvent(
     int rideId,
-    _i38.RideEventSubmission submission,
+    _i39.RideEventSubmission submission,
   ) => caller.callServerEndpoint<_i23.Ride>(
     'rides',
     'submitEvent',
@@ -971,10 +983,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i39.TrackingState> pushLocations(
+  _i2.Future<_i40.TrackingState> pushLocations(
     int rideId,
-    List<_i40.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i39.TrackingState>(
+    List<_i41.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i40.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -1070,8 +1082,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i41.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i41.RideLocation>>(
+  _i2.Future<List<_i42.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i42.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -1081,10 +1093,10 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i41.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i42.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i41.RideLocation>,
-        _i41.RideLocation
+        _i2.Stream<_i42.RideLocation>,
+        _i42.RideLocation
       >(
         'routes',
         'watchRideLocation',
@@ -1159,8 +1171,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i42.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i42.ServerHealth>(
+  _i2.Future<_i43.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i43.ServerHealth>(
         'health',
         'ping',
         {},
@@ -1187,7 +1199,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i43.Protocol(),
+         _i44.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

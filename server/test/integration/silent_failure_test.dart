@@ -88,13 +88,22 @@ void main() {
         expect(tasks.single.kind, DispatcherTaskKind.rideNotConfirmed);
         expect(tasks.single.text, contains('Аман'));
 
-        // Водителю ушло напоминание.
+        // Водителю ушло напоминание — и push, и SMS: неподтверждённая
+        // поездка критична, а push мог не дойти именно потому, что
+        // водитель весь вечер не открывал приложение.
         final reminders = await NotificationOutbox.db.find(
           session,
           where: (row) => row.recipientRole.equals(AccountRole.driver),
         );
-        expect(reminders, hasLength(1));
-        expect(reminders.single.recipientPhone, driver.phone);
+        expect(reminders, hasLength(2));
+        expect(
+          reminders.map((row) => row.channel),
+          containsAll([NotificationChannel.push, NotificationChannel.sms]),
+        );
+        expect(
+          reminders.every((row) => row.recipientPhone == driver.phone),
+          isTrue,
+        );
       },
     );
 

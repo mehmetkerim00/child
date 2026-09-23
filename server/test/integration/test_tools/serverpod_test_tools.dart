@@ -48,13 +48,14 @@ import 'package:child_server/src/generated/training_result.dart' as _i34;
 import 'package:child_server/src/generated/institution_day_view.dart' as _i35;
 import 'package:child_server/src/generated/institution_access.dart' as _i36;
 import 'package:child_server/src/generated/owner_report.dart' as _i37;
-import 'package:child_server/src/generated/family_balance_row.dart' as _i38;
-import 'package:child_server/src/generated/ride_event_submission.dart' as _i39;
-import 'package:child_server/src/generated/tracking_state.dart' as _i40;
-import 'package:child_server/src/generated/ride_location_point.dart' as _i41;
-import 'package:child_server/src/generated/ride_location.dart' as _i42;
-import 'package:child_server/src/generated/health/server_health.dart' as _i43;
-import 'package:child_server/src/generated/future_calls.dart' as _i44;
+import 'package:child_server/src/generated/system_health.dart' as _i38;
+import 'package:child_server/src/generated/family_balance_row.dart' as _i39;
+import 'package:child_server/src/generated/ride_event_submission.dart' as _i40;
+import 'package:child_server/src/generated/tracking_state.dart' as _i41;
+import 'package:child_server/src/generated/ride_location_point.dart' as _i42;
+import 'package:child_server/src/generated/ride_location.dart' as _i43;
+import 'package:child_server/src/generated/health/server_health.dart' as _i44;
+import 'package:child_server/src/generated/future_calls.dart' as _i45;
 import 'package:child_server/src/generated/protocol.dart';
 import 'package:child_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -270,6 +271,8 @@ class _FutureCalls {
   late final cleanupLocations = _CleanupLocationsFutureCall();
 
   late final generateRides = _GenerateRidesFutureCall();
+
+  late final monitor = _MonitorFutureCall();
 
   late final processOutbox = _ProcessOutboxFutureCall();
 }
@@ -2564,7 +2567,37 @@ class _OwnerEndpoint {
     });
   }
 
-  _i3.Future<List<_i38.FamilyBalanceRow>> familyBalances(
+  _i3.Future<_i38.SystemHealth> systemHealth(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'owner',
+            method: 'systemHealth',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'owner',
+          methodName: 'systemHealth',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i38.SystemHealth>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i39.FamilyBalanceRow>> familyBalances(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2586,7 +2619,7 @@ class _OwnerEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i38.FamilyBalanceRow>>);
+                as _i3.Future<List<_i39.FamilyBalanceRow>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2865,7 +2898,7 @@ class _RidesEndpoint {
   _i3.Future<_i24.Ride> submitEvent(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
-    _i39.RideEventSubmission submission,
+    _i40.RideEventSubmission submission,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -2928,10 +2961,10 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i40.TrackingState> pushLocations(
+  _i3.Future<_i41.TrackingState> pushLocations(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
-    List<_i41.RideLocationPoint> points,
+    List<_i42.RideLocationPoint> points,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -2955,7 +2988,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i40.TrackingState>);
+                as _i3.Future<_i41.TrackingState>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3226,7 +3259,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i42.RideLocation>> rideTrack(
+  _i3.Future<List<_i43.RideLocation>> rideTrack(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -3249,7 +3282,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i42.RideLocation>>);
+                as _i3.Future<List<_i43.RideLocation>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3257,11 +3290,11 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Stream<_i42.RideLocation> watchRideLocation(
+  _i3.Stream<_i43.RideLocation> watchRideLocation(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) {
-    var _localTestStreamManager = _i1.TestStreamManager<_i42.RideLocation>();
+    var _localTestStreamManager = _i1.TestStreamManager<_i43.RideLocation>();
     _i1.callStreamFunctionAndHandleExceptions(
       () async {
         var _localUniqueSession =
@@ -3488,7 +3521,7 @@ class _HealthEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i43.ServerHealth> ping(
+  _i3.Future<_i44.ServerHealth> ping(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -3510,7 +3543,7 @@ class _HealthEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i43.ServerHealth>);
+                as _i3.Future<_i44.ServerHealth>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3527,7 +3560,7 @@ class _CleanupLocationsFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.CleanupLocationsInvokeFutureCall().invoke(
+      await _i45.CleanupLocationsInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -3540,7 +3573,7 @@ class _CleanupLocationsFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.CleanupLocationsCleanupLocationsFutureCall().invoke(
+      await _i45.CleanupLocationsCleanupLocationsFutureCall().invoke(
         _localUniqueSession,
         null,
       );
@@ -3558,7 +3591,7 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.GenerateRidesInvokeFutureCall().invoke(
+      await _i45.GenerateRidesInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -3571,7 +3604,38 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.GenerateRidesGenerateUpcomingFutureCall().invoke(
+      await _i45.GenerateRidesGenerateUpcomingFutureCall().invoke(
+        _localUniqueSession,
+        null,
+      );
+    } finally {
+      await _localUniqueSession.close();
+    }
+  }
+}
+
+class _MonitorFutureCall {
+  Future<void> invoke(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i2.SerializableModel? object,
+  ) async {
+    var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
+        .internalBuild();
+    try {
+      await _i45.MonitorInvokeFutureCall().invoke(
+        _localUniqueSession,
+        object,
+      );
+    } finally {
+      await _localUniqueSession.close();
+    }
+  }
+
+  Future<void> checkSystem(_i1.TestSessionBuilder sessionBuilder) async {
+    var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
+        .internalBuild();
+    try {
+      await _i45.MonitorCheckSystemFutureCall().invoke(
         _localUniqueSession,
         null,
       );
@@ -3589,7 +3653,7 @@ class _ProcessOutboxFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.ProcessOutboxInvokeFutureCall().invoke(
+      await _i45.ProcessOutboxInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -3602,7 +3666,7 @@ class _ProcessOutboxFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i44.ProcessOutboxProcessOutboxFutureCall().invoke(
+      await _i45.ProcessOutboxProcessOutboxFutureCall().invoke(
         _localUniqueSession,
         null,
       );

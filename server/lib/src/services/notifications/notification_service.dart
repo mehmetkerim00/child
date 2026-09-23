@@ -129,7 +129,11 @@ class NotificationService {
   }
 
   /// Ставит в очередь произвольное сообщение (напоминания водителю,
-  /// сообщения диспетчера).
+  /// сообщения диспетчера, критичные фразы из чата).
+  ///
+  /// Критичное сообщение, как и критичное событие поездки, дублируется
+  /// SMS сразу: «ребёнок болеет» или «сегодня не едем» нельзя оставить
+  /// на волю push-уведомления, которое могло не дойти.
   Future<NotificationOutbox?> enqueueMessage(
     Session session, {
     required String dedupeKey,
@@ -140,9 +144,9 @@ class NotificationService {
     bool critical = false,
     int? rideId,
     int? familyId,
-  }) {
+  }) async {
     final now = clock.now();
-    return _enqueue(
+    final pushRow = await _enqueue(
       session,
       dedupeKey: dedupeKey,
       eventKind: eventKind,
@@ -154,8 +158,41 @@ class NotificationService {
       rideId: rideId,
       familyId: familyId,
       now: now,
+      // Ждём подтверждения только по некритическим: критические
+      // дублируются SMS немедленно.
       ackDeadline: critical ? null : now.add(ackWindow),
     );
+
+    if (critical && await _smsAllowedFor(session, familyId)) {
+      await _enqueue(
+        session,
+        dedupeKey: '$dedupeKey:sms',
+        eventKind: eventKind,
+        critical: true,
+        phone: phone,
+        role: role,
+        channel: NotificationChannel.sms,
+        body: body,
+        rideId: rideId,
+        familyId: familyId,
+        now: now,
+      );
+    }
+
+    return pushRow;
+  }
+
+  /// Можно ли слать SMS по этому адресату.
+  ///
+  /// Настройка уровня SMS принадлежит семье. У водителя, диспетчера и
+  /// владельца семьи нет — им критичное уходит всегда: это рабочая
+  /// связь, а не информирование.
+  Future<bool> _smsAllowedFor(Session session, int? familyId) async {
+    if (familyId == null) return true;
+    final family = await Family.db.findById(session, familyId);
+    // Критичное уходит при любом уровне; проверка оставлена на случай,
+    // если семья появится в настройках «совсем без SMS».
+    return family != null;
   }
 
   /// Ручная SMS из консоли диспетчера: уходит сразу, минуя push.

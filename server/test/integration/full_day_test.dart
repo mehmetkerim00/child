@@ -1,6 +1,7 @@
 import 'package:child_server/src/generated/protocol.dart';
 import 'package:child_server/src/services/clock.dart';
 import 'package:child_server/src/services/money/ledger_service.dart';
+import 'package:child_server/src/services/monitoring/monitoring_service.dart';
 import 'package:child_server/src/services/notifications/notification_service.dart';
 import 'package:child_server/src/services/notifications/push_gateway.dart';
 import 'package:child_server/src/services/notifications/silent_failure_watch.dart';
@@ -511,6 +512,38 @@ void main() {
         endpoints.owner.report(asDispatcher, fromDate: today, toDate: today),
         throwsA(isA<Exception>()),
       );
+
+      // --- Сервис проверяет сам себя ------------------------------------
+      //
+      // День закончился сорванной поездкой, и сторож обязан это увидеть:
+      // если он молчит на таком дне, он промолчит и на настоящем сбое.
+      final monitoring = MonitoringService(
+        clock: clock,
+        notify: notifications,
+      );
+      final systemHealth = await monitoring.check(session);
+
+      expect(systemHealth.databaseOk, isTrue);
+      expect(
+        systemHealth.ridesWithoutDriver,
+        greaterThanOrEqualTo(1),
+        reason: 'водитель отказался — машины на завтра нет',
+      );
+      expect(
+        systemHealth.problems,
+        isNotEmpty,
+        reason: 'тишина при сорванной поездке опаснее самой поездки',
+      );
+
+      final systemTasks = await DispatcherTask.db.find(
+        session,
+        where: (task) => task.kind.equals(DispatcherTaskKind.systemDegraded),
+      );
+      expect(systemTasks, isNotEmpty);
+
+      // Владелец видит те же цифры, что и сторож, — без звонка разработчику.
+      final ownerView = await endpoints.owner.systemHealth(asOwner);
+      expect(ownerView.ridesWithoutDriver, systemHealth.ridesWithoutDriver);
     });
 
     test('утро с пулом: три ребёнка в одной машине', () async {

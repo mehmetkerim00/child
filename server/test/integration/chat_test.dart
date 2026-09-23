@@ -164,6 +164,14 @@ void main() {
         expect(outbox.first.critical, isTrue);
         expect(outbox.first.body, contains('болеет'));
 
+        // И продублировано SMS: push мог не дойти, а водитель уже едет
+        // за ребёнком, которого сегодня везти не надо.
+        expect(
+          outbox.where((row) => row.channel == NotificationChannel.sms),
+          isNotEmpty,
+          reason: 'критичная фраза не может зависеть только от push',
+        );
+
         // Диспетчер увидит задачу: поездку надо отменить.
         final tasks = await DispatcherTask.db.find(session);
         expect(tasks, hasLength(1));

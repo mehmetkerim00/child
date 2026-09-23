@@ -1561,6 +1561,17 @@ class Endpoints extends _i1.EndpointDispatch {
                 perRideTenge: params['perRideTenge'],
               ),
         ),
+        'systemHealth': _i1.MethodConnector(
+          name: 'systemHealth',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['owner'] as _i8.OwnerEndpoint).systemHealth(
+                session,
+              ),
+        ),
         'familyBalances': _i1.MethodConnector(
           name: 'familyBalances',
           params: {},

@@ -72,8 +72,28 @@ PostgreSQL — 8090 (база тестов — 9090).
 Связывает пакеты Dart pub workspace: `flutter pub get` в корне ставит
 зависимости всему монорепо.
 
-CI на каждый коммит: анализ, тесты, тесты сервера на PostgreSQL и сборка
-debug-APK обоих мобильных приложений (артефакт `apk-debug`).
+Приёмка перед релизом — `./tools/rehearsal.sh`: поиск секретов, анализ,
+все тесты, прогон полного школьного дня и подписанные релизные APK.
+
+CI на каждый коммит: поиск секретов, анализ, тесты, тесты сервера на
+PostgreSQL и сборка debug-APK обоих мобильных приложений (артефакт
+`apk-debug`).
+
+## Эксплуатация
+
+```bash
+./tools/add_account.sh owner "+99365002222" "Владелец"  # служебный аккаунт
+./tools/check_secrets.sh                                # перед публикацией
+dart tools/load_test.dart --rides 200 --events 1000     # нагрузка
+tools/backup_db.sh                                      # шифрованный бэкап
+tools/restore_check.sh <файл>                           # проверка восстановления
+tools/watchdog.sh https://api.example.tm                # с ДРУГОЙ машины
+```
+
+- Мониторинг и тревоги: [docs/monitoring.md](docs/monitoring.md)
+- Бэкапы и восстановление: [docs/backup.md](docs/backup.md)
+- Откат релиза: [docs/release-rollback.md](docs/release-rollback.md)
+- Бэкап ключа подписи: [docs/keystore-backup.md](docs/keystore-backup.md)
 
 ## Документация
 

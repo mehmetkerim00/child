@@ -482,5 +482,6 @@
   "ownerSmsPrice": "SMS, тенге",
   "ownerBlockPay": "Блок, тенге",
   "ownerPerRide": "Поездка, тенге",
-  "ownerLossMaking": "Убыточный маршрут"
+  "ownerLossMaking": "Убыточный маршрут",
+  "taskSystemDegraded": "Сбой сервиса"
 }

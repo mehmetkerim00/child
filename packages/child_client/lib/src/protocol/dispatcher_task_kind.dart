@@ -18,7 +18,8 @@ enum DispatcherTaskKind implements _i1.SerializableModel {
   rideNotConfirmed,
   driverNotDeparted,
   notificationUndelivered,
-  rideWithoutDriver;
+  rideWithoutDriver,
+  systemDegraded;
 
   static DispatcherTaskKind fromJson(String name) {
     switch (name) {
@@ -30,6 +31,8 @@ enum DispatcherTaskKind implements _i1.SerializableModel {
         return DispatcherTaskKind.notificationUndelivered;
       case 'rideWithoutDriver':
         return DispatcherTaskKind.rideWithoutDriver;
+      case 'systemDegraded':
+        return DispatcherTaskKind.systemDegraded;
       default:
         throw ArgumentError(
           'Value "$name" cannot be converted to "DispatcherTaskKind"',

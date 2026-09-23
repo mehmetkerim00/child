@@ -1136,4 +1136,7 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get ownerLossMaking => 'Zyýanly ugur';
+
+  @override
+  String get taskSystemDegraded => 'Hyzmatda näsazlyk';
 }

@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:serverpod/serverpod.dart';
 
 import 'src/auth/auth_handler.dart';
+import 'src/services/monitoring/error_reporter.dart';
+import 'src/services/monitoring/monitoring_schedule.dart';
 import 'src/services/notifications/outbox_schedule.dart';
 import 'src/services/rides/ride_schedule.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/web/routes/health_route.dart';
 import 'src/web/routes/institution_route.dart';
 import 'src/web/routes/report_csv_route.dart';
 import 'src/web/routes/root.dart';
@@ -20,6 +23,12 @@ void run(List<String> args) async {
     Endpoints(),
     authenticationHandler: authenticationHandler,
   );
+
+  // Ошибки уходят в Sentry, если задан SENTRY_DSN; иначе — в консоль.
+  configureErrorReporter(environment: pod.runMode);
+
+  // Живость для внешнего сторожа: он опрашивает /health с другой машины.
+  pod.webServer.addRoute(HealthRoute(), '/health');
 
   // Кабинет учреждения: воспитатель открывает ссылку без установки.
   pod.webServer.addRoute(InstitutionRoute(), '/sadik');
@@ -53,6 +62,10 @@ void run(List<String> args) async {
 
   // Ежедневная уборка трека: точки старше 30 дней удаляются.
   await scheduleNextLocationCleanup(pod);
+
+  // Сторож сервиса: очередь уведомлений, задержка SMS, поездки без
+  // водителя. О падении самого сервера сообщает внешний watchdog.
+  await scheduleNextMonitorRun(pod);
 
   // Очередь уведомлений и ловля «тихих сбоев» — раз в минуту.
   await scheduleNextOutboxRun(pod);

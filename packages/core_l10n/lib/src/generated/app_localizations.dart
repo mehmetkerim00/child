@@ -2245,6 +2245,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Убыточный маршрут'**
   String get ownerLossMaking;
+
+  /// No description provided for @taskSystemDegraded.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сбой сервиса'**
+  String get taskSystemDegraded;
 }
 
 class _AppLocalizationsDelegate

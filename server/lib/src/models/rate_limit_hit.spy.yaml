@@ -1,0 +1,13 @@
+### Обращение, учитываемое ограничителем частоты.
+###
+### Хранится в базе, а не в памяти: после перезапуска сервера окно не
+### должно обнуляться, иначе ограничение обходится перезагрузкой.
+class: RateLimitHit
+table: rate_limit_hit
+fields:
+  ### Что ограничиваем: «auth:+99365…», «chat:7».
+  bucket: String
+  at: DateTime
+indexes:
+  rate_limit_bucket_idx:
+    fields: bucket, at

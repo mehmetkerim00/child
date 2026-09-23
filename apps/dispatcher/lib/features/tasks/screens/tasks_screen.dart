@@ -81,6 +81,12 @@ class _TaskTile extends ConsumerWidget {
         l10n.taskRideWithoutDriver,
         ChildColors.danger,
       ),
+      // Сбой сервиса: очередь уведомлений, SMS или база. Текст задачи
+      // объясняет, что именно, — его пишет сторож.
+      DispatcherTaskKind.systemDegraded => (
+        l10n.taskSystemDegraded,
+        ChildColors.danger,
+      ),
     };
 
     return Card(

@@ -1139,4 +1139,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get ownerLossMaking => 'Убыточный маршрут';
+
+  @override
+  String get taskSystemDegraded => 'Сбой сервиса';
 }
