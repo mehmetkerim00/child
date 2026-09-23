@@ -2,6 +2,12 @@ auth:
   - requestCode:
   - verifyCode:
   - logout:
+chat:
+  - threadForRide:
+  - myThread:
+  - messages:
+  - send:
+  - dispatcherPhone:
 dev:
   - seed:
 directory:

@@ -729,4 +729,48 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seatWhichChild => 'Кого забираем';
+
+  @override
+  String get chatTitle => 'Сообщения';
+
+  @override
+  String get chatHint =>
+      'Пишите водителю прямо здесь — номера телефонов не раскрываются';
+
+  @override
+  String get chatSend => 'Отправить';
+
+  @override
+  String get chatPlaceholder => 'Сообщение';
+
+  @override
+  String get chatEmpty => 'Сообщений пока нет';
+
+  @override
+  String get chatQuickPhrases => 'Быстрые фразы';
+
+  @override
+  String get phraseComingOut => 'Выходим';
+
+  @override
+  String get phraseDelayFive => 'Задерживаемся на 5 минут';
+
+  @override
+  String get phraseChildSick => 'Ребёнок болеет, отмените сегодня';
+
+  @override
+  String get phraseWaitingEntrance => 'Ждём у подъезда';
+
+  @override
+  String get phraseArrivedCallChild => 'Подъехал, позовите ребёнка';
+
+  @override
+  String get phraseAllGood => 'Всё хорошо';
+
+  @override
+  String get emergencyCall => 'Позвонить диспетчеру';
+
+  @override
+  String get emergencyHint =>
+      'Срочный вопрос — звоните диспетчеру, он свяжется с водителем';
 }

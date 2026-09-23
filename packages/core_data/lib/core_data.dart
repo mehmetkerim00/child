@@ -12,6 +12,8 @@ export 'package:child_client/child_client.dart'
         AuthResult,
         BalanceView,
         CashTopUp,
+        ChatMessage,
+        ChatThread,
         Child,
         CircleRank,
         Client,
@@ -30,6 +32,7 @@ export 'package:child_client/child_client.dart'
         NotificationStatus,
         Parent,
         ParentRole,
+        QuickPhrase,
         Ride,
         RideEvent,
         RideEventType,
@@ -50,6 +53,7 @@ export 'package:child_client/child_client.dart'
         SmsLevel,
         VettingStatus;
 
+export 'src/api/chat_providers.dart';
 export 'src/api/directory_providers.dart';
 export 'src/api/money_providers.dart';
 export 'src/api/ride_providers.dart';

@@ -727,4 +727,47 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get seatWhichChild => 'Kimi alýarys';
+
+  @override
+  String get chatTitle => 'Habarlar';
+
+  @override
+  String get chatHint => 'Sürüjä şu ýerde ýazyň — telefon belgileri açylmaýar';
+
+  @override
+  String get chatSend => 'Iber';
+
+  @override
+  String get chatPlaceholder => 'Habar';
+
+  @override
+  String get chatEmpty => 'Häzirlikçe habar ýok';
+
+  @override
+  String get chatQuickPhrases => 'Taýýar jümleler';
+
+  @override
+  String get phraseComingOut => 'Çykýarys';
+
+  @override
+  String get phraseDelayFive => '5 minut gijikýäris';
+
+  @override
+  String get phraseChildSick => 'Çaga syrkaw, şu güni ýatyryň';
+
+  @override
+  String get phraseWaitingEntrance => 'Girelgede garaşýarys';
+
+  @override
+  String get phraseArrivedCallChild => 'Geldim, çagany çagyryň';
+
+  @override
+  String get phraseAllGood => 'Hemme zat gowy';
+
+  @override
+  String get emergencyCall => 'Dispetçere jaň et';
+
+  @override
+  String get emergencyHint =>
+      'Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar';
 }

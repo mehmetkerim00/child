@@ -3,6 +3,7 @@ import 'package:core_domain/core_domain.dart';
 import 'package:core_l10n/core_l10n.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:core_auth/core_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'ride_live_screen.dart';
@@ -24,6 +25,19 @@ class RideEventsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.parentRideTitle),
         actions: [
+          IconButton(
+            tooltip: l10n.chatTitle,
+            icon: const Icon(Icons.chat_bubble_outline),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => RideChatScreen(
+                  rideId: view.ride.id!,
+                  myRole: AccountRole.parent,
+                ),
+              ),
+            ),
+          ),
+          const EmergencyCallButton(),
           IconButton(
             tooltip: l10n.rideOnMap,
             icon: const Icon(Icons.map),

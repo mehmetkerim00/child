@@ -1465,6 +1465,90 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Кого забираем'**
   String get seatWhichChild;
+
+  /// No description provided for @chatTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщения'**
+  String get chatTitle;
+
+  /// No description provided for @chatHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пишите водителю прямо здесь — номера телефонов не раскрываются'**
+  String get chatHint;
+
+  /// No description provided for @chatSend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get chatSend;
+
+  /// No description provided for @chatPlaceholder.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение'**
+  String get chatPlaceholder;
+
+  /// No description provided for @chatEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщений пока нет'**
+  String get chatEmpty;
+
+  /// No description provided for @chatQuickPhrases.
+  ///
+  /// In ru, this message translates to:
+  /// **'Быстрые фразы'**
+  String get chatQuickPhrases;
+
+  /// No description provided for @phraseComingOut.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выходим'**
+  String get phraseComingOut;
+
+  /// No description provided for @phraseDelayFive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задерживаемся на 5 минут'**
+  String get phraseDelayFive;
+
+  /// No description provided for @phraseChildSick.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ребёнок болеет, отмените сегодня'**
+  String get phraseChildSick;
+
+  /// No description provided for @phraseWaitingEntrance.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ждём у подъезда'**
+  String get phraseWaitingEntrance;
+
+  /// No description provided for @phraseArrivedCallChild.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подъехал, позовите ребёнка'**
+  String get phraseArrivedCallChild;
+
+  /// No description provided for @phraseAllGood.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всё хорошо'**
+  String get phraseAllGood;
+
+  /// No description provided for @emergencyCall.
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить диспетчеру'**
+  String get emergencyCall;
+
+  /// No description provided for @emergencyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срочный вопрос — звоните диспетчеру, он свяжется с водителем'**
+  String get emergencyHint;
 }
 
 class _AppLocalizationsDelegate

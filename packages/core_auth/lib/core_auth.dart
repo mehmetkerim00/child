@@ -1,6 +1,6 @@
-/// Общий вход по телефону и SMS-коду для приложений родителя,
-/// водителя и диспетчера.
+/// Общие экраны всех приложений: вход по телефону и переписка по поездке.
 library;
 
 export 'src/auth_error_text.dart';
+export 'src/chat_screen.dart';
 export 'src/login_screen.dart';

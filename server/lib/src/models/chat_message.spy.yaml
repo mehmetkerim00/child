@@ -1,0 +1,24 @@
+### Сообщение в переписке.
+class: ChatMessage
+table: chat_message
+fields:
+  threadId: int, relation(parent=chat_thread, onDelete=Cascade)
+  senderRole: AccountRole
+  ### id отправителя в его таблице (родитель, водитель, диспетчер).
+  senderId: int
+  ### Имя отправителя на момент отправки — чтобы история читалась.
+  senderName: String
+  body: String
+  ### Готовая фраза, если сообщение отправлено кнопкой.
+  quickPhrase: QuickPhrase?
+  ### Критичные сообщения дублируются SMS через обычный каскад.
+  critical: bool, default=false
+  createdAt: DateTime, default=now
+  ### Ключ идемпотентности: повторная отправка не задваивает сообщение.
+  clientMessageId: String
+indexes:
+  chat_message_thread_idx:
+    fields: threadId, createdAt
+  chat_message_client_idx:
+    fields: clientMessageId
+    unique: true

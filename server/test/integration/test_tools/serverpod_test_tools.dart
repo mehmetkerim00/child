@@ -15,31 +15,34 @@ import 'package:serverpod_test/serverpod_test.dart' as _i1;
 import 'package:serverpod/serverpod.dart' as _i2;
 import 'dart:async' as _i3;
 import 'package:child_server/src/generated/auth_result.dart' as _i4;
-import 'package:child_server/src/generated/family.dart' as _i5;
-import 'package:child_server/src/generated/parent.dart' as _i6;
-import 'package:child_server/src/generated/child.dart' as _i7;
-import 'package:child_server/src/generated/driver.dart' as _i8;
-import 'package:child_server/src/generated/institution.dart' as _i9;
-import 'package:child_server/src/generated/family_circle.dart' as _i10;
-import 'package:child_server/src/generated/circle_rank.dart' as _i11;
-import 'package:child_server/src/generated/route_template.dart' as _i12;
-import 'package:child_server/src/generated/ride_view.dart' as _i13;
-import 'package:child_server/src/generated/ride_event.dart' as _i14;
-import 'package:child_server/src/generated/dispatcher_task.dart' as _i15;
-import 'package:child_server/src/generated/notification_outbox.dart' as _i16;
-import 'package:child_server/src/generated/cash_top_up.dart' as _i17;
-import 'package:child_server/src/generated/ledger_entry.dart' as _i18;
-import 'package:child_server/src/generated/balance_view.dart' as _i19;
-import 'package:child_server/src/generated/pool_candidate.dart' as _i20;
-import 'package:child_server/src/generated/ride.dart' as _i21;
-import 'package:child_server/src/generated/pool_capacity.dart' as _i22;
-import 'package:child_server/src/generated/ride_seat.dart' as _i23;
-import 'package:child_server/src/generated/ride_event_submission.dart' as _i24;
-import 'package:child_server/src/generated/tracking_state.dart' as _i25;
-import 'package:child_server/src/generated/ride_location_point.dart' as _i26;
-import 'package:child_server/src/generated/ride_location.dart' as _i27;
-import 'package:child_server/src/generated/health/server_health.dart' as _i28;
-import 'package:child_server/src/generated/future_calls.dart' as _i29;
+import 'package:child_server/src/generated/chat_thread.dart' as _i5;
+import 'package:child_server/src/generated/chat_message.dart' as _i6;
+import 'package:child_server/src/generated/quick_phrase.dart' as _i7;
+import 'package:child_server/src/generated/family.dart' as _i8;
+import 'package:child_server/src/generated/parent.dart' as _i9;
+import 'package:child_server/src/generated/child.dart' as _i10;
+import 'package:child_server/src/generated/driver.dart' as _i11;
+import 'package:child_server/src/generated/institution.dart' as _i12;
+import 'package:child_server/src/generated/family_circle.dart' as _i13;
+import 'package:child_server/src/generated/circle_rank.dart' as _i14;
+import 'package:child_server/src/generated/route_template.dart' as _i15;
+import 'package:child_server/src/generated/ride_view.dart' as _i16;
+import 'package:child_server/src/generated/ride_event.dart' as _i17;
+import 'package:child_server/src/generated/dispatcher_task.dart' as _i18;
+import 'package:child_server/src/generated/notification_outbox.dart' as _i19;
+import 'package:child_server/src/generated/cash_top_up.dart' as _i20;
+import 'package:child_server/src/generated/ledger_entry.dart' as _i21;
+import 'package:child_server/src/generated/balance_view.dart' as _i22;
+import 'package:child_server/src/generated/pool_candidate.dart' as _i23;
+import 'package:child_server/src/generated/ride.dart' as _i24;
+import 'package:child_server/src/generated/pool_capacity.dart' as _i25;
+import 'package:child_server/src/generated/ride_seat.dart' as _i26;
+import 'package:child_server/src/generated/ride_event_submission.dart' as _i27;
+import 'package:child_server/src/generated/tracking_state.dart' as _i28;
+import 'package:child_server/src/generated/ride_location_point.dart' as _i29;
+import 'package:child_server/src/generated/ride_location.dart' as _i30;
+import 'package:child_server/src/generated/health/server_health.dart' as _i31;
+import 'package:child_server/src/generated/future_calls.dart' as _i32;
 import 'package:child_server/src/generated/protocol.dart';
 import 'package:child_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -158,6 +161,8 @@ class TestEndpoints {
 
   late final _AuthEndpoint auth;
 
+  late final _ChatEndpoint chat;
+
   late final _DevEndpoint dev;
 
   late final _DirectoryEndpoint directory;
@@ -179,6 +184,10 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.EndpointDispatch endpoints,
   ) {
     auth = _AuthEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    chat = _ChatEndpoint(
       endpoints,
       serializationManager,
     );
@@ -322,6 +331,178 @@ class _AuthEndpoint {
   }
 }
 
+class _ChatEndpoint {
+  _ChatEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<_i5.ChatThread> threadForRide(
+    _i1.TestSessionBuilder sessionBuilder,
+    int rideId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'chat',
+            method: 'threadForRide',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'chat',
+          methodName: 'threadForRide',
+          parameters: _i1.testObjectToJson({'rideId': rideId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i5.ChatThread>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i5.ChatThread> myThread(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'chat',
+            method: 'myThread',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'chat',
+          methodName: 'myThread',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i5.ChatThread>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i6.ChatMessage>> messages(
+    _i1.TestSessionBuilder sessionBuilder,
+    int threadId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'chat',
+            method: 'messages',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'chat',
+          methodName: 'messages',
+          parameters: _i1.testObjectToJson({'threadId': threadId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i6.ChatMessage>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i6.ChatMessage> send(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required int threadId,
+    required String clientMessageId,
+    String? body,
+    _i7.QuickPhrase? phrase,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'chat',
+            method: 'send',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'chat',
+          methodName: 'send',
+          parameters: _i1.testObjectToJson({
+            'threadId': threadId,
+            'clientMessageId': clientMessageId,
+            'body': body,
+            'phrase': phrase,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i6.ChatMessage>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<String?> dispatcherPhone(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'chat',
+            method: 'dispatcherPhone',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'chat',
+          methodName: 'dispatcherPhone',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<String?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _DevEndpoint {
   _DevEndpoint(
     this._endpointDispatch,
@@ -371,7 +552,7 @@ class _DirectoryEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i5.Family>> families(
+  _i3.Future<List<_i8.Family>> families(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -393,7 +574,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i5.Family>>);
+                as _i3.Future<List<_i8.Family>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -401,9 +582,9 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i5.Family> saveFamily(
+  _i3.Future<_i8.Family> saveFamily(
     _i1.TestSessionBuilder sessionBuilder,
-    _i5.Family family,
+    _i8.Family family,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -424,7 +605,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i5.Family>);
+                as _i3.Future<_i8.Family>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -463,7 +644,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i6.Parent>> parents(
+  _i3.Future<List<_i9.Parent>> parents(
     _i1.TestSessionBuilder sessionBuilder,
     int familyId,
   ) async {
@@ -486,7 +667,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i6.Parent>>);
+                as _i3.Future<List<_i9.Parent>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -494,9 +675,9 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i6.Parent> saveParent(
+  _i3.Future<_i9.Parent> saveParent(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.Parent parent,
+    _i9.Parent parent,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -517,7 +698,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i6.Parent>);
+                as _i3.Future<_i9.Parent>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -525,7 +706,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i7.Child>> children(
+  _i3.Future<List<_i10.Child>> children(
     _i1.TestSessionBuilder sessionBuilder, {
     int? familyId,
   }) async {
@@ -548,7 +729,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i7.Child>>);
+                as _i3.Future<List<_i10.Child>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -556,9 +737,9 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i7.Child> saveChild(
+  _i3.Future<_i10.Child> saveChild(
     _i1.TestSessionBuilder sessionBuilder,
-    _i7.Child child,
+    _i10.Child child,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -579,7 +760,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i7.Child>);
+                as _i3.Future<_i10.Child>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -618,7 +799,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i8.Driver>> drivers(
+  _i3.Future<List<_i11.Driver>> drivers(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -640,7 +821,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i8.Driver>>);
+                as _i3.Future<List<_i11.Driver>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -648,9 +829,9 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i8.Driver> saveDriver(
+  _i3.Future<_i11.Driver> saveDriver(
     _i1.TestSessionBuilder sessionBuilder,
-    _i8.Driver driver,
+    _i11.Driver driver,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -671,7 +852,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i8.Driver>);
+                as _i3.Future<_i11.Driver>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -679,7 +860,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i9.Institution>> institutions(
+  _i3.Future<List<_i12.Institution>> institutions(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -701,7 +882,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i9.Institution>>);
+                as _i3.Future<List<_i12.Institution>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -709,9 +890,9 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i9.Institution> saveInstitution(
+  _i3.Future<_i12.Institution> saveInstitution(
     _i1.TestSessionBuilder sessionBuilder,
-    _i9.Institution institution,
+    _i12.Institution institution,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -732,7 +913,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i9.Institution>);
+                as _i3.Future<_i12.Institution>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -740,7 +921,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.FamilyCircle>> circle(
+  _i3.Future<List<_i13.FamilyCircle>> circle(
     _i1.TestSessionBuilder sessionBuilder,
     int familyId,
   ) async {
@@ -763,7 +944,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.FamilyCircle>>);
+                as _i3.Future<List<_i13.FamilyCircle>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -771,11 +952,11 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i10.FamilyCircle> assignDriver(
+  _i3.Future<_i13.FamilyCircle> assignDriver(
     _i1.TestSessionBuilder sessionBuilder, {
     required int familyId,
     required int driverId,
-    required _i11.CircleRank rank,
+    required _i14.CircleRank rank,
   }) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -800,7 +981,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i10.FamilyCircle>);
+                as _i3.Future<_i13.FamilyCircle>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -808,7 +989,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i12.RouteTemplate>> routes(
+  _i3.Future<List<_i15.RouteTemplate>> routes(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -830,7 +1011,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i12.RouteTemplate>>);
+                as _i3.Future<List<_i15.RouteTemplate>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -838,7 +1019,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i12.RouteTemplate>> pendingRoutes(
+  _i3.Future<List<_i15.RouteTemplate>> pendingRoutes(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -860,7 +1041,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i12.RouteTemplate>>);
+                as _i3.Future<List<_i15.RouteTemplate>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -868,7 +1049,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i12.RouteTemplate> activateRoute(
+  _i3.Future<_i15.RouteTemplate> activateRoute(
     _i1.TestSessionBuilder sessionBuilder, {
     required int routeId,
     required int driverId,
@@ -897,7 +1078,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i12.RouteTemplate>);
+                as _i3.Future<_i15.RouteTemplate>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -905,7 +1086,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i12.RouteTemplate> deactivateRoute(
+  _i3.Future<_i15.RouteTemplate> deactivateRoute(
     _i1.TestSessionBuilder sessionBuilder,
     int routeId,
   ) async {
@@ -928,7 +1109,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i12.RouteTemplate>);
+                as _i3.Future<_i15.RouteTemplate>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -966,7 +1147,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i13.RideView>> ridesForDate(
+  _i3.Future<List<_i16.RideView>> ridesForDate(
     _i1.TestSessionBuilder sessionBuilder, {
     DateTime? date,
   }) async {
@@ -989,7 +1170,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i13.RideView>>);
+                as _i3.Future<List<_i16.RideView>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -997,7 +1178,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i14.RideEvent>> rideEvents(
+  _i3.Future<List<_i17.RideEvent>> rideEvents(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1020,7 +1201,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i14.RideEvent>>);
+                as _i3.Future<List<_i17.RideEvent>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1028,7 +1209,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i15.DispatcherTask>> openTasks(
+  _i3.Future<List<_i18.DispatcherTask>> openTasks(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1050,7 +1231,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i15.DispatcherTask>>);
+                as _i3.Future<List<_i18.DispatcherTask>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1058,7 +1239,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i15.DispatcherTask?> resolveTask(
+  _i3.Future<_i18.DispatcherTask?> resolveTask(
     _i1.TestSessionBuilder sessionBuilder,
     int taskId,
   ) async {
@@ -1081,7 +1262,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i15.DispatcherTask?>);
+                as _i3.Future<_i18.DispatcherTask?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1089,7 +1270,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i16.NotificationOutbox>> notifications(
+  _i3.Future<List<_i19.NotificationOutbox>> notifications(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1111,7 +1292,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i16.NotificationOutbox>>);
+                as _i3.Future<List<_i19.NotificationOutbox>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1119,7 +1300,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i16.NotificationOutbox?> sendManualSms(
+  _i3.Future<_i19.NotificationOutbox?> sendManualSms(
     _i1.TestSessionBuilder sessionBuilder, {
     required String phone,
     required String body,
@@ -1146,7 +1327,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i16.NotificationOutbox?>);
+                as _i3.Future<_i19.NotificationOutbox?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1154,7 +1335,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i17.CashTopUp>> pendingTopUps(
+  _i3.Future<List<_i20.CashTopUp>> pendingTopUps(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1176,7 +1357,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i17.CashTopUp>>);
+                as _i3.Future<List<_i20.CashTopUp>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1184,7 +1365,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i18.LedgerEntry?> confirmTopUp(
+  _i3.Future<_i21.LedgerEntry?> confirmTopUp(
     _i1.TestSessionBuilder sessionBuilder,
     int topUpId,
   ) async {
@@ -1207,7 +1388,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i18.LedgerEntry?>);
+                as _i3.Future<_i21.LedgerEntry?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1215,7 +1396,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i17.CashTopUp> rejectTopUp(
+  _i3.Future<_i20.CashTopUp> rejectTopUp(
     _i1.TestSessionBuilder sessionBuilder, {
     required int topUpId,
     required String reason,
@@ -1242,7 +1423,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i17.CashTopUp>);
+                as _i3.Future<_i20.CashTopUp>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1250,7 +1431,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i18.LedgerEntry?> adjustBalance(
+  _i3.Future<_i21.LedgerEntry?> adjustBalance(
     _i1.TestSessionBuilder sessionBuilder, {
     required int familyId,
     required int amountTenge,
@@ -1279,7 +1460,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i18.LedgerEntry?>);
+                as _i3.Future<_i21.LedgerEntry?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1287,7 +1468,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i19.BalanceView> familyBalance(
+  _i3.Future<_i22.BalanceView> familyBalance(
     _i1.TestSessionBuilder sessionBuilder,
     int familyId,
   ) async {
@@ -1310,7 +1491,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i19.BalanceView>);
+                as _i3.Future<_i22.BalanceView>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1318,7 +1499,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i20.PoolCandidate>> poolCandidates(
+  _i3.Future<List<_i23.PoolCandidate>> poolCandidates(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId, {
     required int maxTimeDiffMinutes,
@@ -1345,7 +1526,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i20.PoolCandidate>>);
+                as _i3.Future<List<_i23.PoolCandidate>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1353,7 +1534,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i21.Ride> mergeIntoPool(
+  _i3.Future<_i24.Ride> mergeIntoPool(
     _i1.TestSessionBuilder sessionBuilder, {
     required int rideId,
     required List<int> rideIds,
@@ -1380,7 +1561,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i21.Ride>);
+                as _i3.Future<_i24.Ride>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1388,7 +1569,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<_i22.PoolCapacity> poolCapacity(
+  _i3.Future<_i25.PoolCapacity> poolCapacity(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1411,7 +1592,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i22.PoolCapacity>);
+                as _i3.Future<_i25.PoolCapacity>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1419,7 +1600,7 @@ class _DirectoryEndpoint {
     });
   }
 
-  _i3.Future<List<_i23.RideSeat>> rideSeats(
+  _i3.Future<List<_i26.RideSeat>> rideSeats(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1442,7 +1623,7 @@ class _DirectoryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i23.RideSeat>>);
+                as _i3.Future<List<_i26.RideSeat>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1461,7 +1642,7 @@ class _ProfileEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i5.Family?> myFamily(
+  _i3.Future<_i8.Family?> myFamily(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1483,7 +1664,7 @@ class _ProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i5.Family?>);
+                as _i3.Future<_i8.Family?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1491,7 +1672,7 @@ class _ProfileEndpoint {
     });
   }
 
-  _i3.Future<List<_i7.Child>> myChildren(
+  _i3.Future<List<_i10.Child>> myChildren(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1513,7 +1694,7 @@ class _ProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i7.Child>>);
+                as _i3.Future<List<_i10.Child>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1521,7 +1702,7 @@ class _ProfileEndpoint {
     });
   }
 
-  _i3.Future<List<_i8.Driver>> myDrivers(
+  _i3.Future<List<_i11.Driver>> myDrivers(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1543,7 +1724,7 @@ class _ProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i8.Driver>>);
+                as _i3.Future<List<_i11.Driver>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1551,7 +1732,7 @@ class _ProfileEndpoint {
     });
   }
 
-  _i3.Future<_i8.Driver?> myDriverProfile(
+  _i3.Future<_i11.Driver?> myDriverProfile(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1573,7 +1754,7 @@ class _ProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i8.Driver?>);
+                as _i3.Future<_i11.Driver?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1592,7 +1773,7 @@ class _RidesEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i13.RideView>> today(
+  _i3.Future<List<_i16.RideView>> today(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1614,7 +1795,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i13.RideView>>);
+                as _i3.Future<List<_i16.RideView>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1622,7 +1803,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<List<_i13.RideView>> tomorrow(
+  _i3.Future<List<_i16.RideView>> tomorrow(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1644,7 +1825,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i13.RideView>>);
+                as _i3.Future<List<_i16.RideView>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1652,7 +1833,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i21.Ride> confirm(
+  _i3.Future<_i24.Ride> confirm(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1675,7 +1856,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i21.Ride>);
+                as _i3.Future<_i24.Ride>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1683,7 +1864,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i21.Ride> decline(
+  _i3.Future<_i24.Ride> decline(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
     String reason,
@@ -1710,7 +1891,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i21.Ride>);
+                as _i3.Future<_i24.Ride>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1718,10 +1899,10 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i21.Ride> submitEvent(
+  _i3.Future<_i24.Ride> submitEvent(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
-    _i24.RideEventSubmission submission,
+    _i27.RideEventSubmission submission,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -1745,7 +1926,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i21.Ride>);
+                as _i3.Future<_i24.Ride>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1753,7 +1934,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<List<_i23.RideSeat>> rideSeats(
+  _i3.Future<List<_i26.RideSeat>> rideSeats(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1776,7 +1957,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i23.RideSeat>>);
+                as _i3.Future<List<_i26.RideSeat>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1784,10 +1965,10 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i25.TrackingState> pushLocations(
+  _i3.Future<_i28.TrackingState> pushLocations(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
-    List<_i26.RideLocationPoint> points,
+    List<_i29.RideLocationPoint> points,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -1811,7 +1992,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i25.TrackingState>);
+                as _i3.Future<_i28.TrackingState>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1819,7 +2000,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<List<_i14.RideEvent>> events(
+  _i3.Future<List<_i17.RideEvent>> events(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -1842,7 +2023,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i14.RideEvent>>);
+                as _i3.Future<List<_i17.RideEvent>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1850,7 +2031,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<List<_i5.Family>> myFamilies(
+  _i3.Future<List<_i8.Family>> myFamilies(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1872,7 +2053,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i5.Family>>);
+                as _i3.Future<List<_i8.Family>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1880,7 +2061,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<_i17.CashTopUp> recordCashTopUp(
+  _i3.Future<_i20.CashTopUp> recordCashTopUp(
     _i1.TestSessionBuilder sessionBuilder, {
     required int familyId,
     required int amountTenge,
@@ -1911,7 +2092,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i17.CashTopUp>);
+                as _i3.Future<_i20.CashTopUp>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1919,7 +2100,7 @@ class _RidesEndpoint {
     });
   }
 
-  _i3.Future<List<_i17.CashTopUp>> myCashTopUps(
+  _i3.Future<List<_i20.CashTopUp>> myCashTopUps(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -1941,7 +2122,7 @@ class _RidesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i17.CashTopUp>>);
+                as _i3.Future<List<_i20.CashTopUp>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1990,9 +2171,9 @@ class _RoutesEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i12.RouteTemplate> requestRoute(
+  _i3.Future<_i15.RouteTemplate> requestRoute(
     _i1.TestSessionBuilder sessionBuilder,
-    _i12.RouteTemplate draft,
+    _i15.RouteTemplate draft,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -2013,7 +2194,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i12.RouteTemplate>);
+                as _i3.Future<_i15.RouteTemplate>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2021,7 +2202,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i12.RouteTemplate>> myRoutes(
+  _i3.Future<List<_i15.RouteTemplate>> myRoutes(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2043,7 +2224,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i12.RouteTemplate>>);
+                as _i3.Future<List<_i15.RouteTemplate>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2051,7 +2232,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i14.RideEvent>> rideEvents(
+  _i3.Future<List<_i17.RideEvent>> rideEvents(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -2074,7 +2255,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i14.RideEvent>>);
+                as _i3.Future<List<_i17.RideEvent>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2082,7 +2263,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i27.RideLocation>> rideTrack(
+  _i3.Future<List<_i30.RideLocation>> rideTrack(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) async {
@@ -2105,7 +2286,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i27.RideLocation>>);
+                as _i3.Future<List<_i30.RideLocation>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2113,11 +2294,11 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Stream<_i27.RideLocation> watchRideLocation(
+  _i3.Stream<_i30.RideLocation> watchRideLocation(
     _i1.TestSessionBuilder sessionBuilder,
     int rideId,
   ) {
-    var _localTestStreamManager = _i1.TestStreamManager<_i27.RideLocation>();
+    var _localTestStreamManager = _i1.TestStreamManager<_i30.RideLocation>();
     _i1.callStreamFunctionAndHandleExceptions(
       () async {
         var _localUniqueSession =
@@ -2145,7 +2326,7 @@ class _RoutesEndpoint {
     return _localTestStreamManager.outputStreamController.stream;
   }
 
-  _i3.Future<_i19.BalanceView> myBalance(
+  _i3.Future<_i22.BalanceView> myBalance(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2167,7 +2348,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i19.BalanceView>);
+                as _i3.Future<_i22.BalanceView>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2175,7 +2356,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i16.NotificationOutbox>> myNotifications(
+  _i3.Future<List<_i19.NotificationOutbox>> myNotifications(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2197,7 +2378,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i16.NotificationOutbox>>);
+                as _i3.Future<List<_i19.NotificationOutbox>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2236,7 +2417,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i9.Institution>> institutions(
+  _i3.Future<List<_i12.Institution>> institutions(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2258,7 +2439,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i9.Institution>>);
+                as _i3.Future<List<_i12.Institution>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2266,7 +2447,7 @@ class _RoutesEndpoint {
     });
   }
 
-  _i3.Future<List<_i13.RideView>> myUpcomingRides(
+  _i3.Future<List<_i16.RideView>> myUpcomingRides(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2288,7 +2469,7 @@ class _RoutesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i13.RideView>>);
+                as _i3.Future<List<_i16.RideView>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2307,7 +2488,7 @@ class _HealthEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i28.ServerHealth> ping(
+  _i3.Future<_i31.ServerHealth> ping(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2329,7 +2510,7 @@ class _HealthEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i28.ServerHealth>);
+                as _i3.Future<_i31.ServerHealth>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2346,7 +2527,7 @@ class _CleanupLocationsFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.CleanupLocationsInvokeFutureCall().invoke(
+      await _i32.CleanupLocationsInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -2359,7 +2540,7 @@ class _CleanupLocationsFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.CleanupLocationsCleanupLocationsFutureCall().invoke(
+      await _i32.CleanupLocationsCleanupLocationsFutureCall().invoke(
         _localUniqueSession,
         null,
       );
@@ -2377,7 +2558,7 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.GenerateRidesInvokeFutureCall().invoke(
+      await _i32.GenerateRidesInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -2390,7 +2571,7 @@ class _GenerateRidesFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.GenerateRidesGenerateUpcomingFutureCall().invoke(
+      await _i32.GenerateRidesGenerateUpcomingFutureCall().invoke(
         _localUniqueSession,
         null,
       );
@@ -2408,7 +2589,7 @@ class _ProcessOutboxFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.ProcessOutboxInvokeFutureCall().invoke(
+      await _i32.ProcessOutboxInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );
@@ -2421,7 +2602,7 @@ class _ProcessOutboxFutureCall {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i29.ProcessOutboxProcessOutboxFutureCall().invoke(
+      await _i32.ProcessOutboxProcessOutboxFutureCall().invoke(
         _localUniqueSession,
         null,
       );

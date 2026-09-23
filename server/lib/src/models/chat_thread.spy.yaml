@@ -1,0 +1,19 @@
+### Переписка по поездке или по семье.
+###
+### Номера телефонов сторон не раскрываются: родитель и водитель общаются
+### внутри приложения, у диспетчера видна вся переписка.
+class: ChatThread
+table: chat_thread
+fields:
+  familyId: int, relation(parent=family, onDelete=Cascade)
+  ### Поездка, к которой относится разговор. Пусто — общий разговор семьи.
+  rideId: int?, relation(parent=ride, onDelete=SetNull)
+  ### Водитель, участвующий в разговоре.
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  createdAt: DateTime, default=now
+  lastMessageAt: DateTime?
+indexes:
+  chat_thread_family_idx:
+    fields: familyId
+  chat_thread_ride_idx:
+    fields: rideId

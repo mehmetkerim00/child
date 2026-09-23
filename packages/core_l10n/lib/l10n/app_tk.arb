@@ -227,5 +227,19 @@
   "seatPickedUp": "Awtoulagda",
   "seatHandedOver": "Tabşyryldy",
   "seatWaiting": "Garaşýar",
-  "seatWhichChild": "Kimi alýarys"
+  "seatWhichChild": "Kimi alýarys",
+  "chatTitle": "Habarlar",
+  "chatHint": "Sürüjä şu ýerde ýazyň — telefon belgileri açylmaýar",
+  "chatSend": "Iber",
+  "chatPlaceholder": "Habar",
+  "chatEmpty": "Häzirlikçe habar ýok",
+  "chatQuickPhrases": "Taýýar jümleler",
+  "phraseComingOut": "Çykýarys",
+  "phraseDelayFive": "5 minut gijikýäris",
+  "phraseChildSick": "Çaga syrkaw, şu güni ýatyryň",
+  "phraseWaitingEntrance": "Girelgede garaşýarys",
+  "phraseArrivedCallChild": "Geldim, çagany çagyryň",
+  "phraseAllGood": "Hemme zat gowy",
+  "emergencyCall": "Dispetçere jaň et",
+  "emergencyHint": "Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar"
 }

@@ -314,5 +314,19 @@
   "seatPickedUp": "В машине",
   "seatHandedOver": "Передан",
   "seatWaiting": "Ждёт",
-  "seatWhichChild": "Кого забираем"
+  "seatWhichChild": "Кого забираем",
+  "chatTitle": "Сообщения",
+  "chatHint": "Пишите водителю прямо здесь — номера телефонов не раскрываются",
+  "chatSend": "Отправить",
+  "chatPlaceholder": "Сообщение",
+  "chatEmpty": "Сообщений пока нет",
+  "chatQuickPhrases": "Быстрые фразы",
+  "phraseComingOut": "Выходим",
+  "phraseDelayFive": "Задерживаемся на 5 минут",
+  "phraseChildSick": "Ребёнок болеет, отмените сегодня",
+  "phraseWaitingEntrance": "Ждём у подъезда",
+  "phraseArrivedCallChild": "Подъехал, позовите ребёнка",
+  "phraseAllGood": "Всё хорошо",
+  "emergencyCall": "Позвонить диспетчеру",
+  "emergencyHint": "Срочный вопрос — звоните диспетчеру, он свяжется с водителем"
 }

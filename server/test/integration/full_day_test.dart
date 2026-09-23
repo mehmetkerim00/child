@@ -317,6 +317,36 @@ void main() {
         reason: '«передал» — тоже критическое',
       );
 
+      // --- Связь без раскрытия номеров -----------------------------------
+      // Родитель пишет водителю прямо в приложении.
+      final thread = await endpoints.chat.threadForRide(asParent, morning.id!);
+      await endpoints.chat.send(
+        asParent,
+        threadId: thread.id!,
+        clientMessageId: 'day-chat-1',
+        body: 'Заберите, пожалуйста, у второго подъезда',
+      );
+      await endpoints.chat.send(
+        asDriver,
+        threadId: thread.id!,
+        clientMessageId: 'day-chat-2',
+        phrase: QuickPhrase.waitingAtEntrance,
+      );
+
+      final chat = await endpoints.chat.messages(asParent, thread.id!);
+      expect(chat, hasLength(2));
+      for (final message in chat) {
+        expect(
+          message.body,
+          isNot(contains('+993')),
+          reason: 'номера телефонов в переписке не раскрываются',
+        );
+      }
+
+      // Экстренная связь ведёт к диспетчеру, а не к водителю.
+      final emergency = await endpoints.chat.dispatcherPhone(asParent);
+      expect(emergency, isNot(driver.phone));
+
       // --- Обратный маршрут: школа → дом ---------------------------------
       clock.advance(const Duration(hours: 5));
       // Дома кода учреждения нет: родитель расписывается на экране.

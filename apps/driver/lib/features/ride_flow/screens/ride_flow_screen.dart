@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core_auth/core_auth.dart';
 import 'package:core_data/core_data.dart' hide RideStatus;
 import 'package:core_domain/core_domain.dart';
 import 'package:core_l10n/core_l10n.dart';
@@ -162,7 +163,24 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
     final action = RideStateMachine.nextAction(_status);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.rideFlowTitle)),
+      appBar: AppBar(
+        title: Text(l10n.rideFlowTitle),
+        actions: [
+          IconButton(
+            tooltip: l10n.chatTitle,
+            icon: const Icon(Icons.chat_bubble_outline),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => RideChatScreen(
+                  rideId: view.ride.id!,
+                  myRole: AccountRole.driver,
+                ),
+              ),
+            ),
+          ),
+          const EmergencyCallButton(),
+        ],
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(ChildSpacing.m),
