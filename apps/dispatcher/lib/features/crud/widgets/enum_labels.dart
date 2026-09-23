@@ -27,3 +27,32 @@ extension DirectoryLabels on AppLocalizations {
     SmsLevel.critical => smsLevelCritical,
   };
 }
+
+/// Названия этапов найма, проверок и инцидентов.
+extension HiringLabels on AppLocalizations {
+  String applicationStatus(ApplicationStatus status) => switch (status) {
+    ApplicationStatus.submitted => hiringStatusSubmitted,
+    ApplicationStatus.documents => hiringStatusDocuments,
+    ApplicationStatus.interview => hiringStatusInterview,
+    ApplicationStatus.carCheck => hiringStatusCarCheck,
+    ApplicationStatus.training => hiringStatusTraining,
+    ApplicationStatus.hired => hiringStatusHired,
+    ApplicationStatus.rejected => hiringStatusRejected,
+  };
+
+  String checkKind(CheckKind kind) => switch (kind) {
+    CheckKind.passport => checkPassport,
+    CheckKind.drivingLicense => checkLicense,
+    CheckKind.carDocuments => checkCarDocs,
+    CheckKind.criminalRecord => checkCriminal,
+    CheckKind.interview => checkInterview,
+    CheckKind.childSeatDemo => checkChildSeat,
+    CheckKind.references => checkReferences,
+  };
+
+  String incidentSeverity(IncidentSeverity severity) => switch (severity) {
+    IncidentSeverity.note => incidentSeverityNote,
+    IncidentSeverity.serious => incidentSeveritySerious,
+    IncidentSeverity.critical => incidentSeverityCritical,
+  };
+}

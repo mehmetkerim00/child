@@ -1,0 +1,23 @@
+### Расчёт водителю за период.
+###
+### Оплата по блокам: утренний и дневной блок оплачиваются гарантированно,
+### даже если поездок в блоке оказалось меньше — иначе водителя не удержать.
+class: PayoutPeriod
+table: payout_period
+fields:
+  driverId: int, relation(parent=driver, onDelete=Cascade)
+  fromDate: DateTime
+  toDate: DateTime
+  ### Сколько блоков отработано.
+  blocks: int
+  ### Гарантированная оплата за блоки, тенге.
+  blockPayTenge: int
+  ### Доплата за поездки сверх блоков, тенге.
+  ridePayTenge: int
+  ### Итого к выплате, тенге.
+  totalTenge: int
+  paidAt: DateTime?
+  createdAt: DateTime, default=now
+indexes:
+  payout_period_driver_idx:
+    fields: driverId, fromDate

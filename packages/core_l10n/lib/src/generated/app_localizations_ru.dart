@@ -807,4 +807,336 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get absenceDone => 'Отмечено: сегодня не едем';
+
+  @override
+  String get trainingTitle => 'Обучение';
+
+  @override
+  String get trainingIntro =>
+      'Короткие уроки и тест по протоколу передачи ребёнка. Пока тест не сдан, маршруты не назначаются.';
+
+  @override
+  String get trainingStart => 'Пройти тест';
+
+  @override
+  String get trainingPassed => 'Тест сдан';
+
+  @override
+  String trainingFailed(int correct, int total) {
+    return 'Тест не сдан: $correct из $total. Попробуйте ещё раз';
+  }
+
+  @override
+  String trainingResult(int correct, int total) {
+    return '$correct из $total';
+  }
+
+  @override
+  String get trainingNext => 'Дальше';
+
+  @override
+  String get trainingFinish => 'Завершить тест';
+
+  @override
+  String trainingQuestion(int number, int total) {
+    return 'Вопрос $number из $total';
+  }
+
+  @override
+  String get hiringTitle => 'Кандидаты';
+
+  @override
+  String get hiringChecklist => 'Проверки';
+
+  @override
+  String get hiringHire => 'Нанять';
+
+  @override
+  String get hiringReject => 'Отказать';
+
+  @override
+  String get hiringRejectReason => 'Причина отказа';
+
+  @override
+  String get hiringStatusSubmitted => 'Анкета подана';
+
+  @override
+  String get hiringStatusDocuments => 'Документы';
+
+  @override
+  String get hiringStatusInterview => 'Собеседование';
+
+  @override
+  String get hiringStatusCarCheck => 'Осмотр машины';
+
+  @override
+  String get hiringStatusTraining => 'Обучение';
+
+  @override
+  String get hiringStatusHired => 'Принят';
+
+  @override
+  String get hiringStatusRejected => 'Отказ';
+
+  @override
+  String get checkPassport => 'Паспорт';
+
+  @override
+  String get checkLicense => 'Водительское удостоверение';
+
+  @override
+  String get checkCarDocs => 'Документы на машину';
+
+  @override
+  String get checkCriminal => 'Справка о несудимости';
+
+  @override
+  String get checkInterview => 'Собеседование';
+
+  @override
+  String get checkChildSeat => 'Показал установку кресла';
+
+  @override
+  String get checkReferences => 'Рекомендации';
+
+  @override
+  String get incidentsTitle => 'Инциденты';
+
+  @override
+  String get incidentLog => 'Зафиксировать';
+
+  @override
+  String get incidentResolution => 'Решение';
+
+  @override
+  String get incidentSeverityNote => 'Замечание';
+
+  @override
+  String get incidentSeveritySerious => 'Серьёзное';
+
+  @override
+  String get incidentSeverityCritical => 'Критическое';
+
+  @override
+  String get payoutsTitle => 'Расчёты';
+
+  @override
+  String payoutBlocks(int blocks) {
+    return 'Блоков: $blocks';
+  }
+
+  @override
+  String get payoutTotal => 'К выплате';
+
+  @override
+  String get payoutMarkPaid => 'Выплачено';
+
+  @override
+  String get trainingQ1 =>
+      'Родитель не вышел, ребёнок стоит у подъезда один. Что делать?';
+
+  @override
+  String get trainingQ1a => 'Посадить и ехать, чтобы не опоздать';
+
+  @override
+  String get trainingQ1b => 'Позвонить диспетчеру и ждать взрослого';
+
+  @override
+  String get trainingQ1c => 'Отметить «Забрал» и позвонить позже';
+
+  @override
+  String get trainingQ2 => 'Кодовое слово семьи нужно, чтобы:';
+
+  @override
+  String get trainingQ2a => 'Отчитаться перед диспетчером';
+
+  @override
+  String get trainingQ2b =>
+      'Родитель убедился, что приехал именно наш водитель';
+
+  @override
+  String get trainingQ2c => 'Открыть приложение';
+
+  @override
+  String get trainingQ3 => 'Кто отмечает этапы поездки в приложении?';
+
+  @override
+  String get trainingQ3a => 'Ребёнок';
+
+  @override
+  String get trainingQ3b => 'Водитель';
+
+  @override
+  String get trainingQ3c => 'Родитель';
+
+  @override
+  String get trainingQ4 =>
+      'В школе нет кода учреждения. Как подтвердить передачу?';
+
+  @override
+  String get trainingQ4a => 'Пропустить подтверждение';
+
+  @override
+  String get trainingQ4b => 'Взять подпись принимающего на экране';
+
+  @override
+  String get trainingQ4c => 'Отметить «Передал» без ничего';
+
+  @override
+  String get trainingQ5 => 'Пропал интернет посреди поездки. Что делать?';
+
+  @override
+  String get trainingQ5a => 'Ничего не отмечать до конца дня';
+
+  @override
+  String get trainingQ5b => 'Отмечать этапы как обычно: они уйдут сами';
+
+  @override
+  String get trainingQ5c => 'Звонить родителю';
+
+  @override
+  String get trainingQ6 => 'Задерживаетесь на 10 минут. Правильное действие:';
+
+  @override
+  String get trainingQ6a => 'Ехать молча и наверстать по дороге';
+
+  @override
+  String get trainingQ6b => 'Отметить задержку с причиной';
+
+  @override
+  String get trainingQ6c => 'Сказать родителю после поездки';
+
+  @override
+  String get trainingQ7 => 'Незнакомый человек просит отдать ему ребёнка:';
+
+  @override
+  String get trainingQ7a => 'Отдать, если он говорит, что это дядя';
+
+  @override
+  String get trainingQ7b => 'Не отдавать и звонить диспетчеру';
+
+  @override
+  String get trainingQ7c => 'Отдать, если ребёнок его узнал';
+
+  @override
+  String get trainingQ8 =>
+      'В машине трое детей из разных семей. Кодовое слово:';
+
+  @override
+  String get trainingQ8a => 'Одно на всю машину';
+
+  @override
+  String get trainingQ8b => 'Своё у каждой семьи';
+
+  @override
+  String get trainingQ8c => 'Не нужно, если едут вместе';
+
+  @override
+  String get trainingQ9 => 'Завтрашние поездки водитель подтверждает:';
+
+  @override
+  String get trainingQ9a => 'Утром перед выездом';
+
+  @override
+  String get trainingQ9b => 'До 20:00 накануне';
+
+  @override
+  String get trainingQ9c => 'Не подтверждает';
+
+  @override
+  String get trainingQ10 =>
+      'Ребёнку нужно детское кресло, а свободного кресла нет:';
+
+  @override
+  String get trainingQ10a => 'Везти аккуратно без кресла';
+
+  @override
+  String get trainingQ10b => 'Сообщить диспетчеру: ехать нельзя';
+
+  @override
+  String get trainingQ10c => 'Посадить на колени взрослому';
+
+  @override
+  String get ownerTitle => 'Отчёты';
+
+  @override
+  String get ownerToday => 'Сегодня';
+
+  @override
+  String get ownerWeek => 'Неделя';
+
+  @override
+  String get ownerMonth => 'Месяц';
+
+  @override
+  String get ownerRides => 'Поездок';
+
+  @override
+  String get ownerCompleted => 'Довезли';
+
+  @override
+  String get ownerCancelled => 'Сорвано';
+
+  @override
+  String get ownerCompletion => 'Выполняемость';
+
+  @override
+  String get ownerRevenue => 'Выручка';
+
+  @override
+  String get ownerSmsCost => 'SMS';
+
+  @override
+  String get ownerDriverPay => 'Водителям';
+
+  @override
+  String get ownerMargin => 'Валовая маржа';
+
+  @override
+  String get ownerDriverLoad => 'Загрузка водителей';
+
+  @override
+  String get ownerRouteEconomics => 'Экономика маршрутов';
+
+  @override
+  String get ownerEmptyHours => 'Пустые часы';
+
+  @override
+  String get ownerNoEmptyHours => 'Пустых часов нет';
+
+  @override
+  String get ownerBalances => 'Балансы семей';
+
+  @override
+  String ownerInDebt(int count) {
+    return 'В минусе: $count';
+  }
+
+  @override
+  String get ownerRidesPerBlock => 'Поездок на блок';
+
+  @override
+  String get ownerExport => 'Выгрузить таблицу';
+
+  @override
+  String get ownerExportHint =>
+      'Ссылка сработает один раз и только 15 минут. Откройте её на компьютере — файл открывается в Excel.';
+
+  @override
+  String get ownerExportCopy => 'Скопировать ссылку';
+
+  @override
+  String get ownerRates => 'Ставки расчёта';
+
+  @override
+  String get ownerSmsPrice => 'SMS, тенге';
+
+  @override
+  String get ownerBlockPay => 'Блок, тенге';
+
+  @override
+  String get ownerPerRide => 'Поездка, тенге';
+
+  @override
+  String get ownerLossMaking => 'Убыточный маршрут';
 }

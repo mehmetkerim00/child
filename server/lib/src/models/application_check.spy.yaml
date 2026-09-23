@@ -1,0 +1,17 @@
+### Пункт чек-листа проверки кандидата.
+###
+### Каждый шаг отмечает конкретный диспетчер: в найме водителей для детей
+### анонимных решений быть не должно.
+class: ApplicationCheck
+table: application_check
+fields:
+  applicationId: int, relation(parent=driver_application, onDelete=Cascade)
+  kind: CheckKind
+  passed: bool, default=false
+  note: String?
+  checkedAt: DateTime?
+  checkedBy: int?, relation(parent=dispatcher_account, onDelete=SetNull)
+indexes:
+  application_check_unique_idx:
+    fields: applicationId, kind
+    unique: true

@@ -7,6 +7,7 @@ import '../generated/protocol.dart';
 import '../services/money/ledger_service.dart';
 import 'session_subject.dart';
 import '../services/notifications/notification_service.dart';
+import '../services/drivers/hiring_service.dart';
 import '../services/rides/ride_generator.dart';
 import '../services/rides/ride_pool.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -172,6 +173,12 @@ class DirectoryEndpoint extends Endpoint {
   }) async {
     final route = await RouteTemplate.db.findById(session, routeId);
     if (route == null) throw Exception('Маршрут не найден');
+
+    // Пока водитель не сдал тест по протоколу передачи, маршруты ему
+    // не назначаются: этому нельзя научиться по ходу.
+    if (!await HiringService().hasPassedTraining(session, driverId)) {
+      throw Exception('Водитель ещё не сдал обучение');
+    }
 
     final activated = await RouteTemplate.db.updateRow(
       session,

@@ -1,0 +1,23 @@
+### Журнал инцидентов.
+###
+### Разбор уважительный: удержание водителей критично (RESEARCH.md).
+### Запись фиксирует факт и решение, а не служит наказанием.
+class: Incident
+table: incident
+fields:
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  rideId: int?, relation(parent=ride, onDelete=SetNull)
+  familyId: int?, relation(parent=family, onDelete=SetNull)
+  severity: IncidentSeverity
+  ### Что случилось, словами.
+  description: String
+  ### Что решили и что сделали.
+  resolution: String?
+  createdAt: DateTime, default=now
+  createdBy: int?, relation(parent=dispatcher_account, onDelete=SetNull)
+  resolvedAt: DateTime?
+indexes:
+  incident_driver_idx:
+    fields: driverId
+  incident_open_idx:
+    fields: resolvedAt

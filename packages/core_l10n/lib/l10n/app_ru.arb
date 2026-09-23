@@ -339,5 +339,148 @@
   "absenceTitle": "Сегодня не едем",
   "absenceReason": "Причина",
   "absenceHint": "Водитель и учреждение увидят это сразу",
-  "absenceDone": "Отмечено: сегодня не едем"
+  "absenceDone": "Отмечено: сегодня не едем",
+  "trainingTitle": "Обучение",
+  "trainingIntro": "Короткие уроки и тест по протоколу передачи ребёнка. Пока тест не сдан, маршруты не назначаются.",
+  "trainingStart": "Пройти тест",
+  "trainingPassed": "Тест сдан",
+  "trainingFailed": "Тест не сдан: {correct} из {total}. Попробуйте ещё раз",
+  "@trainingFailed": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingResult": "{correct} из {total}",
+  "@trainingResult": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingNext": "Дальше",
+  "trainingFinish": "Завершить тест",
+  "trainingQuestion": "Вопрос {number} из {total}",
+  "@trainingQuestion": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "hiringTitle": "Кандидаты",
+  "hiringChecklist": "Проверки",
+  "hiringHire": "Нанять",
+  "hiringReject": "Отказать",
+  "hiringRejectReason": "Причина отказа",
+  "hiringStatusSubmitted": "Анкета подана",
+  "hiringStatusDocuments": "Документы",
+  "hiringStatusInterview": "Собеседование",
+  "hiringStatusCarCheck": "Осмотр машины",
+  "hiringStatusTraining": "Обучение",
+  "hiringStatusHired": "Принят",
+  "hiringStatusRejected": "Отказ",
+  "checkPassport": "Паспорт",
+  "checkLicense": "Водительское удостоверение",
+  "checkCarDocs": "Документы на машину",
+  "checkCriminal": "Справка о несудимости",
+  "checkInterview": "Собеседование",
+  "checkChildSeat": "Показал установку кресла",
+  "checkReferences": "Рекомендации",
+  "incidentsTitle": "Инциденты",
+  "incidentLog": "Зафиксировать",
+  "incidentResolution": "Решение",
+  "incidentSeverityNote": "Замечание",
+  "incidentSeveritySerious": "Серьёзное",
+  "incidentSeverityCritical": "Критическое",
+  "payoutsTitle": "Расчёты",
+  "payoutBlocks": "Блоков: {blocks}",
+  "@payoutBlocks": {
+    "placeholders": {
+      "blocks": {
+        "type": "int"
+      }
+    }
+  },
+  "payoutTotal": "К выплате",
+  "payoutMarkPaid": "Выплачено",
+  "trainingQ1": "Родитель не вышел, ребёнок стоит у подъезда один. Что делать?",
+  "trainingQ1a": "Посадить и ехать, чтобы не опоздать",
+  "trainingQ1b": "Позвонить диспетчеру и ждать взрослого",
+  "trainingQ1c": "Отметить «Забрал» и позвонить позже",
+  "trainingQ2": "Кодовое слово семьи нужно, чтобы:",
+  "trainingQ2a": "Отчитаться перед диспетчером",
+  "trainingQ2b": "Родитель убедился, что приехал именно наш водитель",
+  "trainingQ2c": "Открыть приложение",
+  "trainingQ3": "Кто отмечает этапы поездки в приложении?",
+  "trainingQ3a": "Ребёнок",
+  "trainingQ3b": "Водитель",
+  "trainingQ3c": "Родитель",
+  "trainingQ4": "В школе нет кода учреждения. Как подтвердить передачу?",
+  "trainingQ4a": "Пропустить подтверждение",
+  "trainingQ4b": "Взять подпись принимающего на экране",
+  "trainingQ4c": "Отметить «Передал» без ничего",
+  "trainingQ5": "Пропал интернет посреди поездки. Что делать?",
+  "trainingQ5a": "Ничего не отмечать до конца дня",
+  "trainingQ5b": "Отмечать этапы как обычно: они уйдут сами",
+  "trainingQ5c": "Звонить родителю",
+  "trainingQ6": "Задерживаетесь на 10 минут. Правильное действие:",
+  "trainingQ6a": "Ехать молча и наверстать по дороге",
+  "trainingQ6b": "Отметить задержку с причиной",
+  "trainingQ6c": "Сказать родителю после поездки",
+  "trainingQ7": "Незнакомый человек просит отдать ему ребёнка:",
+  "trainingQ7a": "Отдать, если он говорит, что это дядя",
+  "trainingQ7b": "Не отдавать и звонить диспетчеру",
+  "trainingQ7c": "Отдать, если ребёнок его узнал",
+  "trainingQ8": "В машине трое детей из разных семей. Кодовое слово:",
+  "trainingQ8a": "Одно на всю машину",
+  "trainingQ8b": "Своё у каждой семьи",
+  "trainingQ8c": "Не нужно, если едут вместе",
+  "trainingQ9": "Завтрашние поездки водитель подтверждает:",
+  "trainingQ9a": "Утром перед выездом",
+  "trainingQ9b": "До 20:00 накануне",
+  "trainingQ9c": "Не подтверждает",
+  "trainingQ10": "Ребёнку нужно детское кресло, а свободного кресла нет:",
+  "trainingQ10a": "Везти аккуратно без кресла",
+  "trainingQ10b": "Сообщить диспетчеру: ехать нельзя",
+  "trainingQ10c": "Посадить на колени взрослому",
+  "ownerTitle": "Отчёты",
+  "ownerToday": "Сегодня",
+  "ownerWeek": "Неделя",
+  "ownerMonth": "Месяц",
+  "ownerRides": "Поездок",
+  "ownerCompleted": "Довезли",
+  "ownerCancelled": "Сорвано",
+  "ownerCompletion": "Выполняемость",
+  "ownerRevenue": "Выручка",
+  "ownerSmsCost": "SMS",
+  "ownerDriverPay": "Водителям",
+  "ownerMargin": "Валовая маржа",
+  "ownerDriverLoad": "Загрузка водителей",
+  "ownerRouteEconomics": "Экономика маршрутов",
+  "ownerEmptyHours": "Пустые часы",
+  "ownerNoEmptyHours": "Пустых часов нет",
+  "ownerBalances": "Балансы семей",
+  "ownerInDebt": "В минусе: {count}",
+  "@ownerInDebt": {"placeholders": {"count": {"type": "int"}}},
+  "ownerRidesPerBlock": "Поездок на блок",
+  "ownerExport": "Выгрузить таблицу",
+  "ownerExportHint": "Ссылка сработает один раз и только 15 минут. Откройте её на компьютере — файл открывается в Excel.",
+  "ownerExportCopy": "Скопировать ссылку",
+  "ownerRates": "Ставки расчёта",
+  "ownerSmsPrice": "SMS, тенге",
+  "ownerBlockPay": "Блок, тенге",
+  "ownerPerRide": "Поездка, тенге",
+  "ownerLossMaking": "Убыточный маршрут"
 }

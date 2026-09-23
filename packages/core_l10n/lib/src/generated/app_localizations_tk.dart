@@ -804,4 +804,336 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get absenceDone => 'Bellendi: şu gün gitmeýäris';
+
+  @override
+  String get trainingTitle => 'Okuw';
+
+  @override
+  String get trainingIntro =>
+      'Çagany tabşyrmak düzgüni boýunça gysga sapaklar we test. Test tabşyrylmasa, ugurlar berilmeýär.';
+
+  @override
+  String get trainingStart => 'Testi geç';
+
+  @override
+  String get trainingPassed => 'Test tabşyryldy';
+
+  @override
+  String trainingFailed(int correct, int total) {
+    return 'Test tabşyrylmady: $total sowaldan $correct. Ýene synanyşyň';
+  }
+
+  @override
+  String trainingResult(int correct, int total) {
+    return '$total sowaldan $correct';
+  }
+
+  @override
+  String get trainingNext => 'Indiki';
+
+  @override
+  String get trainingFinish => 'Testi tamamla';
+
+  @override
+  String trainingQuestion(int number, int total) {
+    return '$total sowaldan $number-nji';
+  }
+
+  @override
+  String get hiringTitle => 'Dalaşgärler';
+
+  @override
+  String get hiringChecklist => 'Barlaglar';
+
+  @override
+  String get hiringHire => 'Işe al';
+
+  @override
+  String get hiringReject => 'Ret et';
+
+  @override
+  String get hiringRejectReason => 'Ret etmegiň sebäbi';
+
+  @override
+  String get hiringStatusSubmitted => 'Arza berildi';
+
+  @override
+  String get hiringStatusDocuments => 'Resminamalar';
+
+  @override
+  String get hiringStatusInterview => 'Söhbetdeşlik';
+
+  @override
+  String get hiringStatusCarCheck => 'Awtoulag barlagy';
+
+  @override
+  String get hiringStatusTraining => 'Okuw';
+
+  @override
+  String get hiringStatusHired => 'Kabul edildi';
+
+  @override
+  String get hiringStatusRejected => 'Ret edildi';
+
+  @override
+  String get checkPassport => 'Pasport';
+
+  @override
+  String get checkLicense => 'Sürüjilik şahadatnamasy';
+
+  @override
+  String get checkCarDocs => 'Awtoulag resminamalary';
+
+  @override
+  String get checkCriminal => 'Kazyýet sudlulygy ýok kepilnama';
+
+  @override
+  String get checkInterview => 'Söhbetdeşlik';
+
+  @override
+  String get checkChildSeat => 'Oturgyjyň gurnalyşyny görkezdi';
+
+  @override
+  String get checkReferences => 'Maslahatlar';
+
+  @override
+  String get incidentsTitle => 'Wakalar';
+
+  @override
+  String get incidentLog => 'Bellige al';
+
+  @override
+  String get incidentResolution => 'Çözgüt';
+
+  @override
+  String get incidentSeverityNote => 'Bellik';
+
+  @override
+  String get incidentSeveritySerious => 'Çynlakaý';
+
+  @override
+  String get incidentSeverityCritical => 'Kritiki';
+
+  @override
+  String get payoutsTitle => 'Hasaplaşyklar';
+
+  @override
+  String payoutBlocks(int blocks) {
+    return 'Bloklar: $blocks';
+  }
+
+  @override
+  String get payoutTotal => 'Tölege';
+
+  @override
+  String get payoutMarkPaid => 'Tölendi';
+
+  @override
+  String get trainingQ1 =>
+      'Ene-ata çykmady, çaga girelgede ýeke dur. Näme etmeli?';
+
+  @override
+  String get trainingQ1a => 'Mündürip ugramaly, gijä galmaz ýaly';
+
+  @override
+  String get trainingQ1b => 'Dispetçere jaň edip, ulyny garaşmaly';
+
+  @override
+  String get trainingQ1c => '«Aldym» diýip bellemeli, soň jaň etmeli';
+
+  @override
+  String get trainingQ2 => 'Maşgalanyň gizlin sözi näme üçin gerek:';
+
+  @override
+  String get trainingQ2a => 'Dispetçere hasabat bermek üçin';
+
+  @override
+  String get trainingQ2b =>
+      'Ene-ata hut biziň sürüjimiziň gelendigine göz ýetirmegi üçin';
+
+  @override
+  String get trainingQ2c => 'Programmany açmak üçin';
+
+  @override
+  String get trainingQ3 => 'Programmada saparyň tapgyrlaryny kim belleýär?';
+
+  @override
+  String get trainingQ3a => 'Çaga';
+
+  @override
+  String get trainingQ3b => 'Sürüji';
+
+  @override
+  String get trainingQ3c => 'Ene-ata';
+
+  @override
+  String get trainingQ4 =>
+      'Mekdepde edaranyň kody ýok. Tabşyrmagy nädip tassyklamaly?';
+
+  @override
+  String get trainingQ4a => 'Tassyklamany geçip gitmeli';
+
+  @override
+  String get trainingQ4b => 'Kabul edýäniň goluny ekranda almaly';
+
+  @override
+  String get trainingQ4c => 'Hiç zatsyz «Tabşyrdym» diýip bellemeli';
+
+  @override
+  String get trainingQ5 => 'Saparyň ortasynda internet ýitdi. Näme etmeli?';
+
+  @override
+  String get trainingQ5a => 'Günüň ahyryna çenli hiç zat bellemeli däl';
+
+  @override
+  String get trainingQ5b =>
+      'Tapgyrlary adaty ýaly bellemeli: olar özi iberiler';
+
+  @override
+  String get trainingQ5c => 'Ene-ata jaň etmeli';
+
+  @override
+  String get trainingQ6 => '10 minut gijikýärsiňiz. Dogry hereket:';
+
+  @override
+  String get trainingQ6a => 'Dymyp sürmeli, ýolda ýetişmeli';
+
+  @override
+  String get trainingQ6b => 'Gijikmäni sebäbi bilen bellemeli';
+
+  @override
+  String get trainingQ6c => 'Sapardan soň ene-ata aýtmaly';
+
+  @override
+  String get trainingQ7 => 'Nätanyş adam çagany özüne bermegi soraýar:';
+
+  @override
+  String get trainingQ7a => 'Daýysy diýse, bermeli';
+
+  @override
+  String get trainingQ7b => 'Bermeli däl, dispetçere jaň etmeli';
+
+  @override
+  String get trainingQ7c => 'Çaga tanasa, bermeli';
+
+  @override
+  String get trainingQ8 =>
+      'Maşynda dürli maşgalalardan üç çaga bar. Gizlin söz:';
+
+  @override
+  String get trainingQ8a => 'Ähli maşyn üçin bir sany';
+
+  @override
+  String get trainingQ8b => 'Her maşgalanyň öz sözi';
+
+  @override
+  String get trainingQ8c => 'Bile gitseler, gerek däl';
+
+  @override
+  String get trainingQ9 => 'Ertirki saparlary sürüji haçan tassyklaýar:';
+
+  @override
+  String get trainingQ9a => 'Ertir ugramazdan öň';
+
+  @override
+  String get trainingQ9b => 'Öňki gün 20:00-a çenli';
+
+  @override
+  String get trainingQ9c => 'Tassyklamaýar';
+
+  @override
+  String get trainingQ10 => 'Çaga çaga oturgyjy gerek, boş oturgyç ýok:';
+
+  @override
+  String get trainingQ10a => 'Oturgyçsyz seresaply äkitmeli';
+
+  @override
+  String get trainingQ10b => 'Dispetçere habar bermeli: gitmek bolmaýar';
+
+  @override
+  String get trainingQ10c => 'Ulynyň dyzyna oturtmaly';
+
+  @override
+  String get ownerTitle => 'Hasabatlar';
+
+  @override
+  String get ownerToday => 'Şu gün';
+
+  @override
+  String get ownerWeek => 'Hepde';
+
+  @override
+  String get ownerMonth => 'Aý';
+
+  @override
+  String get ownerRides => 'Saparlar';
+
+  @override
+  String get ownerCompleted => 'Eltildi';
+
+  @override
+  String get ownerCancelled => 'Bozuldy';
+
+  @override
+  String get ownerCompletion => 'Ýerine ýetirilişi';
+
+  @override
+  String get ownerRevenue => 'Girdeji';
+
+  @override
+  String get ownerSmsCost => 'SMS';
+
+  @override
+  String get ownerDriverPay => 'Sürüjilere';
+
+  @override
+  String get ownerMargin => 'Arassa girdeji';
+
+  @override
+  String get ownerDriverLoad => 'Sürüjileriň ýüki';
+
+  @override
+  String get ownerRouteEconomics => 'Ugurlaryň ykdysadyýeti';
+
+  @override
+  String get ownerEmptyHours => 'Boş sagatlar';
+
+  @override
+  String get ownerNoEmptyHours => 'Boş sagat ýok';
+
+  @override
+  String get ownerBalances => 'Maşgalalaryň balansy';
+
+  @override
+  String ownerInDebt(int count) {
+    return 'Minusda: $count';
+  }
+
+  @override
+  String get ownerRidesPerBlock => 'Bloga sapar';
+
+  @override
+  String get ownerExport => 'Tablisany ýükle';
+
+  @override
+  String get ownerExportHint =>
+      'Salgy bir gezek we diňe 15 minut işleýär. Ony kompýuterde açyň — faýl Excel-de açylýar.';
+
+  @override
+  String get ownerExportCopy => 'Salgyny göçür';
+
+  @override
+  String get ownerRates => 'Hasaplaşyk nyrhlary';
+
+  @override
+  String get ownerSmsPrice => 'SMS, teňňe';
+
+  @override
+  String get ownerBlockPay => 'Blok, teňňe';
+
+  @override
+  String get ownerPerRide => 'Sapar, teňňe';
+
+  @override
+  String get ownerLossMaking => 'Zyýanly ugur';
 }

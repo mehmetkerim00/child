@@ -1615,6 +1615,636 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Отмечено: сегодня не едем'**
   String get absenceDone;
+
+  /// No description provided for @trainingTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обучение'**
+  String get trainingTitle;
+
+  /// No description provided for @trainingIntro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Короткие уроки и тест по протоколу передачи ребёнка. Пока тест не сдан, маршруты не назначаются.'**
+  String get trainingIntro;
+
+  /// No description provided for @trainingStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пройти тест'**
+  String get trainingStart;
+
+  /// No description provided for @trainingPassed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тест сдан'**
+  String get trainingPassed;
+
+  /// No description provided for @trainingFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тест не сдан: {correct} из {total}. Попробуйте ещё раз'**
+  String trainingFailed(int correct, int total);
+
+  /// No description provided for @trainingResult.
+  ///
+  /// In ru, this message translates to:
+  /// **'{correct} из {total}'**
+  String trainingResult(int correct, int total);
+
+  /// No description provided for @trainingNext.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дальше'**
+  String get trainingNext;
+
+  /// No description provided for @trainingFinish.
+  ///
+  /// In ru, this message translates to:
+  /// **'Завершить тест'**
+  String get trainingFinish;
+
+  /// No description provided for @trainingQuestion.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопрос {number} из {total}'**
+  String trainingQuestion(int number, int total);
+
+  /// No description provided for @hiringTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кандидаты'**
+  String get hiringTitle;
+
+  /// No description provided for @hiringChecklist.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверки'**
+  String get hiringChecklist;
+
+  /// No description provided for @hiringHire.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нанять'**
+  String get hiringHire;
+
+  /// No description provided for @hiringReject.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отказать'**
+  String get hiringReject;
+
+  /// No description provided for @hiringRejectReason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина отказа'**
+  String get hiringRejectReason;
+
+  /// No description provided for @hiringStatusSubmitted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Анкета подана'**
+  String get hiringStatusSubmitted;
+
+  /// No description provided for @hiringStatusDocuments.
+  ///
+  /// In ru, this message translates to:
+  /// **'Документы'**
+  String get hiringStatusDocuments;
+
+  /// No description provided for @hiringStatusInterview.
+  ///
+  /// In ru, this message translates to:
+  /// **'Собеседование'**
+  String get hiringStatusInterview;
+
+  /// No description provided for @hiringStatusCarCheck.
+  ///
+  /// In ru, this message translates to:
+  /// **'Осмотр машины'**
+  String get hiringStatusCarCheck;
+
+  /// No description provided for @hiringStatusTraining.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обучение'**
+  String get hiringStatusTraining;
+
+  /// No description provided for @hiringStatusHired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Принят'**
+  String get hiringStatusHired;
+
+  /// No description provided for @hiringStatusRejected.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отказ'**
+  String get hiringStatusRejected;
+
+  /// No description provided for @checkPassport.
+  ///
+  /// In ru, this message translates to:
+  /// **'Паспорт'**
+  String get checkPassport;
+
+  /// No description provided for @checkLicense.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водительское удостоверение'**
+  String get checkLicense;
+
+  /// No description provided for @checkCarDocs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Документы на машину'**
+  String get checkCarDocs;
+
+  /// No description provided for @checkCriminal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Справка о несудимости'**
+  String get checkCriminal;
+
+  /// No description provided for @checkInterview.
+  ///
+  /// In ru, this message translates to:
+  /// **'Собеседование'**
+  String get checkInterview;
+
+  /// No description provided for @checkChildSeat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показал установку кресла'**
+  String get checkChildSeat;
+
+  /// No description provided for @checkReferences.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рекомендации'**
+  String get checkReferences;
+
+  /// No description provided for @incidentsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Инциденты'**
+  String get incidentsTitle;
+
+  /// No description provided for @incidentLog.
+  ///
+  /// In ru, this message translates to:
+  /// **'Зафиксировать'**
+  String get incidentLog;
+
+  /// No description provided for @incidentResolution.
+  ///
+  /// In ru, this message translates to:
+  /// **'Решение'**
+  String get incidentResolution;
+
+  /// No description provided for @incidentSeverityNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Замечание'**
+  String get incidentSeverityNote;
+
+  /// No description provided for @incidentSeveritySerious.
+  ///
+  /// In ru, this message translates to:
+  /// **'Серьёзное'**
+  String get incidentSeveritySerious;
+
+  /// No description provided for @incidentSeverityCritical.
+  ///
+  /// In ru, this message translates to:
+  /// **'Критическое'**
+  String get incidentSeverityCritical;
+
+  /// No description provided for @payoutsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Расчёты'**
+  String get payoutsTitle;
+
+  /// No description provided for @payoutBlocks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Блоков: {blocks}'**
+  String payoutBlocks(int blocks);
+
+  /// No description provided for @payoutTotal.
+  ///
+  /// In ru, this message translates to:
+  /// **'К выплате'**
+  String get payoutTotal;
+
+  /// No description provided for @payoutMarkPaid.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выплачено'**
+  String get payoutMarkPaid;
+
+  /// No description provided for @trainingQ1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Родитель не вышел, ребёнок стоит у подъезда один. Что делать?'**
+  String get trainingQ1;
+
+  /// No description provided for @trainingQ1a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Посадить и ехать, чтобы не опоздать'**
+  String get trainingQ1a;
+
+  /// No description provided for @trainingQ1b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить диспетчеру и ждать взрослого'**
+  String get trainingQ1b;
+
+  /// No description provided for @trainingQ1c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметить «Забрал» и позвонить позже'**
+  String get trainingQ1c;
+
+  /// No description provided for @trainingQ2.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кодовое слово семьи нужно, чтобы:'**
+  String get trainingQ2;
+
+  /// No description provided for @trainingQ2a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отчитаться перед диспетчером'**
+  String get trainingQ2a;
+
+  /// No description provided for @trainingQ2b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Родитель убедился, что приехал именно наш водитель'**
+  String get trainingQ2b;
+
+  /// No description provided for @trainingQ2c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть приложение'**
+  String get trainingQ2c;
+
+  /// No description provided for @trainingQ3.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кто отмечает этапы поездки в приложении?'**
+  String get trainingQ3;
+
+  /// No description provided for @trainingQ3a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ребёнок'**
+  String get trainingQ3a;
+
+  /// No description provided for @trainingQ3b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водитель'**
+  String get trainingQ3b;
+
+  /// No description provided for @trainingQ3c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Родитель'**
+  String get trainingQ3c;
+
+  /// No description provided for @trainingQ4.
+  ///
+  /// In ru, this message translates to:
+  /// **'В школе нет кода учреждения. Как подтвердить передачу?'**
+  String get trainingQ4;
+
+  /// No description provided for @trainingQ4a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пропустить подтверждение'**
+  String get trainingQ4a;
+
+  /// No description provided for @trainingQ4b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Взять подпись принимающего на экране'**
+  String get trainingQ4b;
+
+  /// No description provided for @trainingQ4c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметить «Передал» без ничего'**
+  String get trainingQ4c;
+
+  /// No description provided for @trainingQ5.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пропал интернет посреди поездки. Что делать?'**
+  String get trainingQ5;
+
+  /// No description provided for @trainingQ5a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не отмечать до конца дня'**
+  String get trainingQ5a;
+
+  /// No description provided for @trainingQ5b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмечать этапы как обычно: они уйдут сами'**
+  String get trainingQ5b;
+
+  /// No description provided for @trainingQ5c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Звонить родителю'**
+  String get trainingQ5c;
+
+  /// No description provided for @trainingQ6.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задерживаетесь на 10 минут. Правильное действие:'**
+  String get trainingQ6;
+
+  /// No description provided for @trainingQ6a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ехать молча и наверстать по дороге'**
+  String get trainingQ6a;
+
+  /// No description provided for @trainingQ6b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметить задержку с причиной'**
+  String get trainingQ6b;
+
+  /// No description provided for @trainingQ6c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сказать родителю после поездки'**
+  String get trainingQ6c;
+
+  /// No description provided for @trainingQ7.
+  ///
+  /// In ru, this message translates to:
+  /// **'Незнакомый человек просит отдать ему ребёнка:'**
+  String get trainingQ7;
+
+  /// No description provided for @trainingQ7a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отдать, если он говорит, что это дядя'**
+  String get trainingQ7a;
+
+  /// No description provided for @trainingQ7b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не отдавать и звонить диспетчеру'**
+  String get trainingQ7b;
+
+  /// No description provided for @trainingQ7c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отдать, если ребёнок его узнал'**
+  String get trainingQ7c;
+
+  /// No description provided for @trainingQ8.
+  ///
+  /// In ru, this message translates to:
+  /// **'В машине трое детей из разных семей. Кодовое слово:'**
+  String get trainingQ8;
+
+  /// No description provided for @trainingQ8a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Одно на всю машину'**
+  String get trainingQ8a;
+
+  /// No description provided for @trainingQ8b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Своё у каждой семьи'**
+  String get trainingQ8b;
+
+  /// No description provided for @trainingQ8c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не нужно, если едут вместе'**
+  String get trainingQ8c;
+
+  /// No description provided for @trainingQ9.
+  ///
+  /// In ru, this message translates to:
+  /// **'Завтрашние поездки водитель подтверждает:'**
+  String get trainingQ9;
+
+  /// No description provided for @trainingQ9a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Утром перед выездом'**
+  String get trainingQ9a;
+
+  /// No description provided for @trainingQ9b.
+  ///
+  /// In ru, this message translates to:
+  /// **'До 20:00 накануне'**
+  String get trainingQ9b;
+
+  /// No description provided for @trainingQ9c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не подтверждает'**
+  String get trainingQ9c;
+
+  /// No description provided for @trainingQ10.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ребёнку нужно детское кресло, а свободного кресла нет:'**
+  String get trainingQ10;
+
+  /// No description provided for @trainingQ10a.
+  ///
+  /// In ru, this message translates to:
+  /// **'Везти аккуратно без кресла'**
+  String get trainingQ10a;
+
+  /// No description provided for @trainingQ10b.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщить диспетчеру: ехать нельзя'**
+  String get trainingQ10b;
+
+  /// No description provided for @trainingQ10c.
+  ///
+  /// In ru, this message translates to:
+  /// **'Посадить на колени взрослому'**
+  String get trainingQ10c;
+
+  /// No description provided for @ownerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отчёты'**
+  String get ownerTitle;
+
+  /// No description provided for @ownerToday.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня'**
+  String get ownerToday;
+
+  /// No description provided for @ownerWeek.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неделя'**
+  String get ownerWeek;
+
+  /// No description provided for @ownerMonth.
+  ///
+  /// In ru, this message translates to:
+  /// **'Месяц'**
+  String get ownerMonth;
+
+  /// No description provided for @ownerRides.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездок'**
+  String get ownerRides;
+
+  /// No description provided for @ownerCompleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Довезли'**
+  String get ownerCompleted;
+
+  /// No description provided for @ownerCancelled.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сорвано'**
+  String get ownerCancelled;
+
+  /// No description provided for @ownerCompletion.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выполняемость'**
+  String get ownerCompletion;
+
+  /// No description provided for @ownerRevenue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выручка'**
+  String get ownerRevenue;
+
+  /// No description provided for @ownerSmsCost.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS'**
+  String get ownerSmsCost;
+
+  /// No description provided for @ownerDriverPay.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водителям'**
+  String get ownerDriverPay;
+
+  /// No description provided for @ownerMargin.
+  ///
+  /// In ru, this message translates to:
+  /// **'Валовая маржа'**
+  String get ownerMargin;
+
+  /// No description provided for @ownerDriverLoad.
+  ///
+  /// In ru, this message translates to:
+  /// **'Загрузка водителей'**
+  String get ownerDriverLoad;
+
+  /// No description provided for @ownerRouteEconomics.
+  ///
+  /// In ru, this message translates to:
+  /// **'Экономика маршрутов'**
+  String get ownerRouteEconomics;
+
+  /// No description provided for @ownerEmptyHours.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пустые часы'**
+  String get ownerEmptyHours;
+
+  /// No description provided for @ownerNoEmptyHours.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пустых часов нет'**
+  String get ownerNoEmptyHours;
+
+  /// No description provided for @ownerBalances.
+  ///
+  /// In ru, this message translates to:
+  /// **'Балансы семей'**
+  String get ownerBalances;
+
+  /// No description provided for @ownerInDebt.
+  ///
+  /// In ru, this message translates to:
+  /// **'В минусе: {count}'**
+  String ownerInDebt(int count);
+
+  /// No description provided for @ownerRidesPerBlock.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездок на блок'**
+  String get ownerRidesPerBlock;
+
+  /// No description provided for @ownerExport.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выгрузить таблицу'**
+  String get ownerExport;
+
+  /// No description provided for @ownerExportHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ссылка сработает один раз и только 15 минут. Откройте её на компьютере — файл открывается в Excel.'**
+  String get ownerExportHint;
+
+  /// No description provided for @ownerExportCopy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировать ссылку'**
+  String get ownerExportCopy;
+
+  /// No description provided for @ownerRates.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ставки расчёта'**
+  String get ownerRates;
+
+  /// No description provided for @ownerSmsPrice.
+  ///
+  /// In ru, this message translates to:
+  /// **'SMS, тенге'**
+  String get ownerSmsPrice;
+
+  /// No description provided for @ownerBlockPay.
+  ///
+  /// In ru, this message translates to:
+  /// **'Блок, тенге'**
+  String get ownerBlockPay;
+
+  /// No description provided for @ownerPerRide.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поездка, тенге'**
+  String get ownerPerRide;
+
+  /// No description provided for @ownerLossMaking.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убыточный маршрут'**
+  String get ownerLossMaking;
 }
 
 class _AppLocalizationsDelegate

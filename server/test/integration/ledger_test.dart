@@ -77,6 +77,17 @@ void main() {
         ),
       );
 
+      // Водитель сдал обучение: без этого маршруты не назначаются.
+      await TrainingResult.db.insertRow(
+        session,
+        TrainingResult(
+          driverId: driver.id!,
+          correct: 10,
+          total: 10,
+          passed: true,
+        ),
+      );
+
       asParent = sessionBuilder.copyWith(
         authentication: AuthenticationOverride.authenticationInfo(
           'parent:${parent.id}',

@@ -13,7 +13,7 @@
 Фигурные скобки вроде `{name}` — подстановка (имя, время,
 количество). Их нужно сохранить в переводе как есть.
 
-Всего строк: 205
+Всего строк: 331
 
 | Ключ | Русский | Туркменский | Правка |
 |---|---|---|---|
@@ -222,3 +222,129 @@
 | `dispatcherReject` | Отклонить | Ret et | |
 | `dispatcherRejectReason` | Причина отказа | Ret etmegiň sebäbi | |
 | `moneyTab` | Деньги | Pul | |
+| `onboardingTitle1` | Постоянный водитель, а не случайный | Hemişelik sürüji, tötänleýin däl | |
+| `onboardingText1` | Вашего ребёнка возит один и тот же человек, которого вы видели заранее. Если он не может выйти, диспетчер предложит запасного из вашего круга — тоже знакомого. | Çagaňyzy öňünden görkezilen bir adam gatnadýar. Ol çykyp bilmese, dispetçer siziň tegelegiňizden ätiýaçlyk sürüjini hödürlär — ol hem tanyş. | |
+| `onboardingTitle2` | Передача из рук в руки | Elden ele tabşyrmak | |
+| `onboardingText2` | Водитель называет кодовое слово вашей семьи, когда забирает ребёнка, и подтверждает передачу кодом учреждения или подписью воспитателя. Ребёнок не подтверждает ничего — только взрослые. | Sürüji çagany alanda maşgalanyň kod sözüni aýdýar, tabşyranda bolsa edaranyň kody ýa-da terbiýeçiniň goly bilen tassyklaýar. Çaga hiç zat tassyklamaýar — diňe ulular. | |
+| `onboardingTitle3` | Вы узнаете, даже если нет интернета | Internet bolmasa-da habarly bolarsyňyz | |
+| `onboardingText3` | О главных событиях — «забрал», «передал», отмена — приходит SMS, даже когда push не доходит. Поездку видно на карте, пока машина едет. | Esasy wakalar — «aldy», «tabşyrdy», ýatyryldy — push gelmese-de SMS bilen gelýär. Awtoulag ýoldaka kartada görünýär. | |
+| `onboardingNext` | Дальше | Indiki | |
+| `onboardingStart` | Начать | Başla | |
+| `offlineBanner` | Нет связи с сервером. Данные могут быть устаревшими. | Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler. | |
+| `poolTitle` | Пул: дети в одной машине | Pul: bir awtoulagda çagalar | |
+| `poolCandidates` | Можно объединить | Birleşdirip bolar | |
+| `poolMerge` | Объединить в пул | Pula birleşdir | |
+| `poolSeatsLeft` | Свободных мест: {seats}, кресел: {childSeats} | Boş orun: {seats}, oturgyç: {childSeats} | |
+| `poolChildrenInCar` | Детей в машине: {count} | Awtoulagda çaga: {count} | |
+| `poolNoCandidates` | Подходящих поездок нет | Laýyk ýol ýok | |
+| `poolTimeDiff` | разница {minutes} мин | tapawut {minutes} min | |
+| `poolNeedsChildSeat` | нужно кресло | oturgyç gerek | |
+| `seatPickUp` | Забрать | Al | |
+| `seatHandOver` | Передать | Tabşyr | |
+| `seatPickedUp` | В машине | Awtoulagda | |
+| `seatHandedOver` | Передан | Tabşyryldy | |
+| `seatWaiting` | Ждёт | Garaşýar | |
+| `seatWhichChild` | Кого забираем | Kimi alýarys | |
+| `chatTitle` | Сообщения | Habarlar | |
+| `chatHint` | Пишите водителю прямо здесь — номера телефонов не раскрываются | Sürüjä şu ýerde ýazyň — telefon belgileri açylmaýar | |
+| `chatSend` | Отправить | Iber | |
+| `chatPlaceholder` | Сообщение | Habar | |
+| `chatEmpty` | Сообщений пока нет | Häzirlikçe habar ýok | |
+| `chatQuickPhrases` | Быстрые фразы | Taýýar jümleler | |
+| `phraseComingOut` | Выходим | Çykýarys | |
+| `phraseDelayFive` | Задерживаемся на 5 минут | 5 minut gijikýäris | |
+| `phraseChildSick` | Ребёнок болеет, отмените сегодня | Çaga syrkaw, şu güni ýatyryň | |
+| `phraseWaitingEntrance` | Ждём у подъезда | Girelgede garaşýarys | |
+| `phraseArrivedCallChild` | Подъехал, позовите ребёнка | Geldim, çagany çagyryň | |
+| `phraseAllGood` | Всё хорошо | Hemme zat gowy | |
+| `emergencyCall` | Позвонить диспетчеру | Dispetçere jaň et | |
+| `emergencyHint` | Срочный вопрос — звоните диспетчеру, он свяжется с водителем | Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar | |
+| `institutionAccessTitle` | Ссылка для учреждения | Edara üçin salgy | |
+| `institutionAccessIssue` | Выдать ссылку | Salgy ber | |
+| `institutionAccessIssuedTo` | Кому выдаём (имя воспитателя) | Kime berilýär (terbiýeçiniň ady) | |
+| `institutionAccessCopy` | Скопируйте и передайте — она показывается один раз | Göçüriň we beriň — ol bir gezek görkezilýär | |
+| `institutionAccessRevoke` | Отозвать | Yzyna al | |
+| `institutionAccessRevoked` | Отозвана | Yzyna alnan | |
+| `institutionAccessActive` | Действует | Hereket edýär | |
+| `absenceTitle` | Сегодня не едем | Şu gün gitmeýäris | |
+| `absenceReason` | Причина | Sebäbi | |
+| `absenceHint` | Водитель и учреждение увидят это сразу | Sürüji we edara muny bada görer | |
+| `absenceDone` | Отмечено: сегодня не едем | Bellendi: şu gün gitmeýäris | |
+| `trainingTitle` | Обучение | Okuw | |
+| `trainingIntro` | Короткие уроки и тест по протоколу передачи ребёнка. Пока тест не сдан, маршруты не назначаются. | Çagany tabşyrmak düzgüni boýunça gysga sapaklar we test. Test tabşyrylmasa, ugurlar berilmeýär. | |
+| `trainingStart` | Пройти тест | Testi geç | |
+| `trainingPassed` | Тест сдан | Test tabşyryldy | |
+| `trainingFailed` | Тест не сдан: {correct} из {total}. Попробуйте ещё раз | Test tabşyrylmady: {total} sowaldan {correct}. Ýene synanyşyň | |
+| `trainingResult` | {correct} из {total} | {total} sowaldan {correct} | |
+| `trainingNext` | Дальше | Indiki | |
+| `trainingFinish` | Завершить тест | Testi tamamla | |
+| `trainingQuestion` | Вопрос {number} из {total} | {total} sowaldan {number}-nji | |
+| `hiringTitle` | Кандидаты | Dalaşgärler | |
+| `hiringChecklist` | Проверки | Barlaglar | |
+| `hiringHire` | Нанять | Işe al | |
+| `hiringReject` | Отказать | Ret et | |
+| `hiringRejectReason` | Причина отказа | Ret etmegiň sebäbi | |
+| `hiringStatusSubmitted` | Анкета подана | Arza berildi | |
+| `hiringStatusDocuments` | Документы | Resminamalar | |
+| `hiringStatusInterview` | Собеседование | Söhbetdeşlik | |
+| `hiringStatusCarCheck` | Осмотр машины | Awtoulag barlagy | |
+| `hiringStatusTraining` | Обучение | Okuw | |
+| `hiringStatusHired` | Принят | Kabul edildi | |
+| `hiringStatusRejected` | Отказ | Ret edildi | |
+| `checkPassport` | Паспорт | Pasport | |
+| `checkLicense` | Водительское удостоверение | Sürüjilik şahadatnamasy | |
+| `checkCarDocs` | Документы на машину | Awtoulag resminamalary | |
+| `checkCriminal` | Справка о несудимости | Kazyýet sudlulygy ýok kepilnama | |
+| `checkInterview` | Собеседование | Söhbetdeşlik | |
+| `checkChildSeat` | Показал установку кресла | Oturgyjyň gurnalyşyny görkezdi | |
+| `checkReferences` | Рекомендации | Maslahatlar | |
+| `incidentsTitle` | Инциденты | Wakalar | |
+| `incidentLog` | Зафиксировать | Bellige al | |
+| `incidentResolution` | Решение | Çözgüt | |
+| `incidentSeverityNote` | Замечание | Bellik | |
+| `incidentSeveritySerious` | Серьёзное | Çynlakaý | |
+| `incidentSeverityCritical` | Критическое | Kritiki | |
+| `payoutsTitle` | Расчёты | Hasaplaşyklar | |
+| `payoutBlocks` | Блоков: {blocks} | Bloklar: {blocks} | |
+| `payoutTotal` | К выплате | Tölege | |
+| `payoutMarkPaid` | Выплачено | Tölendi | |
+| `trainingQ1` | Родитель не вышел, ребёнок стоит у подъезда один. Что делать? | Ene-ata çykmady, çaga girelgede ýeke dur. Näme etmeli? | |
+| `trainingQ1a` | Посадить и ехать, чтобы не опоздать | Mündürip ugramaly, gijä galmaz ýaly | |
+| `trainingQ1b` | Позвонить диспетчеру и ждать взрослого | Dispetçere jaň edip, ulyny garaşmaly | |
+| `trainingQ1c` | Отметить «Забрал» и позвонить позже | «Aldym» diýip bellemeli, soň jaň etmeli | |
+| `trainingQ2` | Кодовое слово семьи нужно, чтобы: | Maşgalanyň gizlin sözi näme üçin gerek: | |
+| `trainingQ2a` | Отчитаться перед диспетчером | Dispetçere hasabat bermek üçin | |
+| `trainingQ2b` | Родитель убедился, что приехал именно наш водитель | Ene-ata hut biziň sürüjimiziň gelendigine göz ýetirmegi üçin | |
+| `trainingQ2c` | Открыть приложение | Programmany açmak üçin | |
+| `trainingQ3` | Кто отмечает этапы поездки в приложении? | Programmada saparyň tapgyrlaryny kim belleýär? | |
+| `trainingQ3a` | Ребёнок | Çaga | |
+| `trainingQ3b` | Водитель | Sürüji | |
+| `trainingQ3c` | Родитель | Ene-ata | |
+| `trainingQ4` | В школе нет кода учреждения. Как подтвердить передачу? | Mekdepde edaranyň kody ýok. Tabşyrmagy nädip tassyklamaly? | |
+| `trainingQ4a` | Пропустить подтверждение | Tassyklamany geçip gitmeli | |
+| `trainingQ4b` | Взять подпись принимающего на экране | Kabul edýäniň goluny ekranda almaly | |
+| `trainingQ4c` | Отметить «Передал» без ничего | Hiç zatsyz «Tabşyrdym» diýip bellemeli | |
+| `trainingQ5` | Пропал интернет посреди поездки. Что делать? | Saparyň ortasynda internet ýitdi. Näme etmeli? | |
+| `trainingQ5a` | Ничего не отмечать до конца дня | Günüň ahyryna çenli hiç zat bellemeli däl | |
+| `trainingQ5b` | Отмечать этапы как обычно: они уйдут сами | Tapgyrlary adaty ýaly bellemeli: olar özi iberiler | |
+| `trainingQ5c` | Звонить родителю | Ene-ata jaň etmeli | |
+| `trainingQ6` | Задерживаетесь на 10 минут. Правильное действие: | 10 minut gijikýärsiňiz. Dogry hereket: | |
+| `trainingQ6a` | Ехать молча и наверстать по дороге | Dymyp sürmeli, ýolda ýetişmeli | |
+| `trainingQ6b` | Отметить задержку с причиной | Gijikmäni sebäbi bilen bellemeli | |
+| `trainingQ6c` | Сказать родителю после поездки | Sapardan soň ene-ata aýtmaly | |
+| `trainingQ7` | Незнакомый человек просит отдать ему ребёнка: | Nätanyş adam çagany özüne bermegi soraýar: | |
+| `trainingQ7a` | Отдать, если он говорит, что это дядя | Daýysy diýse, bermeli | |
+| `trainingQ7b` | Не отдавать и звонить диспетчеру | Bermeli däl, dispetçere jaň etmeli | |
+| `trainingQ7c` | Отдать, если ребёнок его узнал | Çaga tanasa, bermeli | |
+| `trainingQ8` | В машине трое детей из разных семей. Кодовое слово: | Maşynda dürli maşgalalardan üç çaga bar. Gizlin söz: | |
+| `trainingQ8a` | Одно на всю машину | Ähli maşyn üçin bir sany | |
+| `trainingQ8b` | Своё у каждой семьи | Her maşgalanyň öz sözi | |
+| `trainingQ8c` | Не нужно, если едут вместе | Bile gitseler, gerek däl | |
+| `trainingQ9` | Завтрашние поездки водитель подтверждает: | Ertirki saparlary sürüji haçan tassyklaýar: | |
+| `trainingQ9a` | Утром перед выездом | Ertir ugramazdan öň | |
+| `trainingQ9b` | До 20:00 накануне | Öňki gün 20:00-a çenli | |
+| `trainingQ9c` | Не подтверждает | Tassyklamaýar | |
+| `trainingQ10` | Ребёнку нужно детское кресло, а свободного кресла нет: | Çaga çaga oturgyjy gerek, boş oturgyç ýok: | |
+| `trainingQ10a` | Везти аккуратно без кресла | Oturgyçsyz seresaply äkitmeli | |
+| `trainingQ10b` | Сообщить диспетчеру: ехать нельзя | Dispetçere habar bermeli: gitmek bolmaýar | |
+| `trainingQ10c` | Посадить на колени взрослому | Ulynyň dyzyna oturtmaly | |

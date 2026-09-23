@@ -1,0 +1,17 @@
+### Результат обучения водителя.
+###
+### Без сданного теста маршруты не назначаются: протокол передачи
+### ребёнка нельзя «выучить по ходу».
+class: TrainingResult
+table: training_result
+fields:
+  driverId: int, relation(parent=driver, onDelete=Cascade)
+  ### Сколько верных ответов из общего числа.
+  correct: int
+  total: int
+  passed: bool, default=false
+  attempt: int, default=1
+  createdAt: DateTime, default=now
+indexes:
+  training_result_driver_idx:
+    fields: driverId

@@ -2,6 +2,7 @@ import 'package:core_l10n/core_l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../crud/screens/directory_screen.dart';
+import '../hiring/screens/hiring_screen.dart';
 import '../money/screens/top_ups_screen.dart';
 import '../routes/screens/routes_admin_screen.dart';
 import '../tasks/screens/tasks_screen.dart';
@@ -27,7 +28,10 @@ class _DispatcherShellState extends State<DispatcherShell> {
       appBar: AppBar(
         title: Text(switch (_tab) {
           0 => l10n.dispatcherBoardTitle,
-          1 => l10n.dispatcherTabRoutes,
+          1 => l10n.dispatcherTasksTitle,
+          2 => l10n.dispatcherTopUpsTitle,
+          3 => l10n.dispatcherTabRoutes,
+          4 => l10n.hiringTitle,
           _ => l10n.dispatcherDirectories,
         }),
         actions: const [FlavorBadge(), LanguageMenu(), AccountMenu()],
@@ -39,6 +43,7 @@ class _DispatcherShellState extends State<DispatcherShell> {
           TasksScreen(),
           TopUpsScreen(),
           RoutesAdminScreen(),
+          HiringScreen(),
           DirectoryScreen(),
         ],
       ),
@@ -61,6 +66,10 @@ class _DispatcherShellState extends State<DispatcherShell> {
           NavigationDestination(
             icon: const Icon(Icons.route),
             label: l10n.dispatcherTabRoutes,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.badge),
+            label: l10n.hiringTitle,
           ),
           NavigationDestination(
             icon: const Icon(Icons.folder_shared),

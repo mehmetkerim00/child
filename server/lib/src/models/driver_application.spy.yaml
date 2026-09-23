@@ -1,0 +1,29 @@
+### Анкета кандидата в водители.
+###
+### Водители-няни — дефицитный ресурс и настоящий продукт (RESEARCH.md):
+### анкета заполняется с телефона, дальше её ведёт диспетчер по чек-листу.
+class: DriverApplication
+table: driver_application
+fields:
+  fullName: String
+  phone: String
+  ### Опыт работы с детьми: свои дети, садик, школа, секция.
+  experienceWithChildren: String
+  ### Водительский стаж в годах.
+  drivingYears: int
+  carModel: String
+  carPlate: String
+  isFemale: bool, default=false
+  ### Есть ли детское кресло у кандидата.
+  hasChildSeat: bool, default=false
+  comment: String?
+  status: ApplicationStatus, default=submitted
+  createdAt: DateTime, default=now
+  ### Водитель, созданный из этой анкеты после найма.
+  driverId: int?, relation(parent=driver, onDelete=SetNull)
+  rejectedReason: String?
+indexes:
+  driver_application_phone_idx:
+    fields: phone
+  driver_application_status_idx:
+    fields: status

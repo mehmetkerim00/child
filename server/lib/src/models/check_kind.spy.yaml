@@ -1,0 +1,10 @@
+### Что проверяем у кандидата.
+enum: CheckKind
+values:
+  - passport        ### паспорт
+  - drivingLicense  ### водительское удостоверение
+  - carDocuments    ### документы на машину
+  - criminalRecord  ### справка об отсутствии судимости
+  - interview       ### собеседование
+  - childSeatDemo   ### показал, как устанавливает детское кресло
+  - references      ### рекомендации
