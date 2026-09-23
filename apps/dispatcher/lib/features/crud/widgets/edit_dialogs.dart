@@ -119,6 +119,9 @@ Future<Family?> editFamilyDialog(BuildContext context, Family? initial) {
   final name = TextEditingController(text: initial?.name ?? '');
   final phone = TextEditingController(text: initial?.ownerPhone ?? '');
   var smsLevel = initial?.smsLevel ?? SmsLevel.all;
+  // Язык семьи — это язык её SMS и push, а не только приложения:
+  // без него туркменская семья получала бы русские уведомления.
+  var locale = initial?.locale ?? 'ru';
   final l10n = context.l10n;
 
   return showEditDialog<Family>(
@@ -130,6 +133,16 @@ Future<Family?> editFamilyDialog(BuildContext context, Family? initial) {
         controller: phone,
         label: l10n.fieldPhone,
         keyboardType: TextInputType.phone,
+      ),
+      EnumField<String>(
+        label: l10n.language,
+        value: locale,
+        values: const ['ru', 'tk', 'en'],
+        labelOf: l10n.familyLanguage,
+        onChanged: (value) {
+          locale = value;
+          rebuild();
+        },
       ),
       EnumField<SmsLevel>(
         label: l10n.fieldSmsLevel,
@@ -146,7 +159,7 @@ Future<Family?> editFamilyDialog(BuildContext context, Family? initial) {
       id: initial?.id,
       name: name.text.trim(),
       ownerPhone: phone.text.trim(),
-      locale: initial?.locale ?? 'ru',
+      locale: locale,
       smsLevel: smsLevel,
       createdAt: initial?.createdAt ?? DateTime.now().toUtc(),
     ),

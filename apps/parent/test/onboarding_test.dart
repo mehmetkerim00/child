@@ -1,4 +1,5 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_l10n/core_l10n.dart';
 import 'package:core_data/testing.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +11,9 @@ import 'package:parent/router.dart';
 void main() {
   Widget app({required bool seen}) => ProviderScope(
     overrides: [
+      // Язык фиксируем: по умолчанию берётся язык машины, а в тестах
+      // это en-US.
+      appLocaleProvider.overrideWith((ref) => const Locale('ru')),
       apiClientProvider.overrideWith((ref) => Client('http://localhost/')),
       tokenStorageProvider.overrideWithValue(FakeTokenStorage()),
       onboardingSeenProvider.overrideWith((ref) => seen),

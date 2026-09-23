@@ -32,6 +32,9 @@ class AppLocalizationsTk extends AppLocalizations {
   String get languageTk => 'Türkmen';
 
   @override
+  String get languageEn => 'English';
+
+  @override
   String stubNotice(String sprint) {
     return 'Wagtlaýyn ekran. Mümkinçilikler $sprint sprintinde peýda bolar.';
   }

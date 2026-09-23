@@ -1,7 +1,8 @@
 // Выгружает все туркменские строки интерфейса для вычитки носителем языка.
 //
 // Запуск: dart tools/export_tk_strings.dart
-// Результат: docs/tk-review.md — таблица «ключ | русский | туркменский».
+// Результат: docs/tk-review.md — таблица
+// «ключ | русский | английский | туркменский | правка».
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,6 +10,7 @@ void main() {
   final root = Directory.current.path;
   final ru = _load('$root/packages/core_l10n/lib/l10n/app_ru.arb');
   final tk = _load('$root/packages/core_l10n/lib/l10n/app_tk.arb');
+  final en = _load('$root/packages/core_l10n/lib/l10n/app_en.arb');
 
   final buffer = StringBuffer()
     ..writeln('# Туркменские строки — на вычитку')
@@ -24,6 +26,9 @@ void main() {
     ..writeln()
     ..writeln('- «Ключ» — техническое имя, его менять не нужно.')
     ..writeln('- «Русский» — исходный смысл.')
+    ..writeln('- «English» — тот же смысл по-английски: две формулировки')
+    ..writeln('  рядом помогают понять, что именно должно быть сказано,')
+    ..writeln('  если русская фраза читается двусмысленно.')
     ..writeln('- «Туркменский» — то, что сейчас видит пользователь.')
     ..writeln('- В колонке «Правка» напишите верный вариант или «ок».')
     ..writeln()
@@ -32,13 +37,14 @@ void main() {
     ..writeln()
     ..writeln('Всего строк: ${tk.length}')
     ..writeln()
-    ..writeln('| Ключ | Русский | Туркменский | Правка |')
-    ..writeln('|---|---|---|---|');
+    ..writeln('| Ключ | Русский | English | Туркменский | Правка |')
+    ..writeln('|---|---|---|---|---|');
 
   for (final key in tk.keys) {
     final russian = _escape(ru[key] ?? '');
     final turkmen = _escape(tk[key] ?? '');
-    buffer.writeln('| `$key` | $russian | $turkmen | |');
+    final english = _escape(en[key] ?? '');
+    buffer.writeln('| `$key` | $russian | $english | $turkmen | |');
   }
 
   final out = File('$root/docs/tk-review.md')..writeAsStringSync('$buffer');

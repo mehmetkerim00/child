@@ -25,6 +25,11 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: ./tools/check.sh analyze
+      # Полнота переводов — отдельным шагом: пропущенный ключ должен
+      # быть виден в названии упавшего шага, а не в общей куче тестов.
+      - name: Полнота переводов ru/tk/en
+        working-directory: packages/core_l10n
+        run: flutter test test/arb_completeness_test.dart
       - run: ./tools/check.sh test
 
   server-test:

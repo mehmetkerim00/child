@@ -14,6 +14,7 @@
   "language": "Язык",
   "languageRu": "Русский",
   "languageTk": "Türkmen",
+  "languageEn": "English",
   "stubNotice": "Экран-заглушка. Функциональность появится в спринте {sprint}.",
   "@stubNotice": {
     "placeholders": {
@@ -473,19 +474,24 @@
   "ownerNoEmptyHours": "Пустых часов нет",
   "ownerBalances": "Балансы семей",
   "ownerInDebt": "В минусе: {count}",
-  "@ownerInDebt": {"placeholders": {"count": {"type": "int"}}},
+  "@ownerInDebt": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "ownerRidesPerBlock": "Поездок на блок",
   "ownerExport": "Выгрузить таблицу",
   "ownerExportHint": "Ссылка сработает один раз и только 15 минут. Откройте её на компьютере — файл открывается в Excel.",
   "ownerExportCopy": "Скопировать ссылку",
   "ownerRates": "Ставки расчёта",
   "ownerSmsPrice": "SMS, тенге",
-  "ownerBlockPay": "Блок, тенге",
+  "ownerBlockPay": "Оплата блоков",
   "ownerPerRide": "Поездка, тенге",
   "ownerLossMaking": "Убыточный маршрут",
   "taskSystemDegraded": "Сбой сервиса",
   "ownerRouteSum": "Сумма по маршрутам",
   "ownerRouteSumHint": "Без гарантированной оплаты блоков",
-  "ownerBlockPay": "Оплата блоков",
   "ownerTotalWithBlocks": "Итого с учётом стоимости блоков"
 }

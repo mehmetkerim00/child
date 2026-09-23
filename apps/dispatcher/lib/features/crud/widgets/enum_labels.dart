@@ -56,3 +56,17 @@ extension HiringLabels on AppLocalizations {
     IncidentSeverity.critical => incidentSeverityCritical,
   };
 }
+
+/// Название языка семьи — на самом этом языке.
+///
+/// Не `localeName`: так называется свойство самого AppLocalizations.
+///
+/// Диспетчер выбирает язык SMS для семьи: «Türkmen» он узнает и не зная
+/// туркменского, а «туркменский» ничего не говорит самой семье.
+extension LocaleLabels on AppLocalizations {
+  String familyLanguage(String locale) => switch (locale) {
+    'tk' => languageTk,
+    'en' => languageEn,
+    _ => languageRu,
+  };
+}

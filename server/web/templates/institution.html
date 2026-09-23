@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{locale}}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,10 +27,13 @@
                     border-radius: 12px; background: #1E5AA8; color: #fff; }
   .empty { color: #5A6370; }
   footer { margin-top: 32px; color: #5A6370; font-size: 14px; }
+  .lang { display: flex; gap: 12px; margin-bottom: 12px; font-size: 15px; }
+  .lang a { color: #1E5AA8; text-decoration: none; }
+  .lang .current { color: #1B1F24; font-weight: 700; }
 </style>
 </head>
 <body>
 {{{content}}}
-<footer>Child — безопасные детские перевозки</footer>
+<footer>{{footer}}</footer>
 </body>
 </html>

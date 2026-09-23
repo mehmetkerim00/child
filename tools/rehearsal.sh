@@ -24,6 +24,9 @@ echo "==> 2/5 Форматирование и анализ"
 
 echo
 echo "==> 3/5 Тесты приложений и пакетов"
+# Полнота переводов первой: без неё остальные тесты могут пройти на
+# интерфейсе, где половина строк пустая.
+(cd packages/core_l10n && flutter test test/arb_completeness_test.dart)
 ./tools/check.sh test
 
 echo

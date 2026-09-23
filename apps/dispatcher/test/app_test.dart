@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:core_l10n/core_l10n.dart';
 import 'package:core_data/core_data.dart';
 import 'package:core_data/testing.dart';
 import 'package:dispatcher/app.dart';
@@ -10,6 +12,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // Язык фиксируем: по умолчанию берётся язык машины,
+          // а flutter_test сообщает en-US.
+          appLocaleProvider.overrideWith((ref) => const Locale('ru')),
           // Клиент без закрытия: close() Serverpod ставит таймер на 100 мс,
           // который переживает дерево виджетов и роняет тест.
           apiClientProvider.overrideWith((ref) => Client('http://localhost/')),
@@ -76,6 +81,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // Язык фиксируем: по умолчанию берётся язык машины,
+          // а flutter_test сообщает en-US.
+          appLocaleProvider.overrideWith((ref) => const Locale('ru')),
           apiClientProvider.overrideWith((ref) => Client('http://localhost/')),
           serverHealthProvider.overrideWith(
             (ref) async => ServerHealth(

@@ -32,6 +32,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get languageTk => 'Türkmen';
 
   @override
+  String get languageEn => 'English';
+
+  @override
   String stubNotice(String sprint) {
     return 'Экран-заглушка. Функциональность появится в спринте $sprint.';
   }

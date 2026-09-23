@@ -1,4 +1,7 @@
-/// Строки UI проекта child (ru/tk). Хардкод строк в приложениях запрещён.
+/// Строки UI проекта child (ru/tk/en). Хардкод строк запрещён.
+///
+/// Полноту всех трёх языков проверяет `test/arb_completeness_test.dart`:
+/// забытый ключ или пустой перевод роняют CI.
 library;
 
 import 'package:flutter/widgets.dart';

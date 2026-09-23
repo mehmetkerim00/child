@@ -4,6 +4,7 @@ import 'package:serverpod/serverpod.dart';
 import '../../generated/protocol.dart';
 import '../clock.dart';
 import '../sms/sms_gateway.dart';
+import '../sms/sms_text.dart';
 import 'notification_texts.dart';
 import 'push_gateway.dart';
 
@@ -299,7 +300,12 @@ class NotificationService {
           outboxId: row.id!,
         );
       } else {
-        await sms.send(session, phone: row.recipientPhone, body: row.body);
+        // Длинный текст режем сами и по словам: иначе оператор разрежет
+        // его по счётчику символов, и родитель получит «Мерет переда»
+        // и «н, 07:42» двумя сообщениями.
+        for (final part in SmsText.split(row.body)) {
+          await sms.send(session, phone: row.recipientPhone, body: part);
+        }
         delivered = true;
       }
     } catch (e) {

@@ -8,6 +8,7 @@ import 'package:child_server/src/services/notifications/silent_failure_watch.dar
 import 'package:child_server/src/services/rides/ride_generator.dart';
 import 'package:child_server/src/services/rides/ride_pool.dart';
 import 'package:child_server/src/services/sms/sms_gateway.dart';
+import 'package:child_server/src/services/sms/sms_text.dart';
 import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 import 'package:test/test.dart';
@@ -733,6 +734,183 @@ void main() {
     /// Это вторая половина дня диспетчера. Смысл прогона — убедиться, что
     /// непроверенный и необученный человек не получит ребёнка, даже если
     /// диспетчер торопится и жмёт «Нанять».
+    /// День англоязычной семьи.
+    ///
+    /// В Ашхабаде такие семьи есть — иностранные сотрудники, смешанные
+    /// браки. Проверяем не «перевод существует», а то, что родитель
+    /// получает понятные ему уведомления и ни одно из них не приходит
+    /// по-русски, потому что кто-то забыл прокинуть язык семьи.
+    test('день англоязычной семьи: уведомления на её языке', () async {
+      final theirFamily = await Family.db.insertRow(
+        session,
+        Family(
+          name: 'Smith',
+          ownerPhone: '+99365207777',
+          locale: 'en',
+        ),
+      );
+      await Parent.db.insertRow(
+        session,
+        Parent(
+          familyId: theirFamily.id!,
+          phone: '+99365207777',
+          name: 'Sarah',
+          role: ParentRole.owner,
+        ),
+      );
+      final theirChild = await Child.db.insertRow(
+        session,
+        Child(
+          familyId: theirFamily.id!,
+          name: 'Emma',
+          codeWord: 'falcon',
+        ),
+      );
+      final theirTemplate = await RouteTemplate.db.insertRow(
+        session,
+        RouteTemplate(
+          childId: theirChild.id!,
+          weekdays: const [1, 2, 3, 4, 5, 6, 7],
+          pickupTime: '07:45',
+          fromAddress: 'Ашхабад, ул. Битарап 10',
+          toInstitutionId: school.id,
+          direction: RouteDirection.toInstitution,
+          driverId: driver.id,
+          pricePerRideTenge: _ridePriceTenge,
+          active: true,
+        ),
+      );
+      final theirRide = await Ride.db.insertRow(
+        session,
+        Ride(
+          templateId: theirTemplate.id,
+          childId: theirChild.id!,
+          driverId: driver.id,
+          date: AshgabatTime.dateOf(clock.now()),
+          plannedTime: '07:45',
+          status: RideStatus.confirmed,
+          confirmedAt: clock.now(),
+        ),
+      );
+      await RideSeat.db.insertRow(
+        session,
+        RideSeat(
+          rideId: theirRide.id!,
+          childId: theirChild.id!,
+          templateId: theirTemplate.id,
+          seatPriceTenge: _ridePriceTenge,
+        ),
+      );
+      await ledger.recordCashTopUp(
+        session,
+        familyId: theirFamily.id!,
+        driverId: driver.id!,
+        amountTenge: 20000,
+        hasSignature: true,
+      );
+      final topUps = await CashTopUp.db.find(
+        session,
+        where: (row) => row.familyId.equals(theirFamily.id),
+      );
+      await ledger.confirmCashTopUp(session, topUpId: topUps.single.id!);
+
+      // --- Утро: тот же протокол, другой язык ---------------------------
+      var ride = await endpoints.rides.submitEvent(
+        asDriver,
+        theirRide.id!,
+        step(RideEventType.enRoute),
+      );
+      clock.advance(const Duration(minutes: 5));
+
+      // Кодовое слово проверяется так же строго: язык семьи ничего не
+      // упрощает.
+      await expectLater(
+        endpoints.rides.submitEvent(
+          asDriver,
+          theirRide.id!,
+          step(RideEventType.pickedUp, codeWord: 'sokol'),
+        ),
+        throwsA(isA<RideFlowException>()),
+        reason: 'чужое слово не открывает дверь и англоязычной семье',
+      );
+
+      ride = await endpoints.rides.submitEvent(
+        asDriver,
+        theirRide.id!,
+        step(RideEventType.pickedUp, codeWord: 'falcon'),
+      );
+      ride = await endpoints.rides.submitEvent(
+        asDriver,
+        theirRide.id!,
+        step(RideEventType.arrived),
+      );
+      ride = await endpoints.rides.submitEvent(
+        asDriver,
+        theirRide.id!,
+        step(RideEventType.handedOver, institutionCode: _schoolCode),
+      );
+      expect(ride.status, RideStatus.handedOver);
+
+      await notifications.processQueue(session);
+
+      // --- Уведомления пришли по-английски ------------------------------
+      final theirMessages = await NotificationOutbox.db.find(
+        session,
+        where: (row) => row.familyId.equals(theirFamily.id),
+      );
+      expect(theirMessages, isNotEmpty);
+
+      final bodies = theirMessages.map((row) => row.body).toList();
+      expect(
+        bodies.any((body) => body.contains('Emma is in the car')),
+        isTrue,
+        reason: 'родитель читает «забрал» на своём языке: $bodies',
+      );
+      expect(
+        bodies.any((body) => body.contains('has been handed over')),
+        isTrue,
+        reason: 'и «передал» тоже',
+      );
+
+      // Ни одного русского слова в самом шаблоне. Имена при этом
+      // остаются как есть: водителя зовут Аман, и подменять его имя
+      // латиницей значит мешать родителю узнать человека у подъезда.
+      final cyrillic = RegExp('[А-Яа-яЁё]');
+      for (final body in bodies) {
+        final template = body
+            .replaceAll(driver.name, '')
+            .replaceAll(theirChild.name, '')
+            .replaceAll(family.name, '');
+        expect(
+          cyrillic.hasMatch(template),
+          isFalse,
+          reason:
+              'в английском уведомлении остался русский текст шаблона: '
+              '«$body»',
+        );
+      }
+
+      // --- SMS не разорвана посреди слова -------------------------------
+      for (final message in sms.messages) {
+        expect(
+          message.trim(),
+          isNot(endsWith('-')),
+          reason: 'сегмент оборван на переносе',
+        );
+      }
+      for (final body in bodies) {
+        expect(
+          SmsText.segments(body),
+          1,
+          reason: 'обычное событие должно уходить одним сегментом: «$body»',
+        );
+      }
+
+      // --- Деньги списались так же ---------------------------------------
+      final theirBalance = await ledger.balanceView(session, theirFamily.id!);
+      expect(theirBalance.balanceTenge, 20000 - _ridePriceTenge);
+    });
+
     test('конвейер водителя: анкета, проверки, обучение, расчёт', () async {
       // 1. Кандидат заполняет анкету с телефона: аккаунта у него ещё нет.
       final application = await endpoints.driverApplication.submit(

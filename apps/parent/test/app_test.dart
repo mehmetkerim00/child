@@ -1,4 +1,5 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_l10n/core_l10n.dart';
 import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:flutter/widgets.dart';
 import 'package:core_data/testing.dart';
@@ -8,8 +9,18 @@ import 'package:parent/app.dart';
 
 /// Приложение родителя: вход и главный экран.
 void main() {
-  Widget app(List<Override> overrides) =>
-      ProviderScope(overrides: overrides, child: const App());
+  /// Тесты идут на русском независимо от языка машины.
+  ///
+  /// По умолчанию приложение берёт язык телефона, а flutter_test
+  /// сообщает en-US — без явной фиксации тесты проверяли бы английский
+  /// интерфейс на русских строках.
+  Widget app(List<Override> overrides) => ProviderScope(
+    overrides: [
+      appLocaleProvider.overrideWith((ref) => const Locale('ru')),
+      ...overrides,
+    ],
+    child: const App(),
+  );
 
   final client = apiClientProvider.overrideWith(
     (ref) => Client('http://localhost/'),

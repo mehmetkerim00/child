@@ -6,7 +6,10 @@ fields:
   name: String
   ### Телефон родителя-владельца в формате +993XXXXXXXX.
   ownerPhone: String
-  ### Язык интерфейса и SMS: ru или tk.
+  ### Язык интерфейса и SMS: ru, tk или en.
+  ###
+  ### На нём же приходят push и SMS: семья читает их в переписке с
+  ### сервисом, а не в приложении, и чужой язык там особенно заметен.
   locale: String, default='ru'
   smsLevel: SmsLevel, default=all
   createdAt: DateTime, default=now

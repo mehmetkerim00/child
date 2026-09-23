@@ -7,6 +7,7 @@
   "language": "Dil",
   "languageRu": "Русский",
   "languageTk": "Türkmen",
+  "languageEn": "English",
   "stubNotice": "Wagtlaýyn ekran. Mümkinçilikler {sprint} sprintinde peýda bolar.",
   "serverStatusTitle": "Serwer bilen aragatnaşyk",
   "serverChecking": "Barlanýar…",
@@ -355,12 +356,11 @@
   "ownerExportCopy": "Salgyny göçür",
   "ownerRates": "Hasaplaşyk nyrhlary",
   "ownerSmsPrice": "SMS, teňňe",
-  "ownerBlockPay": "Blok, teňňe",
+  "ownerBlockPay": "Bloklaryň tölegi",
   "ownerPerRide": "Sapar, teňňe",
   "ownerLossMaking": "Zyýanly ugur",
   "taskSystemDegraded": "Hyzmatda näsazlyk",
   "ownerRouteSum": "Ugurlar boýunça jemi",
   "ownerRouteSumHint": "Bloklaryň kepillendirilen tölegi hasaba alynmazdan",
-  "ownerBlockPay": "Bloklaryň tölegi",
   "ownerTotalWithBlocks": "Bloklaryň bahasy bilen jemi"
 }

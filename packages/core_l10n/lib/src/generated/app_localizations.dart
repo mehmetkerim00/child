@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_ru.dart';
 import 'app_localizations_tk.dart';
 
@@ -94,6 +95,7 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
     Locale('ru'),
     Locale('tk'),
   ];
@@ -139,6 +141,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Türkmen'**
   String get languageTk;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In ru, this message translates to:
+  /// **'English'**
+  String get languageEn;
 
   /// No description provided for @stubNotice.
   ///
@@ -2282,7 +2290,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ru', 'tk'].contains(locale.languageCode);
+      <String>['en', 'ru', 'tk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2291,6 +2299,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
     case 'ru':
       return AppLocalizationsRu();
     case 'tk':
