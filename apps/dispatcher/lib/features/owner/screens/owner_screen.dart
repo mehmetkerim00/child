@@ -154,6 +154,10 @@ class _Report extends ConsumerWidget {
                   label: l10n.ownerDriverPay,
                   value: '−${formatTenge(report.driverPayTenge)}',
                 ),
+                _Line(
+                  label: '   ${l10n.ownerBlockPay}',
+                  value: formatTenge(report.blockPayTenge),
+                ),
                 const Divider(),
                 _Line(
                   label: l10n.ownerMargin,
@@ -168,6 +172,18 @@ class _Report extends ConsumerWidget {
         const SizedBox(height: ChildSpacing.m),
 
         _Section(title: l10n.ownerRouteEconomics),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: ChildSpacing.s,
+            bottom: ChildSpacing.s,
+          ),
+          child: Text(
+            l10n.ownerRouteSumHint,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.outline,
+            ),
+          ),
+        ),
         for (final route in report.routes)
           Card(
             margin: const EdgeInsets.only(bottom: ChildSpacing.xs),
@@ -193,6 +209,34 @@ class _Report extends ConsumerWidget {
               ),
             ),
           ),
+
+        Card(
+          margin: const EdgeInsets.only(top: ChildSpacing.xs),
+          child: Padding(
+            padding: const EdgeInsets.all(ChildSpacing.m),
+            child: Column(
+              children: [
+                _Line(
+                  label: l10n.ownerRouteSum,
+                  value: formatTenge(report.routeMarginTenge),
+                ),
+                _Line(
+                  label: l10n.ownerBlockPay,
+                  value: '−${formatTenge(report.blockPayTenge)}',
+                ),
+                const Divider(),
+                // Без этой строки список маршрутов обманывает: блоки
+                // оплачиваются, даже когда рейсов в них мало.
+                _Line(
+                  label: l10n.ownerTotalWithBlocks,
+                  value: formatTenge(report.routeMarginWithBlocksTenge),
+                  strong: true,
+                  danger: report.routeMarginWithBlocksTenge < 0,
+                ),
+              ],
+            ),
+          ),
+        ),
 
         const SizedBox(height: ChildSpacing.m),
         _Section(title: l10n.ownerDriverLoad),
@@ -284,9 +328,12 @@ class _Line extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: ChildSpacing.xs),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: style),
+          // Подпись занимает остаток строки и переносится: «Итого с
+          // учётом стоимости блоков» длиннее, чем кажется, а телефоны
+          // у диспетчеров узкие.
+          Expanded(child: Text(label, style: style)),
+          const SizedBox(width: ChildSpacing.s),
           Text(
             value,
             style: style?.copyWith(

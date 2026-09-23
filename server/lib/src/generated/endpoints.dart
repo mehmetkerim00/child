@@ -289,6 +289,50 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'dev',
       endpoint: endpoints['dev']!,
       methodConnectors: {
+        'seedLoad': _i1.MethodConnector(
+          name: 'seedLoad',
+          params: {
+            'drivers': _i1.ParameterDescription(
+              name: 'drivers',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'ridesPerDriver': _i1.ParameterDescription(
+              name: 'ridesPerDriver',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['dev'] as _i4.DevEndpoint).seedLoad(
+                session,
+                drivers: params['drivers'],
+                ridesPerDriver: params['ridesPerDriver'],
+              ),
+        ),
+        'loadResult': _i1.MethodConnector(
+          name: 'loadResult',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['dev'] as _i4.DevEndpoint).loadResult(session),
+        ),
+        'cleanupLoad': _i1.MethodConnector(
+          name: 'cleanupLoad',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['dev'] as _i4.DevEndpoint).cleanupLoad(session),
+        ),
         'seed': _i1.MethodConnector(
           name: 'seed',
           params: {},

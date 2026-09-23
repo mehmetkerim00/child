@@ -13,7 +13,7 @@
 Фигурные скобки вроде `{name}` — подстановка (имя, время,
 количество). Их нужно сохранить в переводе как есть.
 
-Всего строк: 359
+Всего строк: 362
 
 | Ключ | Русский | Туркменский | Правка |
 |---|---|---|---|
@@ -372,7 +372,10 @@
 | `ownerExportCopy` | Скопировать ссылку | Salgyny göçür | |
 | `ownerRates` | Ставки расчёта | Hasaplaşyk nyrhlary | |
 | `ownerSmsPrice` | SMS, тенге | SMS, teňňe | |
-| `ownerBlockPay` | Блок, тенге | Blok, teňňe | |
+| `ownerBlockPay` | Оплата блоков | Bloklaryň tölegi | |
 | `ownerPerRide` | Поездка, тенге | Sapar, teňňe | |
 | `ownerLossMaking` | Убыточный маршрут | Zyýanly ugur | |
 | `taskSystemDegraded` | Сбой сервиса | Hyzmatda näsazlyk | |
+| `ownerRouteSum` | Сумма по маршрутам | Ugurlar boýunça jemi | |
+| `ownerRouteSumHint` | Без гарантированной оплаты блоков | Bloklaryň kepillendirilen tölegi hasaba alynmazdan | |
+| `ownerTotalWithBlocks` | Итого с учётом стоимости блоков | Bloklaryň bahasy bilen jemi | |

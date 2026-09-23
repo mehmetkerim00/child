@@ -64,10 +64,24 @@ class ReportService {
 
     final revenue = days.fold<int>(0, (sum, day) => sum + day.revenueTenge);
     final smsCost = days.fold<int>(0, (sum, day) => sum + day.smsCostTenge);
-    final driverPay = drivers.fold<int>(
+
+    // Гарантированная оплата блоков считается отдельно: на маршруты она
+    // не разносится, но из кармана уходит так же, как всё остальное.
+    final blockPay = drivers.fold<int>(
       0,
-      (sum, load) =>
-          sum + load.blocks * blockPayTenge + load.rides * perRideTenge,
+      (sum, load) => sum + load.blocks * blockPayTenge,
+    );
+    final ridePay = drivers.fold<int>(
+      0,
+      (sum, load) => sum + load.rides * perRideTenge,
+    );
+    final driverPay = blockPay + ridePay;
+
+    // Сумма марж по маршрутам выглядит лучше реальной: в ней нет блоков.
+    // Поэтому рядом всегда идёт вторая строка — уже с их стоимостью.
+    final routeMargin = routes.fold<int>(
+      0,
+      (sum, route) => sum + route.marginTenge,
     );
 
     final completed = rides
@@ -96,6 +110,9 @@ class ReportService {
       revenueTenge: revenue,
       smsCostTenge: smsCost,
       driverPayTenge: driverPay,
+      blockPayTenge: blockPay,
+      routeMarginTenge: routeMargin,
+      routeMarginWithBlocksTenge: routeMargin - blockPay,
       marginTenge: revenue - smsCost - driverPay,
       completionPercent: completion,
       emptyHours: _emptyHours(rides),
@@ -347,9 +364,14 @@ class ReportService {
           route.marginTenge,
         ],
       [],
+      ['Сумма по маршрутам (без блоков)', report.routeMarginTenge],
+      ['Оплата блоков', -report.blockPayTenge],
+      ['Итого по маршрутам с учётом блоков', report.routeMarginWithBlocksTenge],
+      [],
       ['Выручка', report.revenueTenge],
       ['SMS', report.smsCostTenge],
       ['Водителям', report.driverPayTenge],
+      ['в том числе блоки', report.blockPayTenge],
       ['Валовая маржа', report.marginTenge],
       ['Выполняемость, %', report.completionPercent],
       ['Баланс семей', report.familyBalanceTenge],

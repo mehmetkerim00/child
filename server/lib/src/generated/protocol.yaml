@@ -9,6 +9,9 @@ chat:
   - send:
   - dispatcherPhone:
 dev:
+  - seedLoad:
+  - loadResult:
+  - cleanupLoad:
   - seed:
 directory:
   - families:

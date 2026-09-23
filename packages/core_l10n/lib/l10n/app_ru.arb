@@ -483,5 +483,9 @@
   "ownerBlockPay": "Блок, тенге",
   "ownerPerRide": "Поездка, тенге",
   "ownerLossMaking": "Убыточный маршрут",
-  "taskSystemDegraded": "Сбой сервиса"
+  "taskSystemDegraded": "Сбой сервиса",
+  "ownerRouteSum": "Сумма по маршрутам",
+  "ownerRouteSumHint": "Без гарантированной оплаты блоков",
+  "ownerBlockPay": "Оплата блоков",
+  "ownerTotalWithBlocks": "Итого с учётом стоимости блоков"
 }

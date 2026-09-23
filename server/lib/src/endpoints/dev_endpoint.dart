@@ -1,17 +1,55 @@
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/load/load_fixture_service.dart';
 
 /// Тестовые данные для разработки и ручной проверки.
 ///
 /// Работает только в режиме development — в проде эндпоинт отвечает отказом.
 class DevEndpoint extends Endpoint {
-  /// Заполняет базу демо-данными: диспетчер, две семьи с детьми,
-  /// два водителя, два учреждения. Повторный вызов ничего не дублирует.
-  Future<String> seed(Session session) async {
+  /// Засевает данные для нагрузочного прогона: водителей с поездками на
+  /// сегодня и токенами сессий.
+  ///
+  /// Нужен, чтобы мерить нагрузку на боевом пути — водитель отмечает
+  /// этапы, сервер пишет событие, двигает статус, списывает деньги и
+  /// ставит уведомления в очередь.
+  Future<LoadFixture> seedLoad(
+    Session session, {
+    required int drivers,
+    required int ridesPerDriver,
+  }) async {
+    _requireDevelopment(session);
+    return LoadFixtureService().seed(
+      session,
+      drivers: drivers,
+      ridesPerDriver: ridesPerDriver,
+    );
+  }
+
+  /// Сколько поездок нагрузочного прогона доведено до конца.
+  Future<LoadResult> loadResult(Session session) async {
+    _requireDevelopment(session);
+    return LoadResult(
+      handedOver: await LoadFixtureService().handedOver(session),
+    );
+  }
+
+  /// Убирает за нагрузочным прогоном. Возвращает число удалённых семей.
+  Future<int> cleanupLoad(Session session) async {
+    _requireDevelopment(session);
+    return LoadFixtureService().cleanup(session);
+  }
+
+  void _requireDevelopment(Session session) {
     if (session.serverpod.runMode != 'development') {
       throw Exception('Сиды доступны только в режиме development');
     }
+  }
+
+  /// Заполняет базу демо-данными: диспетчер, две семьи с детьми,
+  /// два водителя, два учреждения. Повторный вызов ничего не дублирует.
+  Future<String> seed(Session session) async {
+    _requireDevelopment(session);
 
     await _dispatcher(
       session,

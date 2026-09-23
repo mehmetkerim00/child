@@ -84,7 +84,7 @@ PostgreSQL и сборка debug-APK обоих мобильных прилож�
 ```bash
 ./tools/add_account.sh owner "+99365002222" "Владелец"  # служебный аккаунт
 ./tools/check_secrets.sh                                # перед публикацией
-dart tools/load_test.dart --rides 200 --events 1000     # нагрузка
+dart tools/load_test.dart --drivers 200 --rides 1       # нагрузка боевым путём
 tools/backup_db.sh                                      # шифрованный бэкап
 tools/restore_check.sh <файл>                           # проверка восстановления
 tools/watchdog.sh https://api.example.tm                # с ДРУГОЙ машины

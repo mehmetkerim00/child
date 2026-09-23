@@ -130,6 +130,9 @@ void main() {
               revenueTenge: 10500,
               smsCostTenge: 600,
               driverPayTenge: 26000,
+              blockPayTenge: 20000,
+              routeMarginTenge: 3900,
+              routeMarginWithBlocksTenge: -16100,
               marginTenge: -16100,
               completionPercent: 75,
               emptyHours: [12, 15],
@@ -158,6 +161,11 @@ void main() {
     // Главные цифры: выполняемость и отрицательная маржа.
     expect(find.text('75%'), findsOneWidget);
     expect(find.text('Валовая маржа'), findsOneWidget);
+
+    // Маршрут выглядит прибыльным, но рядом обязана стоять строка с
+    // блоками — иначе экран обманывает.
+    expect(find.text('Итого с учётом стоимости блоков'), findsOneWidget);
+    expect(find.text('Оплата блоков'), findsWidgets);
 
     // Должник виден по имени: за ним нужно идти.
     expect(find.text('Семья Ниязовых'), findsOneWidget);

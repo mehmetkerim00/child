@@ -2231,7 +2231,7 @@ abstract class AppLocalizations {
   /// No description provided for @ownerBlockPay.
   ///
   /// In ru, this message translates to:
-  /// **'Блок, тенге'**
+  /// **'Оплата блоков'**
   String get ownerBlockPay;
 
   /// No description provided for @ownerPerRide.
@@ -2251,6 +2251,24 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сбой сервиса'**
   String get taskSystemDegraded;
+
+  /// No description provided for @ownerRouteSum.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма по маршрутам'**
+  String get ownerRouteSum;
+
+  /// No description provided for @ownerRouteSumHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без гарантированной оплаты блоков'**
+  String get ownerRouteSumHint;
+
+  /// No description provided for @ownerTotalWithBlocks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Итого с учётом стоимости блоков'**
+  String get ownerTotalWithBlocks;
 }
 
 class _AppLocalizationsDelegate

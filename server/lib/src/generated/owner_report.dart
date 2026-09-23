@@ -31,6 +31,9 @@ abstract class OwnerReport
     required this.revenueTenge,
     required this.smsCostTenge,
     required this.driverPayTenge,
+    required this.blockPayTenge,
+    required this.routeMarginTenge,
+    required this.routeMarginWithBlocksTenge,
     required this.marginTenge,
     required this.completionPercent,
     required this.emptyHours,
@@ -47,6 +50,9 @@ abstract class OwnerReport
     required int revenueTenge,
     required int smsCostTenge,
     required int driverPayTenge,
+    required int blockPayTenge,
+    required int routeMarginTenge,
+    required int routeMarginWithBlocksTenge,
     required int marginTenge,
     required int completionPercent,
     required List<int> emptyHours,
@@ -72,6 +78,10 @@ abstract class OwnerReport
       revenueTenge: jsonSerialization['revenueTenge'] as int,
       smsCostTenge: jsonSerialization['smsCostTenge'] as int,
       driverPayTenge: jsonSerialization['driverPayTenge'] as int,
+      blockPayTenge: jsonSerialization['blockPayTenge'] as int,
+      routeMarginTenge: jsonSerialization['routeMarginTenge'] as int,
+      routeMarginWithBlocksTenge:
+          jsonSerialization['routeMarginWithBlocksTenge'] as int,
       marginTenge: jsonSerialization['marginTenge'] as int,
       completionPercent: jsonSerialization['completionPercent'] as int,
       emptyHours: _i5.Protocol().deserialize<List<int>>(
@@ -102,6 +112,24 @@ abstract class OwnerReport
 
   int driverPayTenge;
 
+  /// Гарантированная оплата блоков — часть driverPayTenge.
+  ///
+  /// Вынесена отдельно, потому что на маршруты она не разносится:
+  /// блок оплачивается за время, а не за конкретный рейс.
+  int blockPayTenge;
+
+  /// Сумма марж по маршрутам — БЕЗ оплаты блоков.
+  ///
+  /// Само по себе это число выглядит лучше реального. Показывать его
+  /// без следующей строки нельзя.
+  int routeMarginTenge;
+
+  /// Итого по маршрутам с учётом стоимости блоков: routeMargin − blockPay.
+  ///
+  /// Честный ответ на вопрос «окупаются ли маршруты»: гарантированную
+  /// оплату блоков платим, даже если рейсов в блоке мало.
+  int routeMarginWithBlocksTenge;
+
   int marginTenge;
 
   /// Доля доведённых до конца поездок, проценты.
@@ -124,6 +152,9 @@ abstract class OwnerReport
     int? revenueTenge,
     int? smsCostTenge,
     int? driverPayTenge,
+    int? blockPayTenge,
+    int? routeMarginTenge,
+    int? routeMarginWithBlocksTenge,
     int? marginTenge,
     int? completionPercent,
     List<int>? emptyHours,
@@ -142,6 +173,9 @@ abstract class OwnerReport
       'revenueTenge': revenueTenge,
       'smsCostTenge': smsCostTenge,
       'driverPayTenge': driverPayTenge,
+      'blockPayTenge': blockPayTenge,
+      'routeMarginTenge': routeMarginTenge,
+      'routeMarginWithBlocksTenge': routeMarginWithBlocksTenge,
       'marginTenge': marginTenge,
       'completionPercent': completionPercent,
       'emptyHours': emptyHours.toJson(),
@@ -162,6 +196,9 @@ abstract class OwnerReport
       'revenueTenge': revenueTenge,
       'smsCostTenge': smsCostTenge,
       'driverPayTenge': driverPayTenge,
+      'blockPayTenge': blockPayTenge,
+      'routeMarginTenge': routeMarginTenge,
+      'routeMarginWithBlocksTenge': routeMarginWithBlocksTenge,
       'marginTenge': marginTenge,
       'completionPercent': completionPercent,
       'emptyHours': emptyHours.toJson(),
@@ -186,6 +223,9 @@ class _OwnerReportImpl extends OwnerReport {
     required int revenueTenge,
     required int smsCostTenge,
     required int driverPayTenge,
+    required int blockPayTenge,
+    required int routeMarginTenge,
+    required int routeMarginWithBlocksTenge,
     required int marginTenge,
     required int completionPercent,
     required List<int> emptyHours,
@@ -200,6 +240,9 @@ class _OwnerReportImpl extends OwnerReport {
          revenueTenge: revenueTenge,
          smsCostTenge: smsCostTenge,
          driverPayTenge: driverPayTenge,
+         blockPayTenge: blockPayTenge,
+         routeMarginTenge: routeMarginTenge,
+         routeMarginWithBlocksTenge: routeMarginWithBlocksTenge,
          marginTenge: marginTenge,
          completionPercent: completionPercent,
          emptyHours: emptyHours,
@@ -220,6 +263,9 @@ class _OwnerReportImpl extends OwnerReport {
     int? revenueTenge,
     int? smsCostTenge,
     int? driverPayTenge,
+    int? blockPayTenge,
+    int? routeMarginTenge,
+    int? routeMarginWithBlocksTenge,
     int? marginTenge,
     int? completionPercent,
     List<int>? emptyHours,
@@ -235,6 +281,10 @@ class _OwnerReportImpl extends OwnerReport {
       revenueTenge: revenueTenge ?? this.revenueTenge,
       smsCostTenge: smsCostTenge ?? this.smsCostTenge,
       driverPayTenge: driverPayTenge ?? this.driverPayTenge,
+      blockPayTenge: blockPayTenge ?? this.blockPayTenge,
+      routeMarginTenge: routeMarginTenge ?? this.routeMarginTenge,
+      routeMarginWithBlocksTenge:
+          routeMarginWithBlocksTenge ?? this.routeMarginWithBlocksTenge,
       marginTenge: marginTenge ?? this.marginTenge,
       completionPercent: completionPercent ?? this.completionPercent,
       emptyHours: emptyHours ?? this.emptyHours.map((e0) => e0).toList(),

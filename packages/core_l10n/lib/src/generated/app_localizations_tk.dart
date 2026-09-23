@@ -1129,7 +1129,7 @@ class AppLocalizationsTk extends AppLocalizations {
   String get ownerSmsPrice => 'SMS, teňňe';
 
   @override
-  String get ownerBlockPay => 'Blok, teňňe';
+  String get ownerBlockPay => 'Bloklaryň tölegi';
 
   @override
   String get ownerPerRide => 'Sapar, teňňe';
@@ -1139,4 +1139,14 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get taskSystemDegraded => 'Hyzmatda näsazlyk';
+
+  @override
+  String get ownerRouteSum => 'Ugurlar boýunça jemi';
+
+  @override
+  String get ownerRouteSumHint =>
+      'Bloklaryň kepillendirilen tölegi hasaba alynmazdan';
+
+  @override
+  String get ownerTotalWithBlocks => 'Bloklaryň bahasy bilen jemi';
 }

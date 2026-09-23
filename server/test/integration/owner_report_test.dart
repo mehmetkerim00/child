@@ -172,6 +172,76 @@ void main() {
       );
     });
 
+    test('маржа по маршрутам без блоков выглядит лучше реальной', () async {
+      await ride(status: RideStatus.handedOver);
+
+      final report = await endpoints.owner.report(
+        asOwner,
+        fromDate: today,
+        toDate: today,
+        smsPriceTenge: 300,
+        blockPayTenge: 10000,
+        perRideTenge: 2000,
+      );
+
+      // Маршрут сам по себе «прибыльный»: 3500 выручки минус 2000
+      // доплаты водителю за поездку.
+      expect(report.routes.single.marginTenge, ridePrice - 2000);
+      expect(report.routeMarginTenge, ridePrice - 2000);
+      expect(
+        report.routeMarginTenge,
+        greaterThan(0),
+        reason: 'ради этого и нужна вторая строка',
+      );
+
+      // А с гарантированной оплатой блока — убыточный, и это правда:
+      // блок мы платим, даже если рейсов в нём один.
+      expect(report.blockPayTenge, 10000);
+      expect(report.routeMarginWithBlocksTenge, ridePrice - 2000 - 10000);
+      expect(
+        report.routeMarginWithBlocksTenge,
+        lessThan(0),
+        reason: 'без этой строки владелец решит, что маршрут окупается',
+      );
+    });
+
+    test('оплата блоков — часть выплат водителям, а не сверх них', () async {
+      await ride(status: RideStatus.handedOver);
+      await ride(status: RideStatus.handedOver, time: '13:00');
+
+      final report = await endpoints.owner.report(
+        asOwner,
+        fromDate: today,
+        toDate: today,
+        blockPayTenge: 10000,
+        perRideTenge: 2000,
+      );
+
+      // Два блока по 10000 плюс две поездки по 2000.
+      expect(report.blockPayTenge, 20000);
+      expect(report.driverPayTenge, 24000);
+      expect(
+        report.driverPayTenge - report.blockPayTenge,
+        4000,
+        reason: 'остаток — доплата за поездки',
+      );
+    });
+
+    test('выгрузка показывает обе строки: без блоков и с блоками', () async {
+      await ride(status: RideStatus.handedOver);
+      final report = await endpoints.owner.report(
+        asOwner,
+        fromDate: today,
+        toDate: today,
+      );
+
+      final csv = ReportService().toCsv(report);
+
+      expect(csv, contains('Сумма по маршрутам (без блоков)'));
+      expect(csv, contains('Оплата блоков'));
+      expect(csv, contains('Итого по маршрутам с учётом блоков'));
+    });
+
     test('убыточные маршруты — сверху списка', () async {
       await ride(status: RideStatus.handedOver);
 

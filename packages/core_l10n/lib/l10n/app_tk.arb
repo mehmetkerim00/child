@@ -358,5 +358,9 @@
   "ownerBlockPay": "Blok, teňňe",
   "ownerPerRide": "Sapar, teňňe",
   "ownerLossMaking": "Zyýanly ugur",
-  "taskSystemDegraded": "Hyzmatda näsazlyk"
+  "taskSystemDegraded": "Hyzmatda näsazlyk",
+  "ownerRouteSum": "Ugurlar boýunça jemi",
+  "ownerRouteSumHint": "Bloklaryň kepillendirilen tölegi hasaba alynmazdan",
+  "ownerBlockPay": "Bloklaryň tölegi",
+  "ownerTotalWithBlocks": "Bloklaryň bahasy bilen jemi"
 }

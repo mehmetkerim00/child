@@ -1,0 +1,11 @@
+### Сиды нагрузочного прогона.
+###
+### Живут только в режиме development и убираются командой cleanupLoad:
+### мусор от нагрузки не должен оседать в базе разработки.
+class: LoadFixture
+fields:
+  drivers: List<LoadDriver>
+  ### Код учреждения для события «Передал».
+  institutionCode: String
+  ### Сколько всего поездок засеяно.
+  rides: int

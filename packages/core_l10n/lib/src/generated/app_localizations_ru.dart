@@ -1132,7 +1132,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ownerSmsPrice => 'SMS, тенге';
 
   @override
-  String get ownerBlockPay => 'Блок, тенге';
+  String get ownerBlockPay => 'Оплата блоков';
 
   @override
   String get ownerPerRide => 'Поездка, тенге';
@@ -1142,4 +1142,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get taskSystemDegraded => 'Сбой сервиса';
+
+  @override
+  String get ownerRouteSum => 'Сумма по маршрутам';
+
+  @override
+  String get ownerRouteSumHint => 'Без гарантированной оплаты блоков';
+
+  @override
+  String get ownerTotalWithBlocks => 'Итого с учётом стоимости блоков';
 }
