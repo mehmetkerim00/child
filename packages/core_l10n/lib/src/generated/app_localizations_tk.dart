@@ -770,4 +770,38 @@ class AppLocalizationsTk extends AppLocalizations {
   @override
   String get emergencyHint =>
       'Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar';
+
+  @override
+  String get institutionAccessTitle => 'Edara üçin salgy';
+
+  @override
+  String get institutionAccessIssue => 'Salgy ber';
+
+  @override
+  String get institutionAccessIssuedTo => 'Kime berilýär (terbiýeçiniň ady)';
+
+  @override
+  String get institutionAccessCopy =>
+      'Göçüriň we beriň — ol bir gezek görkezilýär';
+
+  @override
+  String get institutionAccessRevoke => 'Yzyna al';
+
+  @override
+  String get institutionAccessRevoked => 'Yzyna alnan';
+
+  @override
+  String get institutionAccessActive => 'Hereket edýär';
+
+  @override
+  String get absenceTitle => 'Şu gün gitmeýäris';
+
+  @override
+  String get absenceReason => 'Sebäbi';
+
+  @override
+  String get absenceHint => 'Sürüji we edara muny bada görer';
+
+  @override
+  String get absenceDone => 'Bellendi: şu gün gitmeýäris';
 }

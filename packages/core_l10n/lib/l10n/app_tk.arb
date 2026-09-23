@@ -241,5 +241,16 @@
   "phraseArrivedCallChild": "Geldim, çagany çagyryň",
   "phraseAllGood": "Hemme zat gowy",
   "emergencyCall": "Dispetçere jaň et",
-  "emergencyHint": "Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar"
+  "emergencyHint": "Gyssagly sorag — dispetçere jaň ediň, ol sürüji bilen habarlaşar",
+  "institutionAccessTitle": "Edara üçin salgy",
+  "institutionAccessIssue": "Salgy ber",
+  "institutionAccessIssuedTo": "Kime berilýär (terbiýeçiniň ady)",
+  "institutionAccessCopy": "Göçüriň we beriň — ol bir gezek görkezilýär",
+  "institutionAccessRevoke": "Yzyna al",
+  "institutionAccessRevoked": "Yzyna alnan",
+  "institutionAccessActive": "Hereket edýär",
+  "absenceTitle": "Şu gün gitmeýäris",
+  "absenceReason": "Sebäbi",
+  "absenceHint": "Sürüji we edara muny bada görer",
+  "absenceDone": "Bellendi: şu gün gitmeýäris"
 }

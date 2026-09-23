@@ -1549,6 +1549,72 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Срочный вопрос — звоните диспетчеру, он свяжется с водителем'**
   String get emergencyHint;
+
+  /// No description provided for @institutionAccessTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ссылка для учреждения'**
+  String get institutionAccessTitle;
+
+  /// No description provided for @institutionAccessIssue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выдать ссылку'**
+  String get institutionAccessIssue;
+
+  /// No description provided for @institutionAccessIssuedTo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кому выдаём (имя воспитателя)'**
+  String get institutionAccessIssuedTo;
+
+  /// No description provided for @institutionAccessCopy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопируйте и передайте — она показывается один раз'**
+  String get institutionAccessCopy;
+
+  /// No description provided for @institutionAccessRevoke.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отозвать'**
+  String get institutionAccessRevoke;
+
+  /// No description provided for @institutionAccessRevoked.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отозвана'**
+  String get institutionAccessRevoked;
+
+  /// No description provided for @institutionAccessActive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Действует'**
+  String get institutionAccessActive;
+
+  /// No description provided for @absenceTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня не едем'**
+  String get absenceTitle;
+
+  /// No description provided for @absenceReason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина'**
+  String get absenceReason;
+
+  /// No description provided for @absenceHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Водитель и учреждение увидят это сразу'**
+  String get absenceHint;
+
+  /// No description provided for @absenceDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмечено: сегодня не едем'**
+  String get absenceDone;
 }
 
 class _AppLocalizationsDelegate

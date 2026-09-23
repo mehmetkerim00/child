@@ -328,5 +328,16 @@
   "phraseArrivedCallChild": "Подъехал, позовите ребёнка",
   "phraseAllGood": "Всё хорошо",
   "emergencyCall": "Позвонить диспетчеру",
-  "emergencyHint": "Срочный вопрос — звоните диспетчеру, он свяжется с водителем"
+  "emergencyHint": "Срочный вопрос — звоните диспетчеру, он свяжется с водителем",
+  "institutionAccessTitle": "Ссылка для учреждения",
+  "institutionAccessIssue": "Выдать ссылку",
+  "institutionAccessIssuedTo": "Кому выдаём (имя воспитателя)",
+  "institutionAccessCopy": "Скопируйте и передайте — она показывается один раз",
+  "institutionAccessRevoke": "Отозвать",
+  "institutionAccessRevoked": "Отозвана",
+  "institutionAccessActive": "Действует",
+  "absenceTitle": "Сегодня не едем",
+  "absenceReason": "Причина",
+  "absenceHint": "Водитель и учреждение увидят это сразу",
+  "absenceDone": "Отмечено: сегодня не едем"
 }

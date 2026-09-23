@@ -24,6 +24,7 @@ export 'package:child_client/child_client.dart'
         Family,
         FamilyCircle,
         Institution,
+        InstitutionAccess,
         LedgerEntry,
         LedgerEntryType,
         InstitutionType,
@@ -54,6 +55,7 @@ export 'package:child_client/child_client.dart'
         VettingStatus;
 
 export 'src/api/chat_providers.dart';
+export 'src/api/institution_providers.dart';
 export 'src/api/directory_providers.dart';
 export 'src/api/money_providers.dart';
 export 'src/api/ride_providers.dart';

@@ -1,0 +1,8 @@
+### Список детей учреждения на сегодня — то, что видит воспитатель.
+class: InstitutionDayView
+fields:
+  institutionName: String
+  ### Местная дата (Ашхабад).
+  date: DateTime
+  arrivals: List<InstitutionChildRow>
+  departures: List<InstitutionChildRow>

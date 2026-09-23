@@ -773,4 +773,38 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get emergencyHint =>
       'Срочный вопрос — звоните диспетчеру, он свяжется с водителем';
+
+  @override
+  String get institutionAccessTitle => 'Ссылка для учреждения';
+
+  @override
+  String get institutionAccessIssue => 'Выдать ссылку';
+
+  @override
+  String get institutionAccessIssuedTo => 'Кому выдаём (имя воспитателя)';
+
+  @override
+  String get institutionAccessCopy =>
+      'Скопируйте и передайте — она показывается один раз';
+
+  @override
+  String get institutionAccessRevoke => 'Отозвать';
+
+  @override
+  String get institutionAccessRevoked => 'Отозвана';
+
+  @override
+  String get institutionAccessActive => 'Действует';
+
+  @override
+  String get absenceTitle => 'Сегодня не едем';
+
+  @override
+  String get absenceReason => 'Причина';
+
+  @override
+  String get absenceHint => 'Водитель и учреждение увидят это сразу';
+
+  @override
+  String get absenceDone => 'Отмечено: сегодня не едем';
 }

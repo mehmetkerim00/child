@@ -1,0 +1,22 @@
+### Доступ учреждения к своему списку детей.
+###
+### Воспитателю не нужно ставить приложение и заводить аккаунт: он
+### открывает ссылку с токеном. Ссылку выдаёт диспетчер, при утечке —
+### отзывает и выдаёт новую.
+class: InstitutionAccess
+table: institution_access
+fields:
+  institutionId: int, relation(parent=institution, onDelete=Cascade)
+  ### Хэш токена: сама ссылка хранится только у учреждения.
+  tokenHash: String
+  ### Кому выдана ссылка — чтобы знать, кого просить не пересылать её.
+  issuedTo: String
+  createdAt: DateTime, default=now
+  lastUsedAt: DateTime?
+  revokedAt: DateTime?
+indexes:
+  institution_access_token_idx:
+    fields: tokenHash
+    unique: true
+  institution_access_institution_idx:
+    fields: institutionId

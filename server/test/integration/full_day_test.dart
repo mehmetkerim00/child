@@ -382,6 +382,41 @@ void main() {
         reason: 'поездка осталась без водителя',
       );
 
+      // --- Кабинет учреждения --------------------------------------------
+      // Диспетчер выдаёт школе ссылку, воспитатель подтверждает приём.
+      final schoolToken = await endpoints.institutionAdmin.issueAccess(
+        asDispatcher,
+        institutionId: school.id!,
+        issuedTo: 'Воспитатель Гульнара',
+      );
+      final schoolDay = await endpoints.institution.dayView(
+        sessionBuilder,
+        schoolToken,
+        date: null,
+      );
+      expect(schoolDay, isNotNull);
+      expect(schoolDay!.arrivals, isNotEmpty);
+
+      final arrival = schoolDay.arrivals.first;
+      expect(
+        arrival.handedOverAt,
+        isNotNull,
+        reason: 'водитель уже передал ребёнка',
+      );
+
+      final confirmed = await endpoints.institution.confirmArrival(
+        sessionBuilder,
+        token: schoolToken,
+        rideId: arrival.rideId,
+        childId: arrival.childId,
+        confirmedBy: 'Гульнара',
+      );
+      expect(
+        confirmed,
+        isTrue,
+        reason: 'второе, независимое от водителя подтверждение',
+      );
+
       // --- Вечер, после 20:00: проверка «тихих сбоев» --------------------
       clock.advance(const Duration(hours: 9));
       expect(

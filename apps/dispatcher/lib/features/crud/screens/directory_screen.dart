@@ -4,6 +4,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Family;
 
+import '../../institutions/widgets/access_dialog.dart';
 import '../widgets/edit_dialogs.dart';
 import '../widgets/enum_labels.dart';
 import '../widgets/family_circle_dialog.dart';
@@ -238,10 +239,25 @@ class _InstitutionsTab extends ConsumerWidget {
           '${l10n.institutionType(institution.type)} · ${institution.address} · '
           '${l10n.fieldHandoverCode}: ${institution.handoverCode}',
         ),
-        trailing: IconButton(
-          tooltip: l10n.edit,
-          icon: const Icon(Icons.edit),
-          onPressed: () => save(institution),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              tooltip: l10n.institutionAccessTitle,
+              icon: const Icon(Icons.link),
+              onPressed: () => showInstitutionAccessDialog(
+                context,
+                ref,
+                institution,
+                ref.read(appConfigProvider).serverUrl,
+              ),
+            ),
+            IconButton(
+              tooltip: l10n.edit,
+              icon: const Icon(Icons.edit),
+              onPressed: () => save(institution),
+            ),
+          ],
         ),
       ),
     );

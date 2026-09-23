@@ -36,12 +36,14 @@ import 'package:child_client/src/protocol/pool_candidate.dart' as _i22;
 import 'package:child_client/src/protocol/ride.dart' as _i23;
 import 'package:child_client/src/protocol/pool_capacity.dart' as _i24;
 import 'package:child_client/src/protocol/ride_seat.dart' as _i25;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i26;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i27;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i28;
-import 'package:child_client/src/protocol/ride_location.dart' as _i29;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i30;
-import 'protocol.dart' as _i31;
+import 'package:child_client/src/protocol/institution_day_view.dart' as _i26;
+import 'package:child_client/src/protocol/institution_access.dart' as _i27;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i28;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i29;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i30;
+import 'package:child_client/src/protocol/ride_location.dart' as _i31;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i32;
+import 'protocol.dart' as _i33;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -485,6 +487,86 @@ class EndpointDirectory extends _i1.EndpointRef {
       );
 }
 
+/// Кабинет учреждения: работает по ссылке, без входа и установки.
+///
+/// Воспитателю не нужен аккаунт — у него ссылка с токеном. Поэтому
+/// эндпоинт открытый, а доступ проверяется по самому токену.
+/// {@category Endpoint}
+class EndpointInstitution extends _i1.EndpointRef {
+  EndpointInstitution(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'institution';
+
+  /// Список детей на сегодня по ссылке доступа.
+  _i2.Future<_i26.InstitutionDayView?> dayView(
+    String token, {
+    DateTime? date,
+  }) => caller.callServerEndpoint<_i26.InstitutionDayView?>(
+    'institution',
+    'dayView',
+    {
+      'token': token,
+      'date': date,
+    },
+  );
+
+  /// «Принял(а)» — независимое подтверждение передачи ребёнка.
+  _i2.Future<bool> confirmArrival({
+    required String token,
+    required int rideId,
+    required int childId,
+    required String confirmedBy,
+  }) => caller.callServerEndpoint<bool>(
+    'institution',
+    'confirmArrival',
+    {
+      'token': token,
+      'rideId': rideId,
+      'childId': childId,
+      'confirmedBy': confirmedBy,
+    },
+  );
+}
+
+/// Управление доступами учреждений — только для диспетчера.
+/// {@category Endpoint}
+class EndpointInstitutionAdmin extends _i1.EndpointRef {
+  EndpointInstitutionAdmin(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'institutionAdmin';
+
+  /// Выдаёт ссылку для учреждения. Токен показывается один раз.
+  _i2.Future<String> issueAccess({
+    required int institutionId,
+    required String issuedTo,
+  }) => caller.callServerEndpoint<String>(
+    'institutionAdmin',
+    'issueAccess',
+    {
+      'institutionId': institutionId,
+      'issuedTo': issuedTo,
+    },
+  );
+
+  /// Выданные ссылки учреждения.
+  _i2.Future<List<_i27.InstitutionAccess>> accesses(int institutionId) =>
+      caller.callServerEndpoint<List<_i27.InstitutionAccess>>(
+        'institutionAdmin',
+        'accesses',
+        {'institutionId': institutionId},
+      );
+
+  /// Отзывает ссылку.
+  _i2.Future<void> revokeAccess(int accessId) =>
+      caller.callServerEndpoint<void>(
+        'institutionAdmin',
+        'revokeAccess',
+        {'accessId': accessId},
+      );
+}
+
 /// Данные вошедшего пользователя: семья и дети — родителю,
 /// профиль — водителю.
 /// {@category Endpoint}
@@ -578,7 +660,7 @@ class EndpointRides extends _i1.EndpointRef {
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
   _i2.Future<_i23.Ride> submitEvent(
     int rideId,
-    _i26.RideEventSubmission submission,
+    _i28.RideEventSubmission submission,
   ) => caller.callServerEndpoint<_i23.Ride>(
     'rides',
     'submitEvent',
@@ -600,10 +682,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i27.TrackingState> pushLocations(
+  _i2.Future<_i29.TrackingState> pushLocations(
     int rideId,
-    List<_i28.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i27.TrackingState>(
+    List<_i30.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i29.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -699,8 +781,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i29.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i29.RideLocation>>(
+  _i2.Future<List<_i31.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i31.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -710,10 +792,10 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i29.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i31.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i29.RideLocation>,
-        _i29.RideLocation
+        _i2.Stream<_i31.RideLocation>,
+        _i31.RideLocation
       >(
         'routes',
         'watchRideLocation',
@@ -728,6 +810,23 @@ class EndpointRoutes extends _i1.EndpointRef {
         'myBalance',
         {},
       );
+
+  /// «Сегодня не едем»: родитель предупреждает заранее.
+  ///
+  /// Водитель и учреждение видят это сразу, поездка не срывается молча.
+  _i2.Future<bool> declareAbsence({
+    required int rideId,
+    required int childId,
+    required String reason,
+  }) => caller.callServerEndpoint<bool>(
+    'routes',
+    'declareAbsence',
+    {
+      'rideId': rideId,
+      'childId': childId,
+      'reason': reason,
+    },
+  );
 
   /// Лента уведомлений семьи: что и когда отправляли.
   _i2.Future<List<_i18.NotificationOutbox>> myNotifications() =>
@@ -771,8 +870,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i30.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i30.ServerHealth>(
+  _i2.Future<_i32.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i32.ServerHealth>(
         'health',
         'ping',
         {},
@@ -799,7 +898,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i31.Protocol(),
+         _i33.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -812,6 +911,8 @@ class Client extends _i1.ServerpodClientShared {
     chat = EndpointChat(this);
     dev = EndpointDev(this);
     directory = EndpointDirectory(this);
+    institution = EndpointInstitution(this);
+    institutionAdmin = EndpointInstitutionAdmin(this);
     profile = EndpointProfile(this);
     rides = EndpointRides(this);
     routes = EndpointRoutes(this);
@@ -825,6 +926,10 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointDev dev;
 
   late final EndpointDirectory directory;
+
+  late final EndpointInstitution institution;
+
+  late final EndpointInstitutionAdmin institutionAdmin;
 
   late final EndpointProfile profile;
 
@@ -840,6 +945,8 @@ class Client extends _i1.ServerpodClientShared {
     'chat': chat,
     'dev': dev,
     'directory': directory,
+    'institution': institution,
+    'institutionAdmin': institutionAdmin,
     'profile': profile,
     'rides': rides,
     'routes': routes,

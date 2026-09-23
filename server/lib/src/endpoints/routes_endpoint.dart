@@ -3,6 +3,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import '../services/money/ledger_service.dart';
+import '../services/institutions/institution_service.dart';
 import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_tracking.dart';
 import '../services/rides/ride_view_builder.dart';
@@ -125,6 +126,50 @@ class RoutesEndpoint extends Endpoint {
   Future<BalanceView> myBalance(Session session) async {
     final parent = await session.requireParent();
     return LedgerService().balanceView(session, parent.familyId);
+  }
+
+  /// «Сегодня не едем»: родитель предупреждает заранее.
+  ///
+  /// Водитель и учреждение видят это сразу, поездка не срывается молча.
+  Future<bool> declareAbsence(
+    Session session, {
+    required int rideId,
+    required int childId,
+    required String reason,
+  }) async {
+    final parent = await session.requireParent();
+    final child = await Child.db.findById(session, childId);
+    if (child == null || child.familyId != parent.familyId) {
+      throw Exception('Это не ваш ребёнок');
+    }
+
+    final seat = await InstitutionService().declareAbsence(
+      session,
+      rideId: rideId,
+      childId: childId,
+      reason: reason,
+    );
+    if (seat == null) return false;
+
+    // Водителю — уведомление: не ждать ребёнка.
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride?.driverId != null) {
+      final driver = await Driver.db.findById(session, ride!.driverId!);
+      if (driver != null) {
+        await NotificationService().enqueueMessage(
+          session,
+          dedupeKey: 'absence:$rideId:$childId',
+          eventKind: 'ride.absence',
+          phone: driver.phone,
+          role: AccountRole.driver,
+          critical: true,
+          body: '${child.name} сегодня не едет: ${reason.trim()}',
+          rideId: rideId,
+          familyId: parent.familyId,
+        );
+      }
+    }
+    return true;
   }
 
   /// Лента уведомлений семьи: что и когда отправляли.

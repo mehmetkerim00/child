@@ -28,6 +28,9 @@ abstract class RideSeat implements _i1.SerializableModel {
     this.pickedUpAt,
     this.handedOverAt,
     this.cancelledAt,
+    this.absenceReason,
+    this.confirmedByInstitutionAt,
+    this.confirmedByInstitutionName,
     int? seatPriceTenge,
   }) : pickupOrder = pickupOrder ?? 1,
        seatPriceTenge = seatPriceTenge ?? 0;
@@ -41,6 +44,9 @@ abstract class RideSeat implements _i1.SerializableModel {
     DateTime? pickedUpAt,
     DateTime? handedOverAt,
     DateTime? cancelledAt,
+    String? absenceReason,
+    DateTime? confirmedByInstitutionAt,
+    String? confirmedByInstitutionName,
     int? seatPriceTenge,
   }) = _RideSeatImpl;
 
@@ -64,6 +70,15 @@ abstract class RideSeat implements _i1.SerializableModel {
           : _i1.DateTimeJsonExtension.fromJson(
               jsonSerialization['cancelledAt'],
             ),
+      absenceReason: jsonSerialization['absenceReason'] as String?,
+      confirmedByInstitutionAt:
+          jsonSerialization['confirmedByInstitutionAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['confirmedByInstitutionAt'],
+            ),
+      confirmedByInstitutionName:
+          jsonSerialization['confirmedByInstitutionName'] as String?,
       seatPriceTenge: jsonSerialization['seatPriceTenge'] as int?,
     );
   }
@@ -92,6 +107,16 @@ abstract class RideSeat implements _i1.SerializableModel {
   /// Семья отменила поездку этого ребёнка на сегодня.
   DateTime? cancelledAt;
 
+  /// Причина отсутствия, если семья предупредила заранее.
+  String? absenceReason;
+
+  /// Учреждение подтвердило приём ребёнка — независимое от водителя
+  /// подтверждение передачи.
+  DateTime? confirmedByInstitutionAt;
+
+  /// Кто подтвердил со стороны учреждения (имя воспитателя).
+  String? confirmedByInstitutionName;
+
   /// Цена места в тенге: в пуле каждая семья платит за своё место.
   int seatPriceTenge;
 
@@ -107,6 +132,9 @@ abstract class RideSeat implements _i1.SerializableModel {
     DateTime? pickedUpAt,
     DateTime? handedOverAt,
     DateTime? cancelledAt,
+    String? absenceReason,
+    DateTime? confirmedByInstitutionAt,
+    String? confirmedByInstitutionName,
     int? seatPriceTenge,
   });
   @override
@@ -121,6 +149,11 @@ abstract class RideSeat implements _i1.SerializableModel {
       if (pickedUpAt != null) 'pickedUpAt': pickedUpAt?.toJson(),
       if (handedOverAt != null) 'handedOverAt': handedOverAt?.toJson(),
       if (cancelledAt != null) 'cancelledAt': cancelledAt?.toJson(),
+      if (absenceReason != null) 'absenceReason': absenceReason,
+      if (confirmedByInstitutionAt != null)
+        'confirmedByInstitutionAt': confirmedByInstitutionAt?.toJson(),
+      if (confirmedByInstitutionName != null)
+        'confirmedByInstitutionName': confirmedByInstitutionName,
       'seatPriceTenge': seatPriceTenge,
     };
   }
@@ -143,6 +176,9 @@ class _RideSeatImpl extends RideSeat {
     DateTime? pickedUpAt,
     DateTime? handedOverAt,
     DateTime? cancelledAt,
+    String? absenceReason,
+    DateTime? confirmedByInstitutionAt,
+    String? confirmedByInstitutionName,
     int? seatPriceTenge,
   }) : super._(
          id: id,
@@ -153,6 +189,9 @@ class _RideSeatImpl extends RideSeat {
          pickedUpAt: pickedUpAt,
          handedOverAt: handedOverAt,
          cancelledAt: cancelledAt,
+         absenceReason: absenceReason,
+         confirmedByInstitutionAt: confirmedByInstitutionAt,
+         confirmedByInstitutionName: confirmedByInstitutionName,
          seatPriceTenge: seatPriceTenge,
        );
 
@@ -169,6 +208,9 @@ class _RideSeatImpl extends RideSeat {
     Object? pickedUpAt = _Undefined,
     Object? handedOverAt = _Undefined,
     Object? cancelledAt = _Undefined,
+    Object? absenceReason = _Undefined,
+    Object? confirmedByInstitutionAt = _Undefined,
+    Object? confirmedByInstitutionName = _Undefined,
     int? seatPriceTenge,
   }) {
     return RideSeat(
@@ -182,6 +224,15 @@ class _RideSeatImpl extends RideSeat {
           ? handedOverAt
           : this.handedOverAt,
       cancelledAt: cancelledAt is DateTime? ? cancelledAt : this.cancelledAt,
+      absenceReason: absenceReason is String?
+          ? absenceReason
+          : this.absenceReason,
+      confirmedByInstitutionAt: confirmedByInstitutionAt is DateTime?
+          ? confirmedByInstitutionAt
+          : this.confirmedByInstitutionAt,
+      confirmedByInstitutionName: confirmedByInstitutionName is String?
+          ? confirmedByInstitutionName
+          : this.confirmedByInstitutionName,
       seatPriceTenge: seatPriceTenge ?? this.seatPriceTenge,
     );
   }

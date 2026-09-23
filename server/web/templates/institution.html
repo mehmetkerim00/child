@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} — Child</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; margin: 0;
+         padding: 16px; background: #F7F8FA; color: #1B1F24; font-size: 17px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  h2 { font-size: 19px; margin: 24px 0 8px; color: #1E5AA8; }
+  .date { color: #5A6370; margin: 0; }
+  .children { list-style: none; padding: 0; margin: 0; }
+  .children li { background: #fff; border-radius: 16px; padding: 16px;
+                 margin-bottom: 12px; }
+  .children li.absent { opacity: .6; }
+  .row { display: flex; gap: 12px; align-items: baseline; }
+  .time { font-size: 22px; font-weight: 700; }
+  .name { font-size: 19px; }
+  .driver, .status { color: #5A6370; margin-top: 4px; font-size: 15px; }
+  .status.ok { color: #2E9E5B; font-weight: 600; }
+  .absent-text { color: #E0A100; }
+  .confirm { margin-top: 12px; display: flex; gap: 8px; }
+  .confirm input { flex: 1; padding: 12px; font-size: 17px;
+                   border: 1px solid #C9CDD3; border-radius: 12px; }
+  .confirm button { padding: 12px 20px; font-size: 17px; border: 0;
+                    border-radius: 12px; background: #1E5AA8; color: #fff; }
+  .empty { color: #5A6370; }
+  footer { margin-top: 32px; color: #5A6370; font-size: 14px; }
+</style>
+</head>
+<body>
+{{{content}}}
+<footer>Child — безопасные детские перевозки</footer>
+</body>
+</html>

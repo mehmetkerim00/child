@@ -45,6 +45,13 @@ directory:
   - mergeIntoPool:
   - poolCapacity:
   - rideSeats:
+institution:
+  - dayView:
+  - confirmArrival:
+institutionAdmin:
+  - issueAccess:
+  - accesses:
+  - revokeAccess:
 profile:
   - myFamily:
   - myChildren:
@@ -70,6 +77,7 @@ routes:
   - rideTrack:
   - watchRideLocation:
   - myBalance:
+  - declareAbsence:
   - myNotifications:
   - ackNotification:
   - institutions:

@@ -66,7 +66,17 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   title: Text(view.childName),
                   subtitle: Text('${view.fromAddress} → ${view.toName}'),
-                  trailing: Text(l10n.rideStatus(view.ride.domainStatus)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(l10n.rideStatus(view.ride.domainStatus)),
+                      IconButton(
+                        tooltip: l10n.absenceTitle,
+                        icon: const Icon(Icons.event_busy),
+                        onPressed: () => _declareAbsence(context, ref, view),
+                      ),
+                    ],
+                  ),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (context) => RideEventsScreen(view: view),
@@ -108,6 +118,63 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+/// «Сегодня не едем»: родитель предупреждает заранее, чтобы водитель
+/// не ждал у подъезда, а учреждение не искало ребёнка.
+Future<void> _declareAbsence(
+  BuildContext context,
+  WidgetRef ref,
+  RideView view,
+) async {
+  final l10n = context.l10n;
+  final controller = TextEditingController();
+
+  final reason = await showDialog<String>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.absenceTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: InputDecoration(
+              labelText: l10n.absenceReason,
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: ChildSpacing.s),
+          Text(l10n.absenceHint),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(controller.text.trim()),
+          child: Text(l10n.save),
+        ),
+      ],
+    ),
+  );
+
+  if (reason == null || reason.isEmpty) return;
+  final childId = view.seats?.firstOrNull?.childId ?? view.ride.childId;
+  await ref
+      .read(apiClientProvider)
+      .routes
+      .declareAbsence(rideId: view.ride.id!, childId: childId, reason: reason);
+  ref.invalidate(myUpcomingRidesProvider);
+
+  if (context.mounted) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.absenceDone)));
   }
 }
 

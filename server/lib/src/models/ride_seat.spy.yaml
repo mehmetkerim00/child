@@ -18,6 +18,13 @@ fields:
   handedOverAt: DateTime?
   ### Семья отменила поездку этого ребёнка на сегодня.
   cancelledAt: DateTime?
+  ### Причина отсутствия, если семья предупредила заранее.
+  absenceReason: String?
+  ### Учреждение подтвердило приём ребёнка — независимое от водителя
+  ### подтверждение передачи.
+  confirmedByInstitutionAt: DateTime?
+  ### Кто подтвердил со стороны учреждения (имя воспитателя).
+  confirmedByInstitutionName: String?
   ### Цена места в тенге: в пуле каждая семья платит за своё место.
   seatPriceTenge: int, default=0
 indexes:

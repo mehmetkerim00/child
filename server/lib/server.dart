@@ -7,6 +7,7 @@ import 'src/services/notifications/outbox_schedule.dart';
 import 'src/services/rides/ride_schedule.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/web/routes/institution_route.dart';
 import 'src/web/routes/root.dart';
 
 /// Точка входа сервера.
@@ -18,6 +19,9 @@ void run(List<String> args) async {
     Endpoints(),
     authenticationHandler: authenticationHandler,
   );
+
+  // Кабинет учреждения: воспитатель открывает ссылку без установки.
+  pod.webServer.addRoute(InstitutionRoute(), '/sadik');
 
   pod.webServer.addRoute(RootRoute(), '/');
   pod.webServer.addRoute(RootRoute(), '/index.html');

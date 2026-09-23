@@ -1,0 +1,17 @@
+### Строка списка: какого ребёнка привезут или заберут.
+###
+### Учреждению не нужны адреса и телефоны семьи: только имя ребёнка,
+### время и кто везёт.
+class: InstitutionChildRow
+fields:
+  rideId: int
+  childId: int
+  childName: String
+  plannedTime: String
+  driverName: String?
+  ### Уже привезли и передали.
+  handedOverAt: DateTime?
+  ### Учреждение подтвердило приём — независимое подтверждение передачи.
+  confirmedByInstitutionAt: DateTime?
+  ### Семья заранее предупредила, что сегодня не едет.
+  absenceReason: String?
