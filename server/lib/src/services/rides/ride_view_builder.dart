@@ -1,15 +1,19 @@
 import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
+import 'ride_pool.dart';
 
 /// Собирает поездки вместе с именами ребёнка, водителя и адресами.
 ///
 /// Один проход по справочникам вместо запроса на каждую строку списка.
 abstract final class RideViewBuilder {
+  /// [onlyChildIds] — фильтр приватности: родителю отдаём только его детей,
+  /// водителю и диспетчеру — всех.
   static Future<List<RideView>> build(
     Session session,
-    List<Ride> rides,
-  ) async {
+    List<Ride> rides, {
+    Set<int>? onlyChildIds,
+  }) async {
     if (rides.isEmpty) return [];
 
     final children = await Child.db.find(
@@ -45,10 +49,26 @@ abstract final class RideViewBuilder {
           );
     final institutionById = {for (final i in institutions) i.id!: i};
 
+    final seatsByRide = <int, List<RideSeat>>{};
+    for (final ride in rides) {
+      seatsByRide[ride.id!] = await RidePool.activeSeats(session, ride.id!);
+    }
+
     return [
       for (final ride in rides)
         () {
-          final child = childById[ride.childId];
+          final allSeats = seatsByRide[ride.id!] ?? const <RideSeat>[];
+          // Родитель видит только своего ребёнка, но знает, сколько
+          // всего детей в машине.
+          final visibleSeats = onlyChildIds == null
+              ? allSeats
+              : allSeats
+                    .where((seat) => onlyChildIds.contains(seat.childId))
+                    .toList();
+          final child = visibleSeats.isEmpty
+              ? childById[ride.childId]
+              : childById[visibleSeats.first.childId] ??
+                    childById[ride.childId];
           final template = ride.templateId == null
               ? null
               : templateById[ride.templateId];
@@ -57,6 +77,8 @@ abstract final class RideViewBuilder {
               : institutionById[template!.toInstitutionId];
           return RideView(
             ride: ride,
+            childrenInCar: allSeats.isEmpty ? 1 : allSeats.length,
+            seats: visibleSeats,
             childName: child?.name ?? '',
             codeWord: child?.codeWord ?? '',
             fromAddress: template?.fromAddress ?? '',

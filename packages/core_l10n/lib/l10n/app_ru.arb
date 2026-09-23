@@ -276,5 +276,43 @@
   "onboardingText3": "О главных событиях — «забрал», «передал», отмена — приходит SMS, даже когда push не доходит. Поездку видно на карте, пока машина едет.",
   "onboardingNext": "Дальше",
   "onboardingStart": "Начать",
-  "offlineBanner": "Нет связи с сервером. Данные могут быть устаревшими."
+  "offlineBanner": "Нет связи с сервером. Данные могут быть устаревшими.",
+  "poolTitle": "Пул: дети в одной машине",
+  "poolCandidates": "Можно объединить",
+  "poolMerge": "Объединить в пул",
+  "poolSeatsLeft": "Свободных мест: {seats}, кресел: {childSeats}",
+  "@poolSeatsLeft": {
+    "placeholders": {
+      "seats": {
+        "type": "int"
+      },
+      "childSeats": {
+        "type": "int"
+      }
+    }
+  },
+  "poolChildrenInCar": "Детей в машине: {count}",
+  "@poolChildrenInCar": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "poolNoCandidates": "Подходящих поездок нет",
+  "poolTimeDiff": "разница {minutes} мин",
+  "@poolTimeDiff": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "poolNeedsChildSeat": "нужно кресло",
+  "seatPickUp": "Забрать",
+  "seatHandOver": "Передать",
+  "seatPickedUp": "В машине",
+  "seatHandedOver": "Передан",
+  "seatWaiting": "Ждёт",
+  "seatWhichChild": "Кого забираем"
 }

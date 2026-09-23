@@ -4,6 +4,7 @@ import 'package:serverpod/serverpod.dart';
 import '../../generated/protocol.dart';
 import '../money/ledger_service.dart';
 import '../notifications/notification_service.dart';
+import 'ride_pool.dart';
 
 /// Применение событий поездки на сервере.
 ///
@@ -92,14 +93,48 @@ abstract final class RideFlow {
       );
     }
 
-    final nextStatus = fromDomain(
+    var nextStatus = fromDomain(
       (transition as domain.RideTransitionAllowed).status,
     );
+
+    // В пуле этапы отмечаются по каждому ребёнку: поездка считается
+    // «забрал» с первого ребёнка и «передал» — только когда доставлены все.
+    //
+    // Когда ребёнок в машине один, приложение может не указывать его —
+    // берём единственное место сами.
+    final activeSeats = await RidePool.activeSeats(session, ride.id!);
+    final seatChildId =
+        submission.childId ??
+        (activeSeats.length == 1 ? activeSeats.single.childId : null);
+    if (seatChildId != null) {
+      final at = submission.at.toUtc();
+      if (submission.type == RideEventType.pickedUp) {
+        await RidePool.markPickedUp(
+          session,
+          rideId: ride.id!,
+          childId: seatChildId,
+          at: at,
+        );
+      } else if (submission.type == RideEventType.handedOver) {
+        await RidePool.markHandedOver(
+          session,
+          rideId: ride.id!,
+          childId: seatChildId,
+          at: at,
+        );
+        // Пока в машине остаются дети, поездка не закончена: машина
+        // стоит на этой остановке, дальше водитель нажмёт «Едем».
+        if (!await RidePool.allHandedOver(session, ride.id!)) {
+          nextStatus = RideStatus.arrived;
+        }
+      }
+    }
 
     final storedEvent = await RideEvent.db.insertRow(
       session,
       RideEvent(
         rideId: ride.id!,
+        childId: submission.childId,
         clientEventId: submission.clientEventId,
         type: submission.type,
         // Время события — местное время устройства в момент действия:
@@ -122,11 +157,9 @@ abstract final class RideFlow {
       ),
     );
 
-    // Поездка состоялась — списываем её стоимость. Повторные события
-    // «передал» ничего не спишут: ключ идемпотентности один на поездку.
-    if (nextStatus == RideStatus.handedOver) {
-      await (ledger ?? LedgerService()).chargeRide(session, updated);
-    }
+    // Списываем за каждого доставленного ребёнка. Повторные события
+    // ничего не спишут: ключ идемпотентности — на место в машине.
+    await (ledger ?? LedgerService()).chargeRide(session, updated);
 
     // Родитель узнаёт о каждом этапе: push, а критические события —
     // ещё и SMS (MVP_PLAN §6).

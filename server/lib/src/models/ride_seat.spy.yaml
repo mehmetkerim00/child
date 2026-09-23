@@ -1,0 +1,28 @@
+### Место ребёнка в поездке.
+###
+### В машине может ехать несколько детей из разных семей (пулинг).
+### Каждого забирают и передают отдельно: своё кодовое слово, свой адрес,
+### своё списание. Поэтому статус этапов — на месте, а не на поездке.
+class: RideSeat
+table: ride_seat
+fields:
+  rideId: int, relation(parent=ride, onDelete=Cascade)
+  childId: int, relation(parent=child, onDelete=Cascade)
+  ### Шаблон маршрута этого ребёнка: из него берутся адрес и цена места.
+  templateId: int?, relation(parent=route_template, onDelete=SetNull)
+  ### Порядок посадки: 1 — забираем первым.
+  pickupOrder: int, default=1
+  ### Этот ребёнок уже в машине.
+  pickedUpAt: DateTime?
+  ### Этот ребёнок передан принимающему.
+  handedOverAt: DateTime?
+  ### Семья отменила поездку этого ребёнка на сегодня.
+  cancelledAt: DateTime?
+  ### Цена места в тенге: в пуле каждая семья платит за своё место.
+  seatPriceTenge: int, default=0
+indexes:
+  ride_seat_ride_idx:
+    fields: rideId
+  ride_seat_unique_idx:
+    fields: rideId, childId
+    unique: true

@@ -692,6 +692,94 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['familyId'],
                   ),
         ),
+        'poolCandidates': _i1.MethodConnector(
+          name: 'poolCandidates',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'maxTimeDiffMinutes': _i1.ParameterDescription(
+              name: 'maxTimeDiffMinutes',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .poolCandidates(
+                    session,
+                    params['rideId'],
+                    maxTimeDiffMinutes: params['maxTimeDiffMinutes'],
+                  ),
+        ),
+        'mergeIntoPool': _i1.MethodConnector(
+          name: 'mergeIntoPool',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'rideIds': _i1.ParameterDescription(
+              name: 'rideIds',
+              type: _i1.getType<List<int>>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .mergeIntoPool(
+                    session,
+                    rideId: params['rideId'],
+                    rideIds: params['rideIds'],
+                  ),
+        ),
+        'poolCapacity': _i1.MethodConnector(
+          name: 'poolCapacity',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['directory'] as _i4.DirectoryEndpoint)
+                  .poolCapacity(
+                    session,
+                    params['rideId'],
+                  ),
+        ),
+        'rideSeats': _i1.MethodConnector(
+          name: 'rideSeats',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['directory'] as _i4.DirectoryEndpoint).rideSeats(
+                    session,
+                    params['rideId'],
+                  ),
+        ),
       },
     );
     connectors['profile'] = _i1.EndpointConnector(
@@ -829,6 +917,24 @@ class Endpoints extends _i1.EndpointDispatch {
                 session,
                 params['rideId'],
                 params['submission'],
+              ),
+        ),
+        'rideSeats': _i1.MethodConnector(
+          name: 'rideSeats',
+          params: {
+            'rideId': _i1.ParameterDescription(
+              name: 'rideId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['rides'] as _i6.RidesEndpoint).rideSeats(
+                session,
+                params['rideId'],
               ),
         ),
         'pushLocations': _i1.MethodConnector(

@@ -6,6 +6,8 @@ fields:
   ### Идентификатор, присвоенный приложением водителя. Нужен, чтобы
   ### событие из офлайн-очереди не записалось дважды при повторной отправке.
   clientEventId: String
+  ### Для «забрал» и «передал» в пуле — к какому ребёнку относится событие.
+  childId: int?, relation(parent=child, onDelete=SetNull)
   type: RideEventType
   at: DateTime
   ### Кто отметил событие: driver или dispatcher.

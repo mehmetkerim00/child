@@ -29,13 +29,16 @@ import 'package:child_client/src/protocol/notification_outbox.dart' as _i15;
 import 'package:child_client/src/protocol/cash_top_up.dart' as _i16;
 import 'package:child_client/src/protocol/ledger_entry.dart' as _i17;
 import 'package:child_client/src/protocol/balance_view.dart' as _i18;
-import 'package:child_client/src/protocol/ride.dart' as _i19;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i20;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i21;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i22;
-import 'package:child_client/src/protocol/ride_location.dart' as _i23;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i24;
-import 'protocol.dart' as _i25;
+import 'package:child_client/src/protocol/pool_candidate.dart' as _i19;
+import 'package:child_client/src/protocol/ride.dart' as _i20;
+import 'package:child_client/src/protocol/pool_capacity.dart' as _i21;
+import 'package:child_client/src/protocol/ride_seat.dart' as _i22;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i23;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i24;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i25;
+import 'package:child_client/src/protocol/ride_location.dart' as _i26;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i27;
+import 'protocol.dart' as _i28;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -365,6 +368,55 @@ class EndpointDirectory extends _i1.EndpointRef {
         'familyBalance',
         {'familyId': familyId},
       );
+
+  /// Поездки, которые можно объединить с этой в одну машину.
+  ///
+  /// Совместимость: тот же день, то же учреждение и близкое время подачи.
+  /// Дальше диспетчер смотрит адреса и решает сам — алгоритм не должен
+  /// решать за человека, кого посадить с кем.
+  _i2.Future<List<_i19.PoolCandidate>> poolCandidates(
+    int rideId, {
+    required int maxTimeDiffMinutes,
+  }) => caller.callServerEndpoint<List<_i19.PoolCandidate>>(
+    'directory',
+    'poolCandidates',
+    {
+      'rideId': rideId,
+      'maxTimeDiffMinutes': maxTimeDiffMinutes,
+    },
+  );
+
+  /// Объединяет поездку в пул: дети из [rideIds] пересаживаются в [rideId].
+  ///
+  /// Проверяет вместимость машины и детские кресла — в пул нельзя посадить
+  /// больше детей, чем поместится.
+  _i2.Future<_i20.Ride> mergeIntoPool({
+    required int rideId,
+    required List<int> rideIds,
+  }) => caller.callServerEndpoint<_i20.Ride>(
+    'directory',
+    'mergeIntoPool',
+    {
+      'rideId': rideId,
+      'rideIds': rideIds,
+    },
+  );
+
+  /// Свободные места в машине на этой поездке.
+  _i2.Future<_i21.PoolCapacity> poolCapacity(int rideId) =>
+      caller.callServerEndpoint<_i21.PoolCapacity>(
+        'directory',
+        'poolCapacity',
+        {'rideId': rideId},
+      );
+
+  /// Места поездки — кто именно едет.
+  _i2.Future<List<_i22.RideSeat>> rideSeats(int rideId) =>
+      caller.callServerEndpoint<List<_i22.RideSeat>>(
+        'directory',
+        'rideSeats',
+        {'rideId': rideId},
+      );
 }
 
 /// Данные вошедшего пользователя: семья и дети — родителю,
@@ -436,18 +488,18 @@ class EndpointRides extends _i1.EndpointRef {
       );
 
   /// Водитель подтверждает поездку: «завтра выйду».
-  _i2.Future<_i19.Ride> confirm(int rideId) =>
-      caller.callServerEndpoint<_i19.Ride>(
+  _i2.Future<_i20.Ride> confirm(int rideId) =>
+      caller.callServerEndpoint<_i20.Ride>(
         'rides',
         'confirm',
         {'rideId': rideId},
       );
 
   /// Водитель не может выйти: причина обязательна и уходит диспетчеру.
-  _i2.Future<_i19.Ride> decline(
+  _i2.Future<_i20.Ride> decline(
     int rideId,
     String reason,
-  ) => caller.callServerEndpoint<_i19.Ride>(
+  ) => caller.callServerEndpoint<_i20.Ride>(
     'rides',
     'decline',
     {
@@ -458,10 +510,10 @@ class EndpointRides extends _i1.EndpointRef {
 
   /// Принимает событие этапа поездки: «Выехал», «Забрал», «Передал» и так
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
-  _i2.Future<_i19.Ride> submitEvent(
+  _i2.Future<_i20.Ride> submitEvent(
     int rideId,
-    _i20.RideEventSubmission submission,
-  ) => caller.callServerEndpoint<_i19.Ride>(
+    _i23.RideEventSubmission submission,
+  ) => caller.callServerEndpoint<_i20.Ride>(
     'rides',
     'submitEvent',
     {
@@ -470,14 +522,22 @@ class EndpointRides extends _i1.EndpointRef {
     },
   );
 
+  /// Дети в машине на этой поездке: порядок посадки и кто уже передан.
+  _i2.Future<List<_i22.RideSeat>> rideSeats(int rideId) =>
+      caller.callServerEndpoint<List<_i22.RideSeat>>(
+        'rides',
+        'rideSeats',
+        {'rideId': rideId},
+      );
+
   /// Приём точек трека от приложения водителя.
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i21.TrackingState> pushLocations(
+  _i2.Future<_i24.TrackingState> pushLocations(
     int rideId,
-    List<_i22.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i21.TrackingState>(
+    List<_i25.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i24.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -573,8 +633,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i23.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i23.RideLocation>>(
+  _i2.Future<List<_i26.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i26.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -584,10 +644,10 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i23.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i26.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i23.RideLocation>,
-        _i23.RideLocation
+        _i2.Stream<_i26.RideLocation>,
+        _i26.RideLocation
       >(
         'routes',
         'watchRideLocation',
@@ -645,8 +705,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i24.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i24.ServerHealth>(
+  _i2.Future<_i27.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i27.ServerHealth>(
         'health',
         'ping',
         {},
@@ -673,7 +733,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i25.Protocol(),
+         _i28.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

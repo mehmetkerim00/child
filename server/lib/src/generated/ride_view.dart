@@ -13,7 +13,8 @@
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'ride.dart' as _i2;
-import 'package:child_server/src/generated/protocol.dart' as _i3;
+import 'ride_seat.dart' as _i3;
+import 'package:child_server/src/generated/protocol.dart' as _i4;
 
 /// Поездка вместе с данными, которые нужны на экране,
 /// чтобы приложение не делало лишних запросов.
@@ -26,7 +27,9 @@ abstract class RideView
     required this.fromAddress,
     required this.toName,
     this.driverName,
-  });
+    int? childrenInCar,
+    this.seats,
+  }) : childrenInCar = childrenInCar ?? 1;
 
   factory RideView({
     required _i2.Ride ride,
@@ -35,16 +38,24 @@ abstract class RideView
     required String fromAddress,
     required String toName,
     String? driverName,
+    int? childrenInCar,
+    List<_i3.RideSeat>? seats,
   }) = _RideViewImpl;
 
   factory RideView.fromJson(Map<String, dynamic> jsonSerialization) {
     return RideView(
-      ride: _i3.Protocol().deserialize<_i2.Ride>(jsonSerialization['ride']),
+      ride: _i4.Protocol().deserialize<_i2.Ride>(jsonSerialization['ride']),
       childName: jsonSerialization['childName'] as String,
       codeWord: jsonSerialization['codeWord'] as String,
       fromAddress: jsonSerialization['fromAddress'] as String,
       toName: jsonSerialization['toName'] as String,
       driverName: jsonSerialization['driverName'] as String?,
+      childrenInCar: jsonSerialization['childrenInCar'] as int?,
+      seats: jsonSerialization['seats'] == null
+          ? null
+          : _i4.Protocol().deserialize<List<_i3.RideSeat>>(
+              jsonSerialization['seats'],
+            ),
     );
   }
 
@@ -62,6 +73,13 @@ abstract class RideView
 
   String? driverName;
 
+  /// Сколько детей едет в машине. Родителю видно только число:
+  /// чужие имена и адреса не раскрываются.
+  int childrenInCar;
+
+  /// Места поездки. Родителю сюда попадает только его ребёнок.
+  List<_i3.RideSeat>? seats;
+
   /// Returns a shallow copy of this [RideView]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -72,6 +90,8 @@ abstract class RideView
     String? fromAddress,
     String? toName,
     String? driverName,
+    int? childrenInCar,
+    List<_i3.RideSeat>? seats,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -83,6 +103,8 @@ abstract class RideView
       'fromAddress': fromAddress,
       'toName': toName,
       if (driverName != null) 'driverName': driverName,
+      'childrenInCar': childrenInCar,
+      if (seats != null) 'seats': seats?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -96,6 +118,9 @@ abstract class RideView
       'fromAddress': fromAddress,
       'toName': toName,
       if (driverName != null) 'driverName': driverName,
+      'childrenInCar': childrenInCar,
+      if (seats != null)
+        'seats': seats?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
     };
   }
 
@@ -115,6 +140,8 @@ class _RideViewImpl extends RideView {
     required String fromAddress,
     required String toName,
     String? driverName,
+    int? childrenInCar,
+    List<_i3.RideSeat>? seats,
   }) : super._(
          ride: ride,
          childName: childName,
@@ -122,6 +149,8 @@ class _RideViewImpl extends RideView {
          fromAddress: fromAddress,
          toName: toName,
          driverName: driverName,
+         childrenInCar: childrenInCar,
+         seats: seats,
        );
 
   /// Returns a shallow copy of this [RideView]
@@ -135,6 +164,8 @@ class _RideViewImpl extends RideView {
     String? fromAddress,
     String? toName,
     Object? driverName = _Undefined,
+    int? childrenInCar,
+    Object? seats = _Undefined,
   }) {
     return RideView(
       ride: ride ?? this.ride.copyWith(),
@@ -143,6 +174,10 @@ class _RideViewImpl extends RideView {
       fromAddress: fromAddress ?? this.fromAddress,
       toName: toName ?? this.toName,
       driverName: driverName is String? ? driverName : this.driverName,
+      childrenInCar: childrenInCar ?? this.childrenInCar,
+      seats: seats is List<_i3.RideSeat>?
+          ? seats
+          : this.seats?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }

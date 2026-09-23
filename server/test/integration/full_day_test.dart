@@ -5,6 +5,7 @@ import 'package:child_server/src/services/notifications/notification_service.dar
 import 'package:child_server/src/services/notifications/push_gateway.dart';
 import 'package:child_server/src/services/notifications/silent_failure_watch.dart';
 import 'package:child_server/src/services/rides/ride_generator.dart';
+import 'package:child_server/src/services/rides/ride_pool.dart';
 import 'package:child_server/src/services/sms/sms_gateway.dart';
 import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
@@ -184,6 +185,7 @@ void main() {
     var eventCounter = 0;
     RideEventSubmission step(
       RideEventType type, {
+      int? childId,
       String? codeWord,
       String? institutionCode,
       bool hasSignature = false,
@@ -192,6 +194,7 @@ void main() {
       clientEventId: 'full-day-${eventCounter++}',
       type: type,
       at: clock.now(),
+      childId: childId,
       codeWord: codeWord,
       institutionCode: institutionCode,
       hasSignature: hasSignature,
@@ -384,6 +387,188 @@ void main() {
         sms.messages.where((m) => m.contains('без водителя')),
         isNotEmpty,
       );
+    });
+
+    test('утро с пулом: три ребёнка в одной машине', () async {
+      // Две соседние семьи едут в ту же школу в то же время.
+      final neighbours = <({Child child, Ride ride, Family family})>[];
+      for (final (index, name) in ['Атаевых', 'Сапаровых'].indexed) {
+        final phone = '+9936520880$index';
+        final otherFamily = await Family.db.insertRow(
+          session,
+          Family(name: 'Семья $name', ownerPhone: phone),
+        );
+        await Parent.db.insertRow(
+          session,
+          Parent(
+            familyId: otherFamily.id!,
+            phone: phone,
+            name: 'Родитель $name',
+            role: ParentRole.owner,
+          ),
+        );
+        final otherChild = await Child.db.insertRow(
+          session,
+          Child(
+            familyId: otherFamily.id!,
+            name: 'Ребёнок $name',
+            codeWord: 'kod$index',
+          ),
+        );
+        final otherTemplate = await RouteTemplate.db.insertRow(
+          session,
+          RouteTemplate(
+            childId: otherChild.id!,
+            weekdays: [1, 2, 3, 4, 5],
+            pickupTime: '07:35',
+            fromAddress: 'ул. Героглы, соседний дом $index',
+            toInstitutionId: school.id,
+            direction: RouteDirection.toInstitution,
+            driverId: driver.id,
+            pricePerRideTenge: _ridePriceTenge,
+            active: true,
+          ),
+        );
+        final otherRide = await Ride.db.insertRow(
+          session,
+          Ride(
+            templateId: otherTemplate.id,
+            childId: otherChild.id!,
+            driverId: driver.id,
+            date: AshgabatTime.today(),
+            plannedTime: '07:35',
+            status: RideStatus.scheduled,
+          ),
+        );
+        await RidePool.addSeat(
+          session,
+          rideId: otherRide.id!,
+          childId: otherChild.id!,
+          templateId: otherTemplate.id,
+          seatPriceTenge: _ridePriceTenge,
+        );
+        neighbours.add((
+          child: otherChild,
+          ride: otherRide,
+          family: otherFamily,
+        ));
+      }
+
+      // Наша утренняя поездка.
+      await RideGenerator.generateForDate(session, AshgabatTime.today());
+      final morning = (await Ride.db.find(
+        session,
+        where: (r) =>
+            r.date.equals(AshgabatTime.today()) &
+            r.childId.equals(child.id) &
+            r.plannedTime.equals('07:30'),
+      )).single;
+
+      // Диспетчер видит совместимые поездки и собирает пул.
+      final candidates = await endpoints.directory.poolCandidates(
+        asDispatcher,
+        morning.id!,
+        maxTimeDiffMinutes: 20,
+      );
+      expect(candidates.length, greaterThanOrEqualTo(2));
+
+      await endpoints.directory.mergeIntoPool(
+        asDispatcher,
+        rideId: morning.id!,
+        rideIds: neighbours.map((n) => n.ride.id!).toList(),
+      );
+      final seats = await RidePool.seats(session, morning.id!);
+      expect(seats, hasLength(3), reason: 'три ребёнка в машине');
+
+      // Водитель забирает каждого по своему кодовому слову.
+      await endpoints.rides.submitEvent(
+        asDriver,
+        morning.id!,
+        step(RideEventType.enRoute),
+      );
+      await endpoints.rides.submitEvent(
+        asDriver,
+        morning.id!,
+        step(
+          RideEventType.pickedUp,
+          childId: child.id,
+          codeWord: _codeWord,
+        ),
+      );
+      for (final (index, neighbour) in neighbours.indexed) {
+        await endpoints.rides.submitEvent(
+          asDriver,
+          morning.id!,
+          step(
+            RideEventType.pickedUp,
+            childId: neighbour.child.id,
+            codeWord: 'kod$index',
+          ),
+        );
+      }
+      expect(await RidePool.allPickedUp(session, morning.id!), isTrue);
+
+      // Приехали в школу и передали всех по коду учреждения.
+      await endpoints.rides.submitEvent(
+        asDriver,
+        morning.id!,
+        step(RideEventType.inTransit),
+      );
+      await endpoints.rides.submitEvent(
+        asDriver,
+        morning.id!,
+        step(RideEventType.arrived),
+      );
+
+      var ride = await endpoints.rides.submitEvent(
+        asDriver,
+        morning.id!,
+        step(
+          RideEventType.handedOver,
+          childId: child.id,
+          institutionCode: _schoolCode,
+        ),
+      );
+      expect(
+        ride.status,
+        RideStatus.arrived,
+        reason: 'двое детей ещё в машине',
+      );
+
+      for (final neighbour in neighbours) {
+        ride = await endpoints.rides.submitEvent(
+          asDriver,
+          morning.id!,
+          step(
+            RideEventType.handedOver,
+            childId: neighbour.child.id,
+            institutionCode: _schoolCode,
+          ),
+        );
+      }
+      expect(ride.status, RideStatus.handedOver);
+
+      // Каждая семья заплатила за своё место, чужие деньги не тронуты.
+      for (final familyId in [
+        family.id!,
+        ...neighbours.map((n) => n.family.id!),
+      ]) {
+        final charges = await LedgerEntry.db.find(
+          session,
+          where: (entry) =>
+              entry.familyId.equals(familyId) &
+              entry.type.equals(LedgerEntryType.rideCharge),
+        );
+        expect(charges, hasLength(1), reason: 'одно место — одно списание');
+        expect(charges.single.amountTenge, -_ridePriceTenge);
+      }
+
+      // Родитель видит своего ребёнка и число детей в машине, но не чужих.
+      final parentRides = await endpoints.routes.myUpcomingRides(asParent);
+      final view = parentRides.firstWhere((v) => v.ride.id == morning.id);
+      expect(view.childrenInCar, 3);
+      expect(view.seats, hasLength(1));
+      expect(view.childName, child.name);
     });
   });
 }

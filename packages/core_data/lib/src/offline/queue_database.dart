@@ -17,6 +17,9 @@ class PendingEvents extends Table {
 
   IntColumn get rideId => integer()();
 
+  /// В пуле этап относится к конкретному ребёнку.
+  IntColumn get childId => integer().nullable()();
+
   /// Имя значения RideEventType.
   TextColumn get type => text()();
 
@@ -44,7 +47,15 @@ class QueueDatabase extends _$QueueDatabase {
   QueueDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (m, from, to) async {
+      // v2: в очередь добавился ребёнок (пулинг).
+      if (from < 2) await m.addColumn(pendingEvents, pendingEvents.childId);
+    },
+  );
 
   /// События в порядке появления — отправляем строго по очереди,
   /// иначе сервер отклонит этап, пришедший раньше предыдущего.

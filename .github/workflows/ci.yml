@@ -58,13 +58,13 @@ jobs:
       - run: flutter pub get
       - name: APK родителя
         working-directory: apps/parent
-        run: flutter build apk --debug --dart-define=FLAVOR=dev
+        run: flutter build apk --debug --split-per-abi --dart-define=FLAVOR=dev
       - name: APK водителя
         working-directory: apps/driver
-        run: flutter build apk --debug --dart-define=FLAVOR=dev
+        run: flutter build apk --debug --split-per-abi --dart-define=FLAVOR=dev
       - uses: actions/upload-artifact@v4
         with:
           name: apk-debug
           path: |
-            apps/parent/build/app/outputs/flutter-apk/app-debug.apk
-            apps/driver/build/app/outputs/flutter-apk/app-debug.apk
+            apps/parent/build/app/outputs/flutter-apk/app-*-debug.apk
+            apps/driver/build/app/outputs/flutter-apk/app-*-debug.apk

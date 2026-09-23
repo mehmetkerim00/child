@@ -9,6 +9,10 @@ fields:
   experienceNote: String?
   vettingStatus: VettingStatus, default=pending
   isFemale: bool, default=false
+  ### Сколько детей помещается в машине (без водителя).
+  seats: int, default=3
+  ### Сколько детских кресел есть у водителя.
+  childSeats: int, default=1
   photoUrl: String?
   active: bool, default=true
   createdAt: DateTime, default=now

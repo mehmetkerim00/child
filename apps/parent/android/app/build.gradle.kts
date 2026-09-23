@@ -68,15 +68,9 @@ android {
         }
     }
 
-    // Отдельный APK под каждую архитектуру: телефон качает вдвое меньше.
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("armeabi-v7a", "arm64-v8a", "x86_64")
-            isUniversalApk = false
-        }
-    }
+    // Отдельный APK под каждую архитектуру даёт флаг сборки
+    // `flutter build apk --split-per-abi`: блок splits здесь конфликтовал бы
+    // со списком архитектур, который Flutter подставляет сам.
 }
 
 flutter {

@@ -20,6 +20,7 @@ import 'ride_event_type.dart' as _i2;
 abstract class RideEventSubmission implements _i1.SerializableModel {
   RideEventSubmission._({
     required this.clientEventId,
+    this.childId,
     required this.type,
     required this.at,
     this.lat,
@@ -32,6 +33,7 @@ abstract class RideEventSubmission implements _i1.SerializableModel {
 
   factory RideEventSubmission({
     required String clientEventId,
+    int? childId,
     required _i2.RideEventType type,
     required DateTime at,
     double? lat,
@@ -45,6 +47,7 @@ abstract class RideEventSubmission implements _i1.SerializableModel {
   factory RideEventSubmission.fromJson(Map<String, dynamic> jsonSerialization) {
     return RideEventSubmission(
       clientEventId: jsonSerialization['clientEventId'] as String,
+      childId: jsonSerialization['childId'] as int?,
       type: _i2.RideEventType.fromJson((jsonSerialization['type'] as String)),
       at: _i1.DateTimeJsonExtension.fromJson(jsonSerialization['at']),
       lat: (jsonSerialization['lat'] as num?)?.toDouble(),
@@ -60,6 +63,9 @@ abstract class RideEventSubmission implements _i1.SerializableModel {
 
   /// Идентификатор события на устройстве: защищает от двойной записи.
   String clientEventId;
+
+  /// Кого именно забрали или передали. Пусто — поездка с одним ребёнком.
+  int? childId;
 
   _i2.RideEventType type;
 
@@ -87,6 +93,7 @@ abstract class RideEventSubmission implements _i1.SerializableModel {
   @_i1.useResult
   RideEventSubmission copyWith({
     String? clientEventId,
+    int? childId,
     _i2.RideEventType? type,
     DateTime? at,
     double? lat,
@@ -101,6 +108,7 @@ abstract class RideEventSubmission implements _i1.SerializableModel {
     return {
       '__className__': 'RideEventSubmission',
       'clientEventId': clientEventId,
+      if (childId != null) 'childId': childId,
       'type': type.toJson(),
       'at': at.toJson(),
       if (lat != null) 'lat': lat,
@@ -123,6 +131,7 @@ class _Undefined {}
 class _RideEventSubmissionImpl extends RideEventSubmission {
   _RideEventSubmissionImpl({
     required String clientEventId,
+    int? childId,
     required _i2.RideEventType type,
     required DateTime at,
     double? lat,
@@ -133,6 +142,7 @@ class _RideEventSubmissionImpl extends RideEventSubmission {
     bool? hasSignature,
   }) : super._(
          clientEventId: clientEventId,
+         childId: childId,
          type: type,
          at: at,
          lat: lat,
@@ -149,6 +159,7 @@ class _RideEventSubmissionImpl extends RideEventSubmission {
   @override
   RideEventSubmission copyWith({
     String? clientEventId,
+    Object? childId = _Undefined,
     _i2.RideEventType? type,
     DateTime? at,
     Object? lat = _Undefined,
@@ -160,6 +171,7 @@ class _RideEventSubmissionImpl extends RideEventSubmission {
   }) {
     return RideEventSubmission(
       clientEventId: clientEventId ?? this.clientEventId,
+      childId: childId is int? ? childId : this.childId,
       type: type ?? this.type,
       at: at ?? this.at,
       lat: lat is double? ? lat : this.lat,

@@ -1381,6 +1381,90 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Нет связи с сервером. Данные могут быть устаревшими.'**
   String get offlineBanner;
+
+  /// No description provided for @poolTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пул: дети в одной машине'**
+  String get poolTitle;
+
+  /// No description provided for @poolCandidates.
+  ///
+  /// In ru, this message translates to:
+  /// **'Можно объединить'**
+  String get poolCandidates;
+
+  /// No description provided for @poolMerge.
+  ///
+  /// In ru, this message translates to:
+  /// **'Объединить в пул'**
+  String get poolMerge;
+
+  /// No description provided for @poolSeatsLeft.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свободных мест: {seats}, кресел: {childSeats}'**
+  String poolSeatsLeft(int seats, int childSeats);
+
+  /// No description provided for @poolChildrenInCar.
+  ///
+  /// In ru, this message translates to:
+  /// **'Детей в машине: {count}'**
+  String poolChildrenInCar(int count);
+
+  /// No description provided for @poolNoCandidates.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подходящих поездок нет'**
+  String get poolNoCandidates;
+
+  /// No description provided for @poolTimeDiff.
+  ///
+  /// In ru, this message translates to:
+  /// **'разница {minutes} мин'**
+  String poolTimeDiff(int minutes);
+
+  /// No description provided for @poolNeedsChildSeat.
+  ///
+  /// In ru, this message translates to:
+  /// **'нужно кресло'**
+  String get poolNeedsChildSeat;
+
+  /// No description provided for @seatPickUp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забрать'**
+  String get seatPickUp;
+
+  /// No description provided for @seatHandOver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Передать'**
+  String get seatHandOver;
+
+  /// No description provided for @seatPickedUp.
+  ///
+  /// In ru, this message translates to:
+  /// **'В машине'**
+  String get seatPickedUp;
+
+  /// No description provided for @seatHandedOver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Передан'**
+  String get seatHandedOver;
+
+  /// No description provided for @seatWaiting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ждёт'**
+  String get seatWaiting;
+
+  /// No description provided for @seatWhichChild.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кого забираем'**
+  String get seatWhichChild;
 }
 
 class _AppLocalizationsDelegate

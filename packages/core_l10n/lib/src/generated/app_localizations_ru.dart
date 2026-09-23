@@ -681,4 +681,52 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get offlineBanner =>
       'Нет связи с сервером. Данные могут быть устаревшими.';
+
+  @override
+  String get poolTitle => 'Пул: дети в одной машине';
+
+  @override
+  String get poolCandidates => 'Можно объединить';
+
+  @override
+  String get poolMerge => 'Объединить в пул';
+
+  @override
+  String poolSeatsLeft(int seats, int childSeats) {
+    return 'Свободных мест: $seats, кресел: $childSeats';
+  }
+
+  @override
+  String poolChildrenInCar(int count) {
+    return 'Детей в машине: $count';
+  }
+
+  @override
+  String get poolNoCandidates => 'Подходящих поездок нет';
+
+  @override
+  String poolTimeDiff(int minutes) {
+    return 'разница $minutes мин';
+  }
+
+  @override
+  String get poolNeedsChildSeat => 'нужно кресло';
+
+  @override
+  String get seatPickUp => 'Забрать';
+
+  @override
+  String get seatHandOver => 'Передать';
+
+  @override
+  String get seatPickedUp => 'В машине';
+
+  @override
+  String get seatHandedOver => 'Передан';
+
+  @override
+  String get seatWaiting => 'Ждёт';
+
+  @override
+  String get seatWhichChild => 'Кого забираем';
 }

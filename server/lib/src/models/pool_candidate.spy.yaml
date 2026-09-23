@@ -1,0 +1,13 @@
+### Поездка, которую можно объединить с другой в пул.
+###
+### Совместимость: то же учреждение, близкое время, тот же день.
+class: PoolCandidate
+fields:
+  ride: Ride
+  childName: String
+  fromAddress: String
+  toName: String
+  ### Разница во времени подачи в минутах.
+  timeDiffMinutes: int
+  ### Нужно ли этому ребёнку детское кресло.
+  needsChildSeat: bool

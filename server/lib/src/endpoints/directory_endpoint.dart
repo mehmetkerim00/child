@@ -8,6 +8,7 @@ import '../services/money/ledger_service.dart';
 import 'session_subject.dart';
 import '../services/notifications/notification_service.dart';
 import '../services/rides/ride_generator.dart';
+import '../services/rides/ride_pool.dart';
 import '../services/rides/ride_view_builder.dart';
 
 /// Справочники для панели диспетчера: семьи, дети, водители, учреждения.
@@ -311,4 +312,162 @@ class DirectoryEndpoint extends Endpoint {
   /// Баланс конкретной семьи для панели диспетчера.
   Future<BalanceView> familyBalance(Session session, int familyId) =>
       LedgerService().balanceView(session, familyId);
+
+  // --- Пулинг ---------------------------------------------------------------
+
+  /// Поездки, которые можно объединить с этой в одну машину.
+  ///
+  /// Совместимость: тот же день, то же учреждение и близкое время подачи.
+  /// Дальше диспетчер смотрит адреса и решает сам — алгоритм не должен
+  /// решать за человека, кого посадить с кем.
+  Future<List<PoolCandidate>> poolCandidates(
+    Session session,
+    int rideId, {
+    int maxTimeDiffMinutes = 20,
+  }) async {
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride == null) return [];
+
+    final target = _minutesOf(ride.plannedTime);
+    final sameDay = await Ride.db.find(
+      session,
+      where: (r) =>
+          r.date.equals(ride.date) &
+          r.status.equals(RideStatus.scheduled) &
+          r.id.notEquals(rideId),
+    );
+
+    final rideInstitution = await _institutionOf(session, ride);
+    final candidates = <PoolCandidate>[];
+
+    for (final other in sameDay) {
+      // Уже объединённые поездки не предлагаем.
+      final seats = await RidePool.activeSeats(session, other.id!);
+      if (seats.length > 1) continue;
+
+      final diff = (_minutesOf(other.plannedTime) - target).abs();
+      if (diff > maxTimeDiffMinutes) continue;
+
+      final otherInstitution = await _institutionOf(session, other);
+      if (rideInstitution == null || otherInstitution != rideInstitution) {
+        continue;
+      }
+
+      final child = await Child.db.findById(session, other.childId);
+      if (child == null) continue;
+      final template = other.templateId == null
+          ? null
+          : await RouteTemplate.db.findById(session, other.templateId!);
+
+      candidates.add(
+        PoolCandidate(
+          ride: other,
+          childName: child.name,
+          fromAddress: template?.fromAddress ?? '',
+          toName: otherInstitution ?? '',
+          timeDiffMinutes: diff,
+          needsChildSeat: child.needsChildSeat,
+        ),
+      );
+    }
+
+    candidates.sort(
+      (a, b) => a.timeDiffMinutes.compareTo(b.timeDiffMinutes),
+    );
+    return candidates;
+  }
+
+  /// Объединяет поездку в пул: дети из [rideIds] пересаживаются в [rideId].
+  ///
+  /// Проверяет вместимость машины и детские кресла — в пул нельзя посадить
+  /// больше детей, чем поместится.
+  Future<Ride> mergeIntoPool(
+    Session session, {
+    required int rideId,
+    required List<int> rideIds,
+  }) async {
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride == null) throw Exception('Поездка не найдена');
+    if (ride.driverId == null) throw Exception('У поездки нет водителя');
+    final driver = await Driver.db.findById(session, ride.driverId!);
+    if (driver == null) throw Exception('Водитель не найден');
+
+    var order = (await RidePool.activeSeats(session, rideId)).length;
+
+    for (final otherId in rideIds) {
+      if (otherId == rideId) continue;
+      final other = await Ride.db.findById(session, otherId);
+      if (other == null) continue;
+      if (other.date != ride.date) {
+        throw Exception('Поездки разных дней объединять нельзя');
+      }
+
+      final child = await Child.db.findById(session, other.childId);
+      if (child == null) continue;
+
+      final capacity = await RidePool.capacityFor(
+        session,
+        rideId: rideId,
+        driver: driver,
+        candidate: child,
+      );
+      if (!capacity.fits) {
+        throw Exception(
+          'Не хватает места или детского кресла для ${child.name}',
+        );
+      }
+
+      final seats = await RidePool.seats(session, otherId);
+      for (final seat in seats) {
+        await RideSeat.db.deleteRow(session, seat);
+      }
+      await RidePool.addSeat(
+        session,
+        rideId: rideId,
+        childId: child.id!,
+        templateId: other.templateId,
+        pickupOrder: ++order,
+        seatPriceTenge: seats.isEmpty ? 0 : seats.first.seatPriceTenge,
+      );
+
+      // Исходная поездка больше не нужна: ребёнок едет в общей машине.
+      await Ride.db.deleteRow(session, other);
+    }
+
+    return ride;
+  }
+
+  /// Свободные места в машине на этой поездке.
+  Future<PoolCapacity> poolCapacity(Session session, int rideId) async {
+    final ride = await Ride.db.findById(session, rideId);
+    if (ride == null || ride.driverId == null) {
+      return PoolCapacity(seatsLeft: 0, childSeatsLeft: 0, fits: false);
+    }
+    final driver = await Driver.db.findById(session, ride.driverId!);
+    if (driver == null) {
+      return PoolCapacity(seatsLeft: 0, childSeatsLeft: 0, fits: false);
+    }
+    return RidePool.capacityFor(session, rideId: rideId, driver: driver);
+  }
+
+  /// Места поездки — кто именно едет.
+  Future<List<RideSeat>> rideSeats(Session session, int rideId) =>
+      RidePool.seats(session, rideId);
+
+  int _minutesOf(String hhmm) {
+    final parts = hhmm.split(':');
+    return int.parse(parts[0]) * 60 +
+        int.parse(parts.length > 1 ? parts[1] : '0');
+  }
+
+  Future<String?> _institutionOf(Session session, Ride ride) async {
+    if (ride.templateId == null) return null;
+    final template = await RouteTemplate.db.findById(session, ride.templateId!);
+    if (template?.toInstitutionId == null) return template?.toAddress;
+    final institution = await Institution.db.findById(
+      session,
+      template!.toInstitutionId!,
+    );
+    return institution?.name;
+  }
 }

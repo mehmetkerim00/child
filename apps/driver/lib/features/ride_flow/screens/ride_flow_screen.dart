@@ -35,6 +35,9 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
   RideLocationTracker? _tracker;
   bool _trackingDenied = false;
 
+  /// Кого забираем или передаём сейчас — в пуле детей несколько.
+  int? _selectedChildId;
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +81,12 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
     }
   }
 
+  /// Для посадки и передачи событие относится к конкретному ребёнку.
+  int? _childIdForAction(RideAction action) =>
+      action == RideAction.pickUp || action == RideAction.handOver
+      ? _selectedChildId
+      : null;
+
   RideEventType? _eventTypeFor(RideAction action) => switch (action) {
     RideAction.depart => RideEventType.enRoute,
     RideAction.pickUp => RideEventType.pickedUp,
@@ -116,6 +125,7 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
           .submit(
             rideId: widget.view.ride.id!,
             type: _eventTypeFor(action)!,
+            childId: _childIdForAction(action),
             note: note,
             codeWord: action == RideAction.pickUp
                 ? _codeWord.text.trim()
@@ -133,6 +143,7 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
         _hasSignature = false;
       });
       ref.invalidate(driverTodayRidesProvider);
+      ref.invalidate(rideSeatsProvider(widget.view.ride.id!));
       // Не ждём геолокацию: разрешения и GPS не должны задерживать кнопку.
       unawaited(_syncTracking());
     } on RideFlowException catch (error) {
@@ -174,6 +185,19 @@ class _RideFlowScreenState extends ConsumerState<RideFlowScreen> {
               ),
             ),
             const SizedBox(height: ChildSpacing.l),
+
+            // В пуле сначала выбираем, с кем работаем.
+            if (action == RideAction.pickUp ||
+                action == RideAction.handOver) ...[
+              _SeatPicker(
+                rideId: view.ride.id!,
+                action: action!,
+                selectedChildId: _selectedChildId,
+                onSelected: (childId) =>
+                    setState(() => _selectedChildId = childId),
+              ),
+              const SizedBox(height: ChildSpacing.m),
+            ],
 
             // Кодовое слово нужно только на посадке.
             if (action == RideAction.pickUp) ...[
@@ -318,6 +342,75 @@ class _TrackingBadge extends StatelessWidget {
             style: theme.textTheme.bodyMedium?.copyWith(color: color),
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// Выбор ребёнка в пуле: кого именно забираем или передаём.
+///
+/// Когда ребёнок один, выбирать нечего — панель показывает его статус.
+class _SeatPicker extends ConsumerWidget {
+  const _SeatPicker({
+    required this.rideId,
+    required this.action,
+    required this.selectedChildId,
+    required this.onSelected,
+  });
+
+  final int rideId;
+  final RideAction action;
+  final int? selectedChildId;
+  final ValueChanged<int?> onSelected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final seats = ref.watch(rideSeatsProvider(rideId)).valueOrNull;
+    if (seats == null || seats.length < 2) return const SizedBox.shrink();
+
+    // Показываем только тех, с кем этап ещё не сделан.
+    final pending = seats.where((seat) {
+      if (seat.cancelledAt != null) return false;
+      return action == RideAction.pickUp
+          ? seat.pickedUpAt == null
+          : seat.handedOverAt == null && seat.pickedUpAt != null;
+    }).toList();
+
+    // Если выбор пуст или стал неактуальным — выбираем первого.
+    final valid = pending.any((seat) => seat.childId == selectedChildId);
+    if (!valid && pending.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => onSelected(pending.first.childId),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.seatWhichChild,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: ChildSpacing.s),
+        for (final seat in seats)
+          RadioListTile<int>(
+            value: seat.childId,
+            // ignore: deprecated_member_use
+            groupValue: selectedChildId,
+            // ignore: deprecated_member_use
+            onChanged: pending.contains(seat)
+                ? (value) => onSelected(value)
+                : null,
+            title: Text('${l10n.routeChild} #${seat.pickupOrder}'),
+            subtitle: Text(
+              seat.handedOverAt != null
+                  ? l10n.seatHandedOver
+                  : seat.pickedUpAt != null
+                  ? l10n.seatPickedUp
+                  : l10n.seatWaiting,
+            ),
+          ),
       ],
     );
   }

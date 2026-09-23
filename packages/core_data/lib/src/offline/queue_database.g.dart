@@ -43,6 +43,17 @@ class $PendingEventsTable extends PendingEvents
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _childIdMeta = const VerificationMeta(
+    'childId',
+  );
+  @override
+  late final GeneratedColumn<int> childId = GeneratedColumn<int>(
+    'child_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
@@ -153,6 +164,7 @@ class $PendingEventsTable extends PendingEvents
     id,
     clientEventId,
     rideId,
+    childId,
     type,
     at,
     lat,
@@ -197,6 +209,12 @@ class $PendingEventsTable extends PendingEvents
       );
     } else if (isInserting) {
       context.missing(_rideIdMeta);
+    }
+    if (data.containsKey('child_id')) {
+      context.handle(
+        _childIdMeta,
+        childId.isAcceptableOrUnknown(data['child_id']!, _childIdMeta),
+      );
     }
     if (data.containsKey('type')) {
       context.handle(
@@ -286,6 +304,10 @@ class $PendingEventsTable extends PendingEvents
         DriftSqlType.int,
         data['${effectivePrefix}ride_id'],
       )!,
+      childId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}child_id'],
+      ),
       type: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}type'],
@@ -342,6 +364,9 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
   final String clientEventId;
   final int rideId;
 
+  /// В пуле этап относится к конкретному ребёнку.
+  final int? childId;
+
   /// Имя значения RideEventType.
   final String type;
 
@@ -361,6 +386,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
     required this.id,
     required this.clientEventId,
     required this.rideId,
+    this.childId,
     required this.type,
     required this.at,
     this.lat,
@@ -378,6 +404,9 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
     map['id'] = Variable<int>(id);
     map['client_event_id'] = Variable<String>(clientEventId);
     map['ride_id'] = Variable<int>(rideId);
+    if (!nullToAbsent || childId != null) {
+      map['child_id'] = Variable<int>(childId);
+    }
     map['type'] = Variable<String>(type);
     map['at'] = Variable<DateTime>(at);
     if (!nullToAbsent || lat != null) {
@@ -408,6 +437,9 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
       id: Value(id),
       clientEventId: Value(clientEventId),
       rideId: Value(rideId),
+      childId: childId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(childId),
       type: Value(type),
       at: Value(at),
       lat: lat == null && nullToAbsent ? const Value.absent() : Value(lat),
@@ -436,6 +468,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
       id: serializer.fromJson<int>(json['id']),
       clientEventId: serializer.fromJson<String>(json['clientEventId']),
       rideId: serializer.fromJson<int>(json['rideId']),
+      childId: serializer.fromJson<int?>(json['childId']),
       type: serializer.fromJson<String>(json['type']),
       at: serializer.fromJson<DateTime>(json['at']),
       lat: serializer.fromJson<double?>(json['lat']),
@@ -455,6 +488,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
       'id': serializer.toJson<int>(id),
       'clientEventId': serializer.toJson<String>(clientEventId),
       'rideId': serializer.toJson<int>(rideId),
+      'childId': serializer.toJson<int?>(childId),
       'type': serializer.toJson<String>(type),
       'at': serializer.toJson<DateTime>(at),
       'lat': serializer.toJson<double?>(lat),
@@ -472,6 +506,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
     int? id,
     String? clientEventId,
     int? rideId,
+    Value<int?> childId = const Value.absent(),
     String? type,
     DateTime? at,
     Value<double?> lat = const Value.absent(),
@@ -486,6 +521,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
     id: id ?? this.id,
     clientEventId: clientEventId ?? this.clientEventId,
     rideId: rideId ?? this.rideId,
+    childId: childId.present ? childId.value : this.childId,
     type: type ?? this.type,
     at: at ?? this.at,
     lat: lat.present ? lat.value : this.lat,
@@ -506,6 +542,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
           ? data.clientEventId.value
           : this.clientEventId,
       rideId: data.rideId.present ? data.rideId.value : this.rideId,
+      childId: data.childId.present ? data.childId.value : this.childId,
       type: data.type.present ? data.type.value : this.type,
       at: data.at.present ? data.at.value : this.at,
       lat: data.lat.present ? data.lat.value : this.lat,
@@ -529,6 +566,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
           ..write('id: $id, ')
           ..write('clientEventId: $clientEventId, ')
           ..write('rideId: $rideId, ')
+          ..write('childId: $childId, ')
           ..write('type: $type, ')
           ..write('at: $at, ')
           ..write('lat: $lat, ')
@@ -548,6 +586,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
     id,
     clientEventId,
     rideId,
+    childId,
     type,
     at,
     lat,
@@ -566,6 +605,7 @@ class PendingEvent extends DataClass implements Insertable<PendingEvent> {
           other.id == this.id &&
           other.clientEventId == this.clientEventId &&
           other.rideId == this.rideId &&
+          other.childId == this.childId &&
           other.type == this.type &&
           other.at == this.at &&
           other.lat == this.lat &&
@@ -582,6 +622,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
   final Value<int> id;
   final Value<String> clientEventId;
   final Value<int> rideId;
+  final Value<int?> childId;
   final Value<String> type;
   final Value<DateTime> at;
   final Value<double?> lat;
@@ -596,6 +637,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
     this.id = const Value.absent(),
     this.clientEventId = const Value.absent(),
     this.rideId = const Value.absent(),
+    this.childId = const Value.absent(),
     this.type = const Value.absent(),
     this.at = const Value.absent(),
     this.lat = const Value.absent(),
@@ -611,6 +653,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
     this.id = const Value.absent(),
     required String clientEventId,
     required int rideId,
+    this.childId = const Value.absent(),
     required String type,
     required DateTime at,
     this.lat = const Value.absent(),
@@ -629,6 +672,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
     Expression<int>? id,
     Expression<String>? clientEventId,
     Expression<int>? rideId,
+    Expression<int>? childId,
     Expression<String>? type,
     Expression<DateTime>? at,
     Expression<double>? lat,
@@ -644,6 +688,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
       if (id != null) 'id': id,
       if (clientEventId != null) 'client_event_id': clientEventId,
       if (rideId != null) 'ride_id': rideId,
+      if (childId != null) 'child_id': childId,
       if (type != null) 'type': type,
       if (at != null) 'at': at,
       if (lat != null) 'lat': lat,
@@ -661,6 +706,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
     Value<int>? id,
     Value<String>? clientEventId,
     Value<int>? rideId,
+    Value<int?>? childId,
     Value<String>? type,
     Value<DateTime>? at,
     Value<double?>? lat,
@@ -676,6 +722,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
       id: id ?? this.id,
       clientEventId: clientEventId ?? this.clientEventId,
       rideId: rideId ?? this.rideId,
+      childId: childId ?? this.childId,
       type: type ?? this.type,
       at: at ?? this.at,
       lat: lat ?? this.lat,
@@ -700,6 +747,9 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
     }
     if (rideId.present) {
       map['ride_id'] = Variable<int>(rideId.value);
+    }
+    if (childId.present) {
+      map['child_id'] = Variable<int>(childId.value);
     }
     if (type.present) {
       map['type'] = Variable<String>(type.value);
@@ -740,6 +790,7 @@ class PendingEventsCompanion extends UpdateCompanion<PendingEvent> {
           ..write('id: $id, ')
           ..write('clientEventId: $clientEventId, ')
           ..write('rideId: $rideId, ')
+          ..write('childId: $childId, ')
           ..write('type: $type, ')
           ..write('at: $at, ')
           ..write('lat: $lat, ')
@@ -771,6 +822,7 @@ typedef $$PendingEventsTableCreateCompanionBuilder =
       Value<int> id,
       required String clientEventId,
       required int rideId,
+      Value<int?> childId,
       required String type,
       required DateTime at,
       Value<double?> lat,
@@ -787,6 +839,7 @@ typedef $$PendingEventsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<String> clientEventId,
       Value<int> rideId,
+      Value<int?> childId,
       Value<String> type,
       Value<DateTime> at,
       Value<double?> lat,
@@ -820,6 +873,11 @@ class $$PendingEventsTableFilterComposer
 
   ColumnFilters<int> get rideId => $composableBuilder(
     column: $table.rideId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get childId => $composableBuilder(
+    column: $table.childId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -898,6 +956,11 @@ class $$PendingEventsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get childId => $composableBuilder(
+    column: $table.childId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get type => $composableBuilder(
     column: $table.type,
     builder: (column) => ColumnOrderings(column),
@@ -968,6 +1031,9 @@ class $$PendingEventsTableAnnotationComposer
 
   GeneratedColumn<int> get rideId =>
       $composableBuilder(column: $table.rideId, builder: (column) => column);
+
+  GeneratedColumn<int> get childId =>
+      $composableBuilder(column: $table.childId, builder: (column) => column);
 
   GeneratedColumn<String> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
@@ -1040,6 +1106,7 @@ class $$PendingEventsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> clientEventId = const Value.absent(),
                 Value<int> rideId = const Value.absent(),
+                Value<int?> childId = const Value.absent(),
                 Value<String> type = const Value.absent(),
                 Value<DateTime> at = const Value.absent(),
                 Value<double?> lat = const Value.absent(),
@@ -1054,6 +1121,7 @@ class $$PendingEventsTableTableManager
                 id: id,
                 clientEventId: clientEventId,
                 rideId: rideId,
+                childId: childId,
                 type: type,
                 at: at,
                 lat: lat,
@@ -1070,6 +1138,7 @@ class $$PendingEventsTableTableManager
                 Value<int> id = const Value.absent(),
                 required String clientEventId,
                 required int rideId,
+                Value<int?> childId = const Value.absent(),
                 required String type,
                 required DateTime at,
                 Value<double?> lat = const Value.absent(),
@@ -1084,6 +1153,7 @@ class $$PendingEventsTableTableManager
                 id: id,
                 clientEventId: clientEventId,
                 rideId: rideId,
+                childId: childId,
                 type: type,
                 at: at,
                 lat: lat,

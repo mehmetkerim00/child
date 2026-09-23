@@ -124,16 +124,24 @@ abstract final class RideStateMachine {
 
       // Забрать ребёнка можно, только назвав кодовое слово семьи:
       // это главный барьер против передачи ребёнка чужому человеку.
+      //
+      // В пуле детей забирают по очереди, поэтому «забрал» допустим и
+      // когда в машине уже кто-то едет.
       RideAction.pickUp =>
         !step.codeWordMatches
             ? const RideTransitionDenied(RideTransitionError.codeWordRequired)
             : _expect(current, const {
                 RideStatus.enRoute,
                 RideStatus.delayed,
+                RideStatus.pickedUp,
+                RideStatus.inTransit,
               }, RideStatus.pickedUp),
 
+      // «Едем дальше» — и после посадки, и после высадки части детей
+      // на предыдущей остановке.
       RideAction.startTransit => _expect(current, const {
         RideStatus.pickedUp,
+        RideStatus.arrived,
       }, RideStatus.inTransit),
 
       RideAction.arrive => _expect(current, const {

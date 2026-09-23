@@ -2,6 +2,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
 import '../clock.dart';
+import '../rides/ride_pool.dart';
 
 /// Книга операций семьи.
 ///
@@ -43,27 +44,34 @@ class LedgerService {
 
   /// Списание за состоявшуюся поездку.
   ///
-  /// Вызывается при передаче ребёнка. Повторный вызов для той же поездки
-  /// ничего не делает — ключ идемпотентности не даст списать дважды.
-  Future<LedgerEntry?> chargeRide(Session session, Ride ride) async {
-    if (ride.templateId == null) return null;
-    final template = await RouteTemplate.db.findById(session, ride.templateId!);
-    final price = template?.pricePerRideTenge ?? 0;
-    if (price <= 0) return null;
+  /// В пуле каждая семья платит только за своё место. Ключ идемпотентности
+  /// на место, а не на поездку: одно место — одно списание, сколько бы раз
+  /// ни пришло «передал».
+  Future<List<LedgerEntry>> chargeRide(Session session, Ride ride) async {
+    final seats = await RidePool.activeSeats(session, ride.id!);
+    final charged = <LedgerEntry>[];
 
-    final child = await Child.db.findById(session, ride.childId);
-    if (child == null) return null;
+    for (final seat in seats) {
+      // Списываем только за фактически доставленных детей.
+      if (seat.handedOverAt == null) continue;
+      if (seat.seatPriceTenge <= 0) continue;
 
-    return _append(
-      session,
-      familyId: child.familyId,
-      type: LedgerEntryType.rideCharge,
-      amountTenge: -price,
-      dedupeKey: 'ride-charge:${ride.id}',
-      rideId: ride.id,
-      driverId: ride.driverId,
-      note: 'Поездка ${ride.plannedTime}',
-    );
+      final child = await Child.db.findById(session, seat.childId);
+      if (child == null) continue;
+
+      final entry = await _append(
+        session,
+        familyId: child.familyId,
+        type: LedgerEntryType.rideCharge,
+        amountTenge: -seat.seatPriceTenge,
+        dedupeKey: 'ride-charge:seat:${seat.id}',
+        rideId: ride.id,
+        driverId: ride.driverId,
+        note: 'Поездка ${ride.plannedTime}, ${child.name}',
+      );
+      if (entry != null) charged.add(entry);
+    }
+    return charged;
   }
 
   /// Водитель принял наличные: это заявка, а не зачисление.

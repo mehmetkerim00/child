@@ -19,6 +19,7 @@ class _FakeQueue implements RideEventQueue {
   Future<bool> submit({
     required int rideId,
     required RideEventType type,
+    int? childId,
     String? note,
     String? codeWord,
     String? institutionCode,

@@ -25,11 +25,15 @@ abstract class Driver implements _i1.SerializableModel {
     this.experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     this.photoUrl,
     bool? active,
     DateTime? createdAt,
   }) : vettingStatus = vettingStatus ?? _i2.VettingStatus.pending,
        isFemale = isFemale ?? false,
+       seats = seats ?? 3,
+       childSeats = childSeats ?? 1,
        active = active ?? true,
        createdAt = createdAt ?? DateTime.now();
 
@@ -42,6 +46,8 @@ abstract class Driver implements _i1.SerializableModel {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -63,6 +69,8 @@ abstract class Driver implements _i1.SerializableModel {
       isFemale: jsonSerialization['isFemale'] == null
           ? null
           : _i1.BoolJsonExtension.fromJson(jsonSerialization['isFemale']),
+      seats: jsonSerialization['seats'] as int?,
+      childSeats: jsonSerialization['childSeats'] as int?,
       photoUrl: jsonSerialization['photoUrl'] as String?,
       active: jsonSerialization['active'] == null
           ? null
@@ -92,6 +100,12 @@ abstract class Driver implements _i1.SerializableModel {
 
   bool isFemale;
 
+  /// Сколько детей помещается в машине (без водителя).
+  int seats;
+
+  /// Сколько детских кресел есть у водителя.
+  int childSeats;
+
   String? photoUrl;
 
   bool active;
@@ -110,6 +124,8 @@ abstract class Driver implements _i1.SerializableModel {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -126,6 +142,8 @@ abstract class Driver implements _i1.SerializableModel {
       if (experienceNote != null) 'experienceNote': experienceNote,
       'vettingStatus': vettingStatus.toJson(),
       'isFemale': isFemale,
+      'seats': seats,
+      'childSeats': childSeats,
       if (photoUrl != null) 'photoUrl': photoUrl,
       'active': active,
       'createdAt': createdAt.toJson(),
@@ -150,6 +168,8 @@ class _DriverImpl extends Driver {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -162,6 +182,8 @@ class _DriverImpl extends Driver {
          experienceNote: experienceNote,
          vettingStatus: vettingStatus,
          isFemale: isFemale,
+         seats: seats,
+         childSeats: childSeats,
          photoUrl: photoUrl,
          active: active,
          createdAt: createdAt,
@@ -180,6 +202,8 @@ class _DriverImpl extends Driver {
     Object? experienceNote = _Undefined,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     Object? photoUrl = _Undefined,
     bool? active,
     DateTime? createdAt,
@@ -195,6 +219,8 @@ class _DriverImpl extends Driver {
           : this.experienceNote,
       vettingStatus: vettingStatus ?? this.vettingStatus,
       isFemale: isFemale ?? this.isFemale,
+      seats: seats ?? this.seats,
+      childSeats: childSeats ?? this.childSeats,
       photoUrl: photoUrl is String? ? photoUrl : this.photoUrl,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,

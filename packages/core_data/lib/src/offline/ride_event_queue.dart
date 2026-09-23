@@ -47,6 +47,9 @@ class RideEventQueue {
   Future<bool> submit({
     required int rideId,
     required RideEventType type,
+
+    /// В пуле — к какому ребёнку относится этап.
+    int? childId,
     String? note,
     String? codeWord,
     String? institutionCode,
@@ -58,6 +61,7 @@ class RideEventQueue {
       PendingEventsCompanion.insert(
         clientEventId: _uuid.v4(),
         rideId: rideId,
+        childId: Value(childId),
         type: type.name,
         // Время нажатия кнопки, а не время доставки на сервер.
         at: DateTime.now().toUtc(),
@@ -88,6 +92,7 @@ class RideEventQueue {
               clientEventId: event.clientEventId,
               type: RideEventType.values.byName(event.type),
               at: event.at,
+              childId: event.childId,
               lat: event.lat,
               lng: event.lng,
               note: event.note,

@@ -104,8 +104,18 @@ class RoutesEndpoint extends Endpoint {
     final parent = await session.requireParent();
     final ride = await Ride.db.findById(session, rideId);
     if (ride == null) throw Exception('Поездка не найдена');
-    final child = await Child.db.findById(session, ride.childId);
-    if (child == null || child.familyId != parent.familyId) {
+
+    // Ребёнок семьи может ехать в общей машине: проверяем места.
+    final children = await Child.db.find(
+      session,
+      where: (c) => c.familyId.equals(parent.familyId),
+    );
+    final ids = children.map((child) => child.id!).toSet();
+    final seat = await RideSeat.db.findFirstRow(
+      session,
+      where: (row) => row.rideId.equals(rideId) & row.childId.inSet(ids),
+    );
+    if (seat == null && !ids.contains(ride.childId)) {
       throw Exception('Поездка не вашего ребёнка');
     }
     return ride;
@@ -154,11 +164,22 @@ class RoutesEndpoint extends Endpoint {
 
     final from = AshgabatTime.today();
     final to = AshgabatTime.tomorrow();
+    // В пуле ребёнок может ехать в чужой поездке: ищем по местам.
+    final seats = await RideSeat.db.find(
+      session,
+      where: (seat) => seat.childId.inSet(ids),
+    );
+    final rideIds = seats.map((seat) => seat.rideId).toSet();
+
     final rides = await Ride.db.find(
       session,
-      where: (r) => r.childId.inSet(ids) & (r.date >= from) & (r.date <= to),
+      where: (r) =>
+          (r.childId.inSet(ids) | r.id.inSet(rideIds)) &
+          (r.date >= from) &
+          (r.date <= to),
       orderBy: (r) => r.date,
     );
-    return RideViewBuilder.build(session, rides);
+    // Родитель видит только своих детей — чужие имена и адреса скрыты.
+    return RideViewBuilder.build(session, rides, onlyChildIds: ids);
   }
 }

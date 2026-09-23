@@ -679,4 +679,52 @@ class AppLocalizationsTk extends AppLocalizations {
   @override
   String get offlineBanner =>
       'Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler.';
+
+  @override
+  String get poolTitle => 'Pul: bir awtoulagda çagalar';
+
+  @override
+  String get poolCandidates => 'Birleşdirip bolar';
+
+  @override
+  String get poolMerge => 'Pula birleşdir';
+
+  @override
+  String poolSeatsLeft(int seats, int childSeats) {
+    return 'Boş orun: $seats, oturgyç: $childSeats';
+  }
+
+  @override
+  String poolChildrenInCar(int count) {
+    return 'Awtoulagda çaga: $count';
+  }
+
+  @override
+  String get poolNoCandidates => 'Laýyk ýol ýok';
+
+  @override
+  String poolTimeDiff(int minutes) {
+    return 'tapawut $minutes min';
+  }
+
+  @override
+  String get poolNeedsChildSeat => 'oturgyç gerek';
+
+  @override
+  String get seatPickUp => 'Al';
+
+  @override
+  String get seatHandOver => 'Tabşyr';
+
+  @override
+  String get seatPickedUp => 'Awtoulagda';
+
+  @override
+  String get seatHandedOver => 'Tabşyryldy';
+
+  @override
+  String get seatWaiting => 'Garaşýar';
+
+  @override
+  String get seatWhichChild => 'Kimi alýarys';
 }

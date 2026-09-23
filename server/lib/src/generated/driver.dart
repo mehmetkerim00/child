@@ -25,11 +25,15 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     this.experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     this.photoUrl,
     bool? active,
     DateTime? createdAt,
   }) : vettingStatus = vettingStatus ?? _i2.VettingStatus.pending,
        isFemale = isFemale ?? false,
+       seats = seats ?? 3,
+       childSeats = childSeats ?? 1,
        active = active ?? true,
        createdAt = createdAt ?? DateTime.now();
 
@@ -42,6 +46,8 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -63,6 +69,8 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       isFemale: jsonSerialization['isFemale'] == null
           ? null
           : _i1.BoolJsonExtension.fromJson(jsonSerialization['isFemale']),
+      seats: jsonSerialization['seats'] as int?,
+      childSeats: jsonSerialization['childSeats'] as int?,
       photoUrl: jsonSerialization['photoUrl'] as String?,
       active: jsonSerialization['active'] == null
           ? null
@@ -94,6 +102,12 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   bool isFemale;
 
+  /// Сколько детей помещается в машине (без водителя).
+  int seats;
+
+  /// Сколько детских кресел есть у водителя.
+  int childSeats;
+
   String? photoUrl;
 
   bool active;
@@ -115,6 +129,8 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -131,6 +147,8 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (experienceNote != null) 'experienceNote': experienceNote,
       'vettingStatus': vettingStatus.toJson(),
       'isFemale': isFemale,
+      'seats': seats,
+      'childSeats': childSeats,
       if (photoUrl != null) 'photoUrl': photoUrl,
       'active': active,
       'createdAt': createdAt.toJson(),
@@ -149,6 +167,8 @@ abstract class Driver implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       if (experienceNote != null) 'experienceNote': experienceNote,
       'vettingStatus': vettingStatus.toJson(),
       'isFemale': isFemale,
+      'seats': seats,
+      'childSeats': childSeats,
       if (photoUrl != null) 'photoUrl': photoUrl,
       'active': active,
       'createdAt': createdAt.toJson(),
@@ -197,6 +217,8 @@ class _DriverImpl extends Driver {
     String? experienceNote,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     String? photoUrl,
     bool? active,
     DateTime? createdAt,
@@ -209,6 +231,8 @@ class _DriverImpl extends Driver {
          experienceNote: experienceNote,
          vettingStatus: vettingStatus,
          isFemale: isFemale,
+         seats: seats,
+         childSeats: childSeats,
          photoUrl: photoUrl,
          active: active,
          createdAt: createdAt,
@@ -227,6 +251,8 @@ class _DriverImpl extends Driver {
     Object? experienceNote = _Undefined,
     _i2.VettingStatus? vettingStatus,
     bool? isFemale,
+    int? seats,
+    int? childSeats,
     Object? photoUrl = _Undefined,
     bool? active,
     DateTime? createdAt,
@@ -242,6 +268,8 @@ class _DriverImpl extends Driver {
           : this.experienceNote,
       vettingStatus: vettingStatus ?? this.vettingStatus,
       isFemale: isFemale ?? this.isFemale,
+      seats: seats ?? this.seats,
+      childSeats: childSeats ?? this.childSeats,
       photoUrl: photoUrl is String? ? photoUrl : this.photoUrl,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
@@ -287,6 +315,16 @@ class DriverUpdateTable extends _i1.UpdateTable<DriverTable> {
 
   _i1.ColumnValue<bool, bool> isFemale(bool value) => _i1.ColumnValue(
     table.isFemale,
+    value,
+  );
+
+  _i1.ColumnValue<int, int> seats(int value) => _i1.ColumnValue(
+    table.seats,
+    value,
+  );
+
+  _i1.ColumnValue<int, int> childSeats(int value) => _i1.ColumnValue(
+    table.childSeats,
     value,
   );
 
@@ -341,6 +379,16 @@ class DriverTable extends _i1.Table<int?> {
       this,
       hasDefault: true,
     );
+    seats = _i1.ColumnInt(
+      'seats',
+      this,
+      hasDefault: true,
+    );
+    childSeats = _i1.ColumnInt(
+      'childSeats',
+      this,
+      hasDefault: true,
+    );
     photoUrl = _i1.ColumnString(
       'photoUrl',
       this,
@@ -373,6 +421,12 @@ class DriverTable extends _i1.Table<int?> {
 
   late final _i1.ColumnBool isFemale;
 
+  /// Сколько детей помещается в машине (без водителя).
+  late final _i1.ColumnInt seats;
+
+  /// Сколько детских кресел есть у водителя.
+  late final _i1.ColumnInt childSeats;
+
   late final _i1.ColumnString photoUrl;
 
   late final _i1.ColumnBool active;
@@ -389,6 +443,8 @@ class DriverTable extends _i1.Table<int?> {
     experienceNote,
     vettingStatus,
     isFemale,
+    seats,
+    childSeats,
     photoUrl,
     active,
     createdAt,

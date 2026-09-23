@@ -35,6 +35,10 @@ directory:
   - rejectTopUp:
   - adjustBalance:
   - familyBalance:
+  - poolCandidates:
+  - mergeIntoPool:
+  - poolCapacity:
+  - rideSeats:
 profile:
   - myFamily:
   - myChildren:
@@ -46,6 +50,7 @@ rides:
   - confirm:
   - decline:
   - submitEvent:
+  - rideSeats:
   - pushLocations:
   - events:
   - myFamilies:

@@ -21,6 +21,7 @@ abstract class RideEvent implements _i1.SerializableModel {
     this.id,
     required this.rideId,
     required this.clientEventId,
+    this.childId,
     required this.type,
     required this.at,
     required this.byRole,
@@ -34,6 +35,7 @@ abstract class RideEvent implements _i1.SerializableModel {
     int? id,
     required int rideId,
     required String clientEventId,
+    int? childId,
     required _i2.RideEventType type,
     required DateTime at,
     required _i3.AccountRole byRole,
@@ -48,6 +50,7 @@ abstract class RideEvent implements _i1.SerializableModel {
       id: jsonSerialization['id'] as int?,
       rideId: jsonSerialization['rideId'] as int,
       clientEventId: jsonSerialization['clientEventId'] as String,
+      childId: jsonSerialization['childId'] as int?,
       type: _i2.RideEventType.fromJson((jsonSerialization['type'] as String)),
       at: _i1.DateTimeJsonExtension.fromJson(jsonSerialization['at']),
       byRole: _i3.AccountRole.fromJson((jsonSerialization['byRole'] as String)),
@@ -68,6 +71,9 @@ abstract class RideEvent implements _i1.SerializableModel {
   /// Идентификатор, присвоенный приложением водителя. Нужен, чтобы
   /// событие из офлайн-очереди не записалось дважды при повторной отправке.
   String clientEventId;
+
+  /// Для «забрал» и «передал» в пуле — к какому ребёнку относится событие.
+  int? childId;
 
   _i2.RideEventType type;
 
@@ -92,6 +98,7 @@ abstract class RideEvent implements _i1.SerializableModel {
     int? id,
     int? rideId,
     String? clientEventId,
+    int? childId,
     _i2.RideEventType? type,
     DateTime? at,
     _i3.AccountRole? byRole,
@@ -107,6 +114,7 @@ abstract class RideEvent implements _i1.SerializableModel {
       if (id != null) 'id': id,
       'rideId': rideId,
       'clientEventId': clientEventId,
+      if (childId != null) 'childId': childId,
       'type': type.toJson(),
       'at': at.toJson(),
       'byRole': byRole.toJson(),
@@ -130,6 +138,7 @@ class _RideEventImpl extends RideEvent {
     int? id,
     required int rideId,
     required String clientEventId,
+    int? childId,
     required _i2.RideEventType type,
     required DateTime at,
     required _i3.AccountRole byRole,
@@ -141,6 +150,7 @@ class _RideEventImpl extends RideEvent {
          id: id,
          rideId: rideId,
          clientEventId: clientEventId,
+         childId: childId,
          type: type,
          at: at,
          byRole: byRole,
@@ -158,6 +168,7 @@ class _RideEventImpl extends RideEvent {
     Object? id = _Undefined,
     int? rideId,
     String? clientEventId,
+    Object? childId = _Undefined,
     _i2.RideEventType? type,
     DateTime? at,
     _i3.AccountRole? byRole,
@@ -170,6 +181,7 @@ class _RideEventImpl extends RideEvent {
       id: id is int? ? id : this.id,
       rideId: rideId ?? this.rideId,
       clientEventId: clientEventId ?? this.clientEventId,
+      childId: childId is int? ? childId : this.childId,
       type: type ?? this.type,
       at: at ?? this.at,
       byRole: byRole ?? this.byRole,

@@ -213,5 +213,19 @@
   "onboardingText3": "Esasy wakalar — «aldy», «tabşyrdy», ýatyryldy — push gelmese-de SMS bilen gelýär. Awtoulag ýoldaka kartada görünýär.",
   "onboardingNext": "Indiki",
   "onboardingStart": "Başla",
-  "offlineBanner": "Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler."
+  "offlineBanner": "Serwer bilen baglanyşyk ýok. Maglumatlar köne bolup biler.",
+  "poolTitle": "Pul: bir awtoulagda çagalar",
+  "poolCandidates": "Birleşdirip bolar",
+  "poolMerge": "Pula birleşdir",
+  "poolSeatsLeft": "Boş orun: {seats}, oturgyç: {childSeats}",
+  "poolChildrenInCar": "Awtoulagda çaga: {count}",
+  "poolNoCandidates": "Laýyk ýol ýok",
+  "poolTimeDiff": "tapawut {minutes} min",
+  "poolNeedsChildSeat": "oturgyç gerek",
+  "seatPickUp": "Al",
+  "seatHandOver": "Tabşyr",
+  "seatPickedUp": "Awtoulagda",
+  "seatHandedOver": "Tabşyryldy",
+  "seatWaiting": "Garaşýar",
+  "seatWhichChild": "Kimi alýarys"
 }

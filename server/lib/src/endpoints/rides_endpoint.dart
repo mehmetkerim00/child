@@ -125,12 +125,20 @@ class RidesEndpoint extends Endpoint {
     RideEventSubmission submission,
   ) async {
     final ride = await _myRide(session, rideId);
-    final child = await Child.db.findById(session, ride.childId);
 
-    // Код учреждения берём из шаблона маршрута поездки.
-    final template = ride.templateId == null
+    // В пуле проверяем кодовое слово той семьи, чьего ребёнка забирают.
+    final childId = submission.childId ?? ride.childId;
+    final child = await Child.db.findById(session, childId);
+
+    // Код учреждения — из маршрута этого ребёнка.
+    final seat = await RideSeat.db.findFirstRow(
+      session,
+      where: (row) => row.rideId.equals(rideId) & row.childId.equals(childId),
+    );
+    final templateId = seat?.templateId ?? ride.templateId;
+    final template = templateId == null
         ? null
-        : await RouteTemplate.db.findById(session, ride.templateId!);
+        : await RouteTemplate.db.findById(session, templateId);
     final institution = template?.toInstitutionId == null
         ? null
         : await Institution.db.findById(session, template!.toInstitutionId!);
@@ -142,6 +150,16 @@ class RidesEndpoint extends Endpoint {
       byRole: AccountRole.driver,
       codeWord: child?.codeWord ?? '',
       institutionCode: institution?.handoverCode ?? '',
+    );
+  }
+
+  /// Дети в машине на этой поездке: порядок посадки и кто уже передан.
+  Future<List<RideSeat>> rideSeats(Session session, int rideId) async {
+    await _myRide(session, rideId);
+    return RideSeat.db.find(
+      session,
+      where: (seat) => seat.rideId.equals(rideId),
+      orderBy: (seat) => seat.pickupOrder,
     );
   }
 

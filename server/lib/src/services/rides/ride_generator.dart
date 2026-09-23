@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
+import 'ride_pool.dart';
 
 /// Создаёт поездки на дату из активных шаблонов маршрутов.
 ///
@@ -34,7 +35,7 @@ abstract final class RideGenerator {
       );
       if (existing != null) continue;
 
-      await Ride.db.insertRow(
+      final ride = await Ride.db.insertRow(
         session,
         Ride(
           templateId: template.id,
@@ -44,6 +45,15 @@ abstract final class RideGenerator {
           plannedTime: template.pickupTime,
           status: RideStatus.scheduled,
         ),
+      );
+      // Даже в поездке с одним ребёнком есть место: дальше её можно
+      // объединить с соседней в пул, не переписывая логику.
+      await RidePool.addSeat(
+        session,
+        rideId: ride.id!,
+        childId: template.childId,
+        templateId: template.id,
+        seatPriceTenge: template.pricePerRideTenge,
       );
       created++;
     }

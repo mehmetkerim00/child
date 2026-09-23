@@ -60,7 +60,22 @@ final myNotificationsProvider =
       (ref) => ref.watch(apiClientProvider).routes.myNotifications(),
     );
 
+/// Дети в машине на поездке (для водителя).
+final rideSeatsProvider = FutureProvider.autoDispose
+    .family<List<RideSeat>, int>((ref, rideId) {
+      return ref.watch(apiClientProvider).rides.rideSeats(rideId);
+    });
+
 // --- Диспетчер --------------------------------------------------------------
+
+/// Поездки, которые можно объединить с этой в одну машину.
+final poolCandidatesProvider = FutureProvider.autoDispose
+    .family<List<PoolCandidate>, int>((ref, rideId) {
+      return ref
+          .watch(apiClientProvider)
+          .directory
+          .poolCandidates(rideId, maxTimeDiffMinutes: 20);
+    });
 
 /// Открытые задачи диспетчера: то, что требует звонка.
 final openTasksProvider = FutureProvider.autoDispose<List<DispatcherTask>>(

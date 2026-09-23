@@ -1,6 +1,7 @@
 import 'package:child_server/src/generated/protocol.dart';
 import 'package:child_server/src/services/clock.dart';
 import 'package:child_server/src/services/money/ledger_service.dart';
+import 'package:child_server/src/services/rides/ride_pool.dart';
 import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 import 'package:test/test.dart';
@@ -100,8 +101,13 @@ void main() {
       );
     });
 
-    Future<Ride> ride({RideStatus status = RideStatus.arrived}) {
-      return Ride.db.insertRow(
+    /// Поездка с местом ребёнка: места теперь есть у каждой поездки,
+    /// в том числе с одним ребёнком.
+    Future<Ride> ride({
+      RideStatus status = RideStatus.arrived,
+      bool delivered = true,
+    }) async {
+      final trip = await Ride.db.insertRow(
         session,
         Ride(
           templateId: template.id,
@@ -112,6 +118,20 @@ void main() {
           status: status,
         ),
       );
+      final seat = await RidePool.addSeat(
+        session,
+        rideId: trip.id!,
+        childId: child.id!,
+        templateId: template.id,
+        seatPriceTenge: _ridePrice,
+      );
+      if (delivered) {
+        await RideSeat.db.updateRow(
+          session,
+          seat.copyWith(handedOverAt: clock.now()),
+        );
+      }
+      return trip;
     }
 
     test(
