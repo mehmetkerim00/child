@@ -83,6 +83,8 @@ PostgreSQL и сборка debug-APK обоих мобильных прилож�
 
 ```bash
 ./tools/hometest.sh                                     # домашний тест на телефонах
+./tools/serve_apk.py                                    # раздача APK по Wi-Fi с QR
+./tools/dispatcher_web.sh                               # панель диспетчера в браузере
 ./tools/check_outbound.sh                               # связь сервера с FCM и SMS
 ./tools/add_account.sh owner "+99365002222" "Владелец"  # служебный аккаунт
 ./tools/check_secrets.sh                                # перед публикацией

@@ -155,6 +155,62 @@ void main() {
       expect(problems, 0);
     });
 
+    test('вечерняя тестовая поездка не заваливает диспетчера', () async {
+      // Домашний прогон: поездку завели в 21:00 на 21:30 сегодня, а
+      // сторож ходит раз в минуту. За полтора часа он не должен
+      // превратить один рейс в полсотни задач — иначе список задач
+      // перестают читать, и настоящая проблема тонет в тестовой.
+      final clock = clockAtLocal(DateTime.utc(2026, 9, 23, 21, 0));
+      final today = AshgabatTime.dateOf(clock.now());
+      await ride(
+        date: today,
+        status: RideStatus.confirmed,
+        plannedTime: '21:30',
+        driverId: driver.id,
+      );
+      final service = NotificationService(clock: clock);
+
+      // Полтора часа проверок: до подачи, в момент подачи и после.
+      for (var minute = 0; minute < 90; minute++) {
+        await SilentFailureWatch.check(session, notifications: service);
+        clock.advance(const Duration(minutes: 1));
+      }
+
+      final tasks = await DispatcherTask.db.find(session);
+      expect(
+        tasks,
+        hasLength(1),
+        reason: 'один рейс — одна задача, сколько бы раз ни проверяли',
+      );
+      expect(tasks.single.kind, DispatcherTaskKind.driverNotDeparted);
+    });
+
+    test(
+      'поездка на завтра вечером даёт одну задачу, а не одну в минуту',
+      () async {
+        // После 20:00 неподтверждённая завтрашняя поездка — повод позвать
+        // диспетчера. Но ровно один раз.
+        final clock = clockAtLocal(DateTime.utc(2026, 9, 23, 21, 0));
+        final tomorrow = AshgabatTime.addDays(
+          AshgabatTime.dateOf(clock.now()),
+          1,
+        );
+        await ride(
+          date: tomorrow,
+          status: RideStatus.scheduled,
+          driverId: driver.id,
+        );
+        final service = NotificationService(clock: clock);
+
+        for (var minute = 0; minute < 60; minute++) {
+          await SilentFailureWatch.check(session, notifications: service);
+          clock.advance(const Duration(minutes: 1));
+        }
+
+        expect(await DispatcherTask.db.find(session), hasLength(1));
+      },
+    );
+
     test('повторные проверки не плодят задачи', () async {
       final clock = clockAtLocal(DateTime.utc(2026, 9, 23, 7, 21));
       final today = AshgabatTime.dateOf(clock.now());

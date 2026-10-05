@@ -2,6 +2,7 @@ import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
 import '../../generated/protocol.dart';
+import '../clock.dart';
 import 'ride_pool.dart';
 
 /// Создаёт поездки на дату из активных шаблонов маршрутов.
@@ -15,10 +16,12 @@ abstract final class RideGenerator {
   /// Возвращает число созданных поездок.
   static Future<int> generateForDate(
     Session session,
-    DateTime localDate,
-  ) async {
+    DateTime localDate, {
+    Clock clock = const Clock(),
+  }) async {
     final date = AshgabatTime.dateOf(localDate);
     final weekday = AshgabatTime.weekday(date);
+    final now = clock.now();
 
     final templates = await RouteTemplate.db.find(
       session,
@@ -28,6 +31,16 @@ abstract final class RideGenerator {
     var created = 0;
     for (final template in templates) {
       if (!template.weekdays.contains(weekday)) continue;
+
+      // Время подачи уже прошло — поездки не создаём.
+      //
+      // Диспетчер мог активировать маршрут вечером: поездка «на сегодня
+      // в 07:30» в этот момент не поездка, а мусор. Она засоряет доску
+      // дня, портит выполняемость в отчёте владельцу и тут же рождает
+      // задачу «водитель не выехал» — про рейс, который и не мог
+      // состояться.
+      final plannedUtc = AshgabatTime.atLocalTime(date, template.pickupTime);
+      if (plannedUtc.isBefore(now)) continue;
 
       final existing = await Ride.db.findFirstRow(
         session,
@@ -63,9 +76,19 @@ abstract final class RideGenerator {
   /// Создаёт поездки на сегодня и завтра по Ашхабаду.
   ///
   /// Сегодня — на случай, если маршрут активировали утром того же дня.
-  static Future<int> generateUpcoming(Session session) async {
-    final today = await generateForDate(session, AshgabatTime.today());
-    final tomorrow = await generateForDate(session, AshgabatTime.tomorrow());
-    return today + tomorrow;
+  /// Часы передаются, чтобы прогон дня не зависел от того, когда его
+  /// запустили: внутри сравнивается время подачи с «сейчас».
+  static Future<int> generateUpcoming(
+    Session session, {
+    Clock clock = const Clock(),
+  }) async {
+    final today = AshgabatTime.dateOf(clock.now());
+    final created = await generateForDate(session, today, clock: clock);
+    final tomorrow = await generateForDate(
+      session,
+      AshgabatTime.addDays(today, 1),
+      clock: clock,
+    );
+    return created + tomorrow;
   }
 }

@@ -276,7 +276,10 @@ void main() {
 
     test('школьный день целиком: утро, обратный путь, деньги, сбой', () async {
       // --- Ночью генератор создал поездки на сегодня ---------------------
-      final created = await RideGenerator.generateUpcoming(session);
+      final created = await RideGenerator.generateUpcoming(
+        session,
+        clock: clock,
+      );
       expect(created, greaterThanOrEqualTo(2), reason: 'утро и обратный путь');
 
       final today = AshgabatTime.today();
@@ -390,7 +393,7 @@ void main() {
 
       // --- Вечер: поездка на завтра осталась неподтверждённой ------------
       final tomorrow = AshgabatTime.tomorrow();
-      await RideGenerator.generateForDate(session, tomorrow);
+      await RideGenerator.generateForDate(session, tomorrow, clock: clock);
       final tomorrowRides = await Ride.db.find(
         session,
         where: (r) => r.date.equals(tomorrow),
@@ -618,7 +621,11 @@ void main() {
       }
 
       // Наша утренняя поездка.
-      await RideGenerator.generateForDate(session, AshgabatTime.today());
+      await RideGenerator.generateForDate(
+        session,
+        AshgabatTime.today(),
+        clock: clock,
+      );
       final morning = (await Ride.db.find(
         session,
         where: (r) =>

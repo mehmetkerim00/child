@@ -1,11 +1,11 @@
 {
-    "name": "dispatcher",
-    "short_name": "dispatcher",
+    "name": "Sag-Aman — диспетчер",
+    "short_name": "Sag-Aman",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Панель диспетчера Sag-Aman",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
