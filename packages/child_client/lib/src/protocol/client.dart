@@ -51,12 +51,14 @@ import 'package:child_client/src/protocol/institution_access.dart' as _i37;
 import 'package:child_client/src/protocol/owner_report.dart' as _i38;
 import 'package:child_client/src/protocol/system_health.dart' as _i39;
 import 'package:child_client/src/protocol/family_balance_row.dart' as _i40;
-import 'package:child_client/src/protocol/ride_event_submission.dart' as _i41;
-import 'package:child_client/src/protocol/tracking_state.dart' as _i42;
-import 'package:child_client/src/protocol/ride_location_point.dart' as _i43;
-import 'package:child_client/src/protocol/ride_location.dart' as _i44;
-import 'package:child_client/src/protocol/health/server_health.dart' as _i45;
-import 'protocol.dart' as _i46;
+import 'package:child_client/src/protocol/app_notification.dart' as _i41;
+import 'package:child_client/src/protocol/push_transport.dart' as _i42;
+import 'package:child_client/src/protocol/ride_event_submission.dart' as _i43;
+import 'package:child_client/src/protocol/tracking_state.dart' as _i44;
+import 'package:child_client/src/protocol/ride_location_point.dart' as _i45;
+import 'package:child_client/src/protocol/ride_location.dart' as _i46;
+import 'package:child_client/src/protocol/health/server_health.dart' as _i47;
+import 'protocol.dart' as _i48;
 
 /// Вход по номеру телефона и одноразовому коду.
 ///
@@ -942,6 +944,33 @@ class EndpointProfile extends _i1.EndpointRef {
         'myDriverProfile',
         {},
       );
+
+  /// Уведомления в открытое приложение (план Б).
+  ///
+  /// Работает всегда, но нужен тогда, когда FCM недоступен: пока
+  /// приложение открыто, человек видит события сразу, не дожидаясь SMS.
+  /// Закрытому приложению этот канал не поможет — для того и SMS.
+  _i2.Stream<_i41.AppNotification> watchNotifications() =>
+      caller.callStreamingServerEndpoint<
+        _i2.Stream<_i41.AppNotification>,
+        _i41.AppNotification
+      >(
+        'profile',
+        'watchNotifications',
+        {},
+        {},
+      );
+
+  /// Как сервис доставляет push прямо сейчас.
+  ///
+  /// Приложение спрашивает об этом при входе: на плане Б оно держит
+  /// WebSocket открытым, пока показано на экране.
+  _i2.Future<_i42.PushTransport> pushTransport() =>
+      caller.callServerEndpoint<_i42.PushTransport>(
+        'profile',
+        'pushTransport',
+        {},
+      );
 }
 
 /// Поездки глазами водителя: сегодня, завтра и подтверждение накануне.
@@ -996,7 +1025,7 @@ class EndpointRides extends _i1.EndpointRef {
   /// далее. Работает и для событий из офлайн-очереди, отправленных позже.
   _i2.Future<_i25.Ride> submitEvent(
     int rideId,
-    _i41.RideEventSubmission submission,
+    _i43.RideEventSubmission submission,
   ) => caller.callServerEndpoint<_i25.Ride>(
     'rides',
     'submitEvent',
@@ -1018,10 +1047,10 @@ class EndpointRides extends _i1.EndpointRef {
   ///
   /// Сервер сам решает, можно ли писать геолокацию: вне активной поездки
   /// точки отбрасываются и приложению возвращается запрет.
-  _i2.Future<_i42.TrackingState> pushLocations(
+  _i2.Future<_i44.TrackingState> pushLocations(
     int rideId,
-    List<_i43.RideLocationPoint> points,
-  ) => caller.callServerEndpoint<_i42.TrackingState>(
+    List<_i45.RideLocationPoint> points,
+  ) => caller.callServerEndpoint<_i44.TrackingState>(
     'rides',
     'pushLocations',
     {
@@ -1117,8 +1146,8 @@ class EndpointRoutes extends _i1.EndpointRef {
       );
 
   /// Трек поездки ребёнка: путь, который уже проехали.
-  _i2.Future<List<_i44.RideLocation>> rideTrack(int rideId) =>
-      caller.callServerEndpoint<List<_i44.RideLocation>>(
+  _i2.Future<List<_i46.RideLocation>> rideTrack(int rideId) =>
+      caller.callServerEndpoint<List<_i46.RideLocation>>(
         'routes',
         'rideTrack',
         {'rideId': rideId},
@@ -1128,10 +1157,10 @@ class EndpointRoutes extends _i1.EndpointRef {
   ///
   /// Поток живёт, пока открыт экран поездки: родитель видит машину,
   /// пока она едет.
-  _i2.Stream<_i44.RideLocation> watchRideLocation(int rideId) =>
+  _i2.Stream<_i46.RideLocation> watchRideLocation(int rideId) =>
       caller.callStreamingServerEndpoint<
-        _i2.Stream<_i44.RideLocation>,
-        _i44.RideLocation
+        _i2.Stream<_i46.RideLocation>,
+        _i46.RideLocation
       >(
         'routes',
         'watchRideLocation',
@@ -1206,8 +1235,8 @@ class EndpointHealth extends _i1.EndpointRef {
   @override
   String get name => 'health';
 
-  _i2.Future<_i45.ServerHealth> ping() =>
-      caller.callServerEndpoint<_i45.ServerHealth>(
+  _i2.Future<_i47.ServerHealth> ping() =>
+      caller.callServerEndpoint<_i47.ServerHealth>(
         'health',
         'ping',
         {},
@@ -1234,7 +1263,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i46.Protocol(),
+         _i48.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

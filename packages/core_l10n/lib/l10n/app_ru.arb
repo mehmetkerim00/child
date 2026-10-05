@@ -1,8 +1,8 @@
 {
   "@@locale": "ru",
-  "appTitleParent": "Child — родителям",
-  "appTitleDriver": "Child — водитель",
-  "appTitleDispatcher": "Child — диспетчер",
+  "appTitleParent": "Sag-Aman",
+  "appTitleDriver": "Sag-Aman Водитель",
+  "appTitleDispatcher": "Sag-Aman Диспетчер",
   "flavorBadge": "Среда: {flavor}",
   "@flavorBadge": {
     "placeholders": {

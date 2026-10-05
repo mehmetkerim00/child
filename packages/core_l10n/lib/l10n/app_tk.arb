@@ -1,8 +1,8 @@
 {
   "@@locale": "tk",
-  "appTitleParent": "Child — ene-atalar üçin",
-  "appTitleDriver": "Child — sürüji",
-  "appTitleDispatcher": "Child — dispetçer",
+  "appTitleParent": "Sag-Aman",
+  "appTitleDriver": "Sag-Aman Sürüji",
+  "appTitleDispatcher": "Sag-Aman Dispetçer",
   "flavorBadge": "Gurşaw: {flavor}",
   "language": "Dil",
   "languageRu": "Русский",

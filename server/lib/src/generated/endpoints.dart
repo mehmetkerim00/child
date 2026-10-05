@@ -1673,6 +1673,29 @@ class Endpoints extends _i1.EndpointDispatch {
               ) async => (endpoints['profile'] as _i9.ProfileEndpoint)
                   .myDriverProfile(session),
         ),
+        'pushTransport': _i1.MethodConnector(
+          name: 'pushTransport',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['profile'] as _i9.ProfileEndpoint)
+                  .pushTransport(session),
+        ),
+        'watchNotifications': _i1.MethodStreamConnector(
+          name: 'watchNotifications',
+          params: {},
+          streamParams: {},
+          returnType: _i1.MethodStreamReturnType.streamType,
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+                Map<String, Stream> streamParams,
+              ) => (endpoints['profile'] as _i9.ProfileEndpoint)
+                  .watchNotifications(session),
+        ),
       },
     );
     connectors['rides'] = _i1.EndpointConnector(

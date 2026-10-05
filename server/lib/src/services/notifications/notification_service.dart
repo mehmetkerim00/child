@@ -6,7 +6,9 @@ import '../clock.dart';
 import '../sms/sms_gateway.dart';
 import '../sms/sms_text.dart';
 import 'notification_texts.dart';
+import 'push_availability.dart';
 import 'push_gateway.dart';
+import 'websocket_push.dart';
 
 /// Каскад доставки уведомлений (MVP_PLAN §6).
 ///
@@ -24,12 +26,17 @@ class NotificationService {
     this.clock = const Clock(),
     PushGateway? push,
     SmsGateway? sms,
+    PushAvailability? availability,
   }) : push = push ?? pushGateway,
-       sms = sms ?? smsGateway;
+       sms = sms ?? smsGateway,
+       availability = availability ?? pushAvailability;
 
   final Clock clock;
   final PushGateway push;
   final SmsGateway sms;
+
+  /// Доступен ли FCM. Когда нет — включается план Б (WebSocket + SMS).
+  final PushAvailability availability;
 
   /// Сколько ждём подтверждения push, прежде чем слать SMS.
   static const ackWindow = Duration(seconds: 90);
@@ -183,6 +190,34 @@ class NotificationService {
     return pushRow;
   }
 
+  /// Язык, на котором писать заголовок уведомления.
+  ///
+  /// У семьи он задан, у водителя и диспетчера своего языка нет — им
+  /// пишем по-русски, как и в остальной рабочей переписке.
+  Future<String> _localeFor(Session session, NotificationOutbox row) async {
+    final familyId = row.familyId;
+    if (familyId == null) return 'ru';
+    final family = await Family.db.findById(session, familyId);
+    return NotificationTexts.normalize(family?.locale ?? 'ru');
+  }
+
+  /// Сообщает диспетчеру, что сервис работает на плане Б.
+  ///
+  /// Одна задача в сутки: это состояние, а не происшествие, и каждые
+  /// пять минут напоминать о нём бессмысленно. Но знать о нём нужно —
+  /// на плане Б уведомления стоят денег и доходят хуже.
+  Future<void> _warnPushDown(Session session, DateTime now) async {
+    final day = AshgabatTime.dateOf(now).toIso8601String();
+    await createTask(
+      session,
+      kind: DispatcherTaskKind.systemDegraded,
+      dedupeKey: 'push-down:$day',
+      text:
+          'FCM недоступен: уведомления идут в открытое приложение и по SMS. '
+          'Проверьте связь сервера с fcm.googleapis.com.',
+    );
+  }
+
   /// Можно ли слать SMS по этому адресату.
   ///
   /// Настройка уровня SMS принадлежит семье. У водителя, диспетчера и
@@ -290,15 +325,25 @@ class NotificationService {
     String? error;
     try {
       if (row.channel == NotificationChannel.push) {
-        delivered = await push.send(
-          session,
-          recipientPhone: row.recipientPhone,
-          title: NotificationTexts.title(
-            row.recipientRole == AccountRole.parent ? 'ru' : 'ru',
-          ),
-          body: row.body,
-          outboxId: row.id!,
-        );
+        final locale = await _localeFor(session, row);
+        final title = NotificationTexts.title(locale);
+
+        // План Б включается сам: если FCM недоступен (а из туркменского
+        // дата-центра он может быть закрыт), push идёт в открытое
+        // приложение по WebSocket. Это слабее push, поэтому рядом
+        // всегда остаётся SMS.
+        if (await availability.isAvailable()) {
+          delivered = await push.send(
+            session,
+            recipientPhone: row.recipientPhone,
+            title: title,
+            body: row.body,
+            outboxId: row.id!,
+          );
+        } else {
+          delivered = await WebSocketPush.send(session, row, title: title);
+          await _warnPushDown(session, now);
+        }
       } else {
         // Длинный текст режем сами и по словам: иначе оператор разрежет
         // его по счётчику символов, и родитель получит «Мерет переда»

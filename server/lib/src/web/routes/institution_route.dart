@@ -168,7 +168,7 @@ class InstitutionRoute extends WidgetRoute {
         'title': title,
         'content': content,
         'locale': locale,
-        'footer': WebTexts.t('footer', locale),
+        'footer': WebTexts.footer(locale),
       },
     );
   }

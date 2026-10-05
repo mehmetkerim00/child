@@ -1,0 +1,5 @@
+### Каким каналом сервер доставляет push прямо сейчас.
+enum: PushTransport
+values:
+  - fcm        ### обычный путь: Firebase Cloud Messaging
+  - websocket  ### план Б: FCM недоступен, уведомления идут в открытое приложение

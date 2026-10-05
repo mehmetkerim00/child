@@ -15,7 +15,7 @@ plugins {
 }
 
 android {
-    namespace = "com.childapp.child.parent"
+    namespace = "com.sagaman.parent"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -29,10 +29,9 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.childapp.child.parent"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        // Бренд Sag-Aman. После публикации в Google Play applicationId
+        // менять нельзя — он навсегда.
+        applicationId = "com.sagaman.parent"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -48,6 +47,25 @@ android {
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
             }
+        }
+    }
+
+    // Два варианта сборки. prod — то, что ставят семьи. hometest — для
+    // проверки на домашнем Wi-Fi: ему разрешён адрес без шифрования,
+    // потому что сервер на ноутбуке работает по http. Разрешать это
+    // обычному релизу нельзя: приложение возит детей, и трафик с их
+    // адресами не должен уходить открытым.
+    flavorDimensions += "mode"
+    productFlavors {
+        create("prod") {
+            dimension = "mode"
+        }
+        create("hometest") {
+            dimension = "mode"
+            // Своё имя пакета: домашняя сборка ставится рядом с обычной
+            // и не затирает её.
+            applicationIdSuffix = ".hometest"
+            versionNameSuffix = "-hometest"
         }
     }
 

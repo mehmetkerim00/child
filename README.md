@@ -82,6 +82,8 @@ PostgreSQL и сборка debug-APK обоих мобильных прилож�
 ## Эксплуатация
 
 ```bash
+./tools/hometest.sh                                     # домашний тест на телефонах
+./tools/check_outbound.sh                               # связь сервера с FCM и SMS
 ./tools/add_account.sh owner "+99365002222" "Владелец"  # служебный аккаунт
 ./tools/check_secrets.sh                                # перед публикацией
 dart tools/load_test.dart --drivers 200 --rides 1       # нагрузка боевым путём
@@ -90,6 +92,8 @@ tools/restore_check.sh <файл>                           # проверка �
 tools/watchdog.sh https://api.example.tm                # с ДРУГОЙ машины
 ```
 
+- Боевой запуск на хостинге: [deploy/README.md](deploy/README.md)
+- Тексты для Google Play: [docs/store/](docs/store/)
 - Мониторинг и тревоги: [docs/monitoring.md](docs/monitoring.md)
 - Бэкапы и восстановление: [docs/backup.md](docs/backup.md)
 - Откат релиза: [docs/release-rollback.md](docs/release-rollback.md)

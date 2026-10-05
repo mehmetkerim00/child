@@ -85,6 +85,8 @@ profile:
   - myChildren:
   - myDrivers:
   - myDriverProfile:
+  - watchNotifications:
+  - pushTransport:
 rides:
   - today:
   - tomorrow:

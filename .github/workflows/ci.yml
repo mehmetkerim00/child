@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: ./tools/check_secrets.sh
+      # Домен зашит в APK: опечатка ловится здесь за секунду, после
+      # раздачи — новой версией у каждой семьи.
+      - run: ./tools/check_brand.sh
 
   analyze-test:
     runs-on: ubuntu-latest
@@ -72,10 +75,10 @@ jobs:
       - run: flutter pub get
       - name: APK родителя
         working-directory: apps/parent
-        run: flutter build apk --debug --split-per-abi --dart-define=FLAVOR=dev
+        run: flutter build apk --debug --flavor prod --split-per-abi --dart-define=FLAVOR=dev
       - name: APK водителя
         working-directory: apps/driver
-        run: flutter build apk --debug --split-per-abi --dart-define=FLAVOR=dev
+        run: flutter build apk --debug --flavor prod --split-per-abi --dart-define=FLAVOR=dev
       - uses: actions/upload-artifact@v4
         with:
           name: apk-debug

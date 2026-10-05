@@ -64,7 +64,10 @@ abstract class Family implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   /// Телефон родителя-владельца в формате +993XXXXXXXX.
   String ownerPhone;
 
-  /// Язык интерфейса и SMS: ru или tk.
+  /// Язык интерфейса и SMS: ru, tk или en.
+  ///
+  /// На нём же приходят push и SMS: семья читает их в переписке с
+  /// сервисом, а не в приложении, и чужой язык там особенно заметен.
   String locale;
 
   _i2.SmsLevel smsLevel;
@@ -251,7 +254,10 @@ class FamilyTable extends _i1.Table<int?> {
   /// Телефон родителя-владельца в формате +993XXXXXXXX.
   late final _i1.ColumnString ownerPhone;
 
-  /// Язык интерфейса и SMS: ru или tk.
+  /// Язык интерфейса и SMS: ru, tk или en.
+  ///
+  /// На нём же приходят push и SMS: семья читает их в переписке с
+  /// сервисом, а не в приложении, и чужой язык там особенно заметен.
   late final _i1.ColumnString locale;
 
   late final _i1.ColumnEnum<_i2.SmsLevel> smsLevel;

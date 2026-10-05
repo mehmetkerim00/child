@@ -1,3 +1,4 @@
+import '../../brand.dart';
 import '../../generated/protocol.dart';
 
 /// Тексты уведомлений на языке семьи.
@@ -38,9 +39,9 @@ abstract final class NotificationTexts {
 
   /// Заголовок push.
   static String title(String locale) => switch (normalize(locale)) {
-    'tk' => 'Child: ýol',
-    'en' => 'Child: ride',
-    _ => 'Child: поездка',
+    'tk' => '${Brand.name}: ýol',
+    'en' => '${Brand.name}: ride',
+    _ => '${Brand.name}: поездка',
   };
 
   /// Текст уведомления родителю.

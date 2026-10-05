@@ -1,3 +1,5 @@
+import '../brand.dart';
+
 /// Строки страницы учреждения на трёх языках.
 ///
 /// Живут на сервере, а не в core_l10n: страницу отдаёт веб-сервер,
@@ -53,12 +55,10 @@ abstract final class WebTexts {
     },
     'yourName': {'ru': 'Ваше имя', 'tk': 'Adyňyz', 'en': 'Your name'},
     'accept': {'ru': 'Принял(а)', 'tk': 'Kabul etdim', 'en': 'I received'},
-    'footer': {
-      'ru': 'Child — безопасные детские перевозки',
-      'tk': 'Child — çagalary howpsuz gatnatmak',
-      'en': 'Child — safe rides for children',
-    },
   };
+
+  /// Подпись сервиса внизу страницы — из одного места с SMS и push.
+  static String footer(String locale) => Brand.tagline(locale);
 
   /// Строка на нужном языке; незнакомый язык — русский.
   static String t(String key, String locale) {

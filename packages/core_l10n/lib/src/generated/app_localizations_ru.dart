@@ -9,13 +9,13 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitleParent => 'Child — родителям';
+  String get appTitleParent => 'Sag-Aman';
 
   @override
-  String get appTitleDriver => 'Child — водитель';
+  String get appTitleDriver => 'Sag-Aman Водитель';
 
   @override
-  String get appTitleDispatcher => 'Child — диспетчер';
+  String get appTitleDispatcher => 'Sag-Aman Диспетчер';
 
   @override
   String flavorBadge(String flavor) {

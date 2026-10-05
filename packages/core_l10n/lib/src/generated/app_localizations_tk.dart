@@ -9,13 +9,13 @@ class AppLocalizationsTk extends AppLocalizations {
   AppLocalizationsTk([String locale = 'tk']) : super(locale);
 
   @override
-  String get appTitleParent => 'Child — ene-atalar üçin';
+  String get appTitleParent => 'Sag-Aman';
 
   @override
-  String get appTitleDriver => 'Child — sürüji';
+  String get appTitleDriver => 'Sag-Aman Sürüji';
 
   @override
-  String get appTitleDispatcher => 'Child — dispetçer';
+  String get appTitleDispatcher => 'Sag-Aman Dispetçer';
 
   @override
   String flavorBadge(String flavor) {

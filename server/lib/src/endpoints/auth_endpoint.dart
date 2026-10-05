@@ -1,5 +1,6 @@
 import 'package:serverpod/serverpod.dart';
 
+import '../brand.dart';
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
 import '../services/security/rate_limiter.dart';
@@ -45,7 +46,7 @@ class AuthEndpoint extends Endpoint {
     await smsGateway.send(
       session,
       phone: phone,
-      body: 'Child: код для входа $code',
+      body: '${Brand.name}: код для входа $code',
     );
   }
 

@@ -1,0 +1,15 @@
+### Уведомление, доставленное в приложение по WebSocket.
+###
+### План Б на случай, когда FCM недоступен (туркменский хостинг может не
+### пускать сервисы Google). Пока приложение открыто, оно получает
+### уведомления этим каналом; всё, что нельзя пропустить, дублируется SMS.
+class: AppNotification
+fields:
+  ### Строка очереди: приложение вернёт этот id в ack.
+  outboxId: int
+  eventKind: String
+  title: String
+  body: String
+  critical: bool
+  rideId: int?
+  at: DateTime

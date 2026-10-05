@@ -103,19 +103,19 @@ abstract class AppLocalizations {
   /// No description provided for @appTitleParent.
   ///
   /// In ru, this message translates to:
-  /// **'Child — родителям'**
+  /// **'Sag-Aman'**
   String get appTitleParent;
 
   /// No description provided for @appTitleDriver.
   ///
   /// In ru, this message translates to:
-  /// **'Child — водитель'**
+  /// **'Sag-Aman Водитель'**
   String get appTitleDriver;
 
   /// No description provided for @appTitleDispatcher.
   ///
   /// In ru, this message translates to:
-  /// **'Child — диспетчер'**
+  /// **'Sag-Aman Диспетчер'**
   String get appTitleDispatcher;
 
   /// No description provided for @flavorBadge.

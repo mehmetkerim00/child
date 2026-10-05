@@ -29,9 +29,20 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.42
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
+
+# Иконка-заглушка: монограмма Sag-Aman. Дизайнерскую подставим позже —
+# достаточно заменить файлы в assets/brand и перегенерировать:
+#   dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "../../assets/brand/icon.png"
+  adaptive_icon_background: "#1E5AA8"
+  adaptive_icon_foreground: "../../assets/brand/icon_foreground.png"

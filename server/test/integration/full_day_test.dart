@@ -80,8 +80,13 @@ void main() {
     /// Сиды: одна семья, один ребёнок, один водитель, школа и два маршрута.
     setUp(() async {
       session = sessionBuilder.build();
-      // Утро школьного дня: 06:30 по Ашхабаду.
-      clock = TestClock(AshgabatTime.toUtc(DateTime.utc(2026, 9, 23, 6, 30)));
+      // Утро школьного дня — сегодняшнего, а не того, в который писали
+      // тест. Генератор поездок живёт по настоящему календарю, и
+      // прибитая дата означала бы, что прогон «зелёный» ровно один день,
+      // а дальше краснеет перед каждым релизом и его перестают читать.
+      clock = TestClock(
+        AshgabatTime.atLocalTime(AshgabatTime.today(), '06:30'),
+      );
       push = _CapturedPush();
       sms = _CapturedSms();
       notifications = NotificationService(clock: clock, push: push, sms: sms);

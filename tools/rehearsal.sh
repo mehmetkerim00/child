@@ -14,8 +14,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-echo "==> 1/5 Секреты"
+echo "==> 1/5 Секреты и домен"
 ./tools/check_secrets.sh
+./tools/check_brand.sh
 
 echo
 echo "==> 2/5 Форматирование и анализ"
@@ -38,11 +39,12 @@ echo "==> 5/5 Релизные APK (подписанные, по одному н
 if [ -f "$HOME/child-keys/key.properties" ]; then
   for app in parent driver; do
     echo "--- $app"
-    (cd "apps/$app" && flutter build apk --release --split-per-abi --dart-define=FLAVOR=prod)
+    (cd "apps/$app" && flutter build apk --release --flavor prod \
+      --split-per-abi --dart-define=FLAVOR=prod)
   done
   echo
   echo "Готовые APK:"
-  ls -la apps/*/build/app/outputs/flutter-apk/app-*-release.apk 2>/dev/null || true
+  ls -la apps/*/build/app/outputs/flutter-apk/app-*-prod-release.apk 2>/dev/null || true
 else
   echo "Ключа подписи нет (~/child-keys/key.properties) — релизные APK пропущены."
   echo "См. docs/keystore-backup.md"

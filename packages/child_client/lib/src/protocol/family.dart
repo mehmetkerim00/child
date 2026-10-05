@@ -62,7 +62,10 @@ abstract class Family implements _i1.SerializableModel {
   /// Телефон родителя-владельца в формате +993XXXXXXXX.
   String ownerPhone;
 
-  /// Язык интерфейса и SMS: ru или tk.
+  /// Язык интерфейса и SMS: ru, tk или en.
+  ///
+  /// На нём же приходят push и SMS: семья читает их в переписке с
+  /// сервисом, а не в приложении, и чужой язык там особенно заметен.
   String locale;
 
   _i2.SmsLevel smsLevel;

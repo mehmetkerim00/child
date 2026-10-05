@@ -1,4 +1,4 @@
-# Проект child — регулярные детские перевозки
+# Проект Sag-Aman (репозиторий child) — регулярные детские перевозки
 
 Документы проекта — в приватном репозитории `mehmetkerim00/child-docs`:
 `MVP_PLAN.md` (спецификация), `RESEARCH.md` (рынок), `PROGRESS.md`
@@ -13,6 +13,10 @@
 - Бизнес-логика — только в packages/core_domain (чистый Dart, без Flutter).
 - State: Riverpod 2. Навигация: go_router. Модели: freezed.
 - Карты: flutter_map (OSM). НЕ использовать google_maps_flutter.
+- Бренд в текстах — только через Brand.name (сервер) и app_*.arb (клиент).
+  applicationId com.sagaman.parent / com.sagaman.driver менять нельзя.
+- Адрес сервера в сборке — доменное имя, не IP: переезд хостинга не
+  должен требовать новой версии APK у семей.
 - Ни одно критическое уведомление не полагается только на FCM — всё через
   NotificationOutbox на сервере с SMS-фолбэком.
 - Водительское приложение offline-first: события поездки — через drift-очередь.

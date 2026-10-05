@@ -1,6 +1,7 @@
 import 'package:core_domain/core_domain.dart' show AshgabatTime;
 import 'package:serverpod/serverpod.dart';
 
+import '../../brand.dart';
 import '../../generated/protocol.dart';
 import '../clock.dart';
 import '../notifications/notification_service.dart';
@@ -170,7 +171,7 @@ class MonitoringService {
           eventKind: 'system.degraded',
           phone: owner.phone,
           role: AccountRole.owner,
-          body: 'Child: сбой сервиса. ${health.problems.join('. ')}',
+          body: '${Brand.name}: сбой сервиса. ${health.problems.join('. ')}',
           critical: true,
         );
       }

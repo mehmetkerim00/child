@@ -9,13 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitleParent => 'Child — for parents';
+  String get appTitleParent => 'Sag-Aman';
 
   @override
-  String get appTitleDriver => 'Child — driver';
+  String get appTitleDriver => 'Sag-Aman Driver';
 
   @override
-  String get appTitleDispatcher => 'Child — dispatcher';
+  String get appTitleDispatcher => 'Sag-Aman Dispatcher';
 
   @override
   String flavorBadge(String flavor) {

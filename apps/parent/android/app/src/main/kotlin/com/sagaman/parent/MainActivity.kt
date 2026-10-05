@@ -1,4 +1,4 @@
-package com.childapp.child.driver
+package com.sagaman.parent
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -37,7 +37,7 @@ alert() {
   echo "$now ТРЕВОГА: $message" >> "$LOG"
   if [ -n "${WATCHDOG_ALERT:-}" ]; then
     # shellcheck disable=SC2086
-    eval ${WATCHDOG_ALERT}"'Child: $message'" || true
+    eval ${WATCHDOG_ALERT}"'Sag-Aman: $message'" || true
   else
     echo "ТРЕВОГА: $message" >&2
   fi

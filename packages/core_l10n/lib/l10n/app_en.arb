@@ -1,8 +1,8 @@
 {
   "@@locale": "en",
-  "appTitleParent": "Child — for parents",
-  "appTitleDriver": "Child — driver",
-  "appTitleDispatcher": "Child — dispatcher",
+  "appTitleParent": "Sag-Aman",
+  "appTitleDriver": "Sag-Aman Driver",
+  "appTitleDispatcher": "Sag-Aman Dispatcher",
   "flavorBadge": "Environment: {flavor}",
   "language": "Language",
   "languageRu": "Русский",
