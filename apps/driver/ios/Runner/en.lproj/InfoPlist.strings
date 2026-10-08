@@ -1,0 +1,8 @@
+/* Название на телефоне. Берётся по языку системы. */
+"CFBundleDisplayName" = "Sag-Aman Driver";
+"CFBundleName" = "Sag-Aman Driver";
+
+/* Зачем приложению геолокация — это читает водитель в
+   системном запросе, и формулировка здесь важнее кода. */
+"NSLocationWhenInUseUsageDescription" = "Sag-Aman shows parents where the vehicle carrying their child is. Access is needed only during a ride.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "So parents can see the vehicle for the whole ride, even when the app is in the background or the screen is off.";

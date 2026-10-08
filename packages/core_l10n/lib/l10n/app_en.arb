@@ -372,5 +372,7 @@
   "serverAddressSaved": "Address saved",
   "serverAddressReset": "Restore the built-in address",
   "serverAddressWhy": "Home test: if the router gave the laptop a different address, type the new one — no need to rebuild the app.",
-  "serverAddressCurrent": "Now: {url}"
+  "serverAddressCurrent": "Now: {url}",
+  "planBBannerTitle": "Push is unavailable",
+  "planBBannerBody": "While the app is open, events arrive here. Anything important also arrives by SMS."
 }

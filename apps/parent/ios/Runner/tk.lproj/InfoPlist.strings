@@ -1,0 +1,3 @@
+/* Название на телефоне. Берётся по языку системы. */
+"CFBundleDisplayName" = "Sag-Aman";
+"CFBundleName" = "Sag-Aman";

@@ -1196,4 +1196,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String serverAddressCurrent(String url) {
     return 'Now: $url';
   }
+
+  @override
+  String get planBBannerTitle => 'Push is unavailable';
+
+  @override
+  String get planBBannerBody =>
+      'While the app is open, events arrive here. Anything important also arrives by SMS.';
 }

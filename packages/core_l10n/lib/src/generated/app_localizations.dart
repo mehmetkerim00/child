@@ -2337,6 +2337,18 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сейчас: {url}'**
   String serverAddressCurrent(String url);
+
+  /// No description provided for @planBBannerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Push недоступен'**
+  String get planBBannerTitle;
+
+  /// No description provided for @planBBannerBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока приложение открыто, события приходят сюда. Важное дополнительно придёт SMS.'**
+  String get planBBannerBody;
 }
 
 class _AppLocalizationsDelegate

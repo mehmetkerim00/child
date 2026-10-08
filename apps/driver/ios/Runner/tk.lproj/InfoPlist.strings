@@ -1,0 +1,8 @@
+/* Название на телефоне. Берётся по языку системы. */
+"CFBundleDisplayName" = "Sag-Aman Sürüji";
+"CFBundleName" = "Sag-Aman Sürüji";
+
+/* Зачем приложению геолокация — это читает водитель в
+   системном запросе, и формулировка здесь важнее кода. */
+"NSLocationWhenInUseUsageDescription" = "Sag-Aman ene-atalara çagasy bilen awtoulagyň nirede barýanyny görkezýär. Rugsat diňe gatnaw wagtynda gerek.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Ene-atalar awtoulagy tutuş gatnawyň dowamynda görmegi üçin — programma ýygnalanda-da, ekran sönende-de.";

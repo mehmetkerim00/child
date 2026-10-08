@@ -16,7 +16,7 @@
 Фигурные скобки вроде `{name}` — подстановка (имя, время,
 количество). Их нужно сохранить в переводе как есть.
 
-Всего строк: 363
+Всего строк: 367
 
 | Ключ | Русский | English | Туркменский | Правка |
 |---|---|---|---|---|
@@ -383,3 +383,17 @@
 | `ownerRouteSum` | Сумма по маршрутам | Routes total | Ugurlar boýunça jemi | |
 | `ownerRouteSumHint` | Без гарантированной оплаты блоков | Without the guaranteed block pay | Bloklaryň kepillendirilen tölegi hasaba alynmazdan | |
 | `ownerTotalWithBlocks` | Итого с учётом стоимости блоков | Total including block cost | Bloklaryň bahasy bilen jemi | |
+
+### Добавлено 8 октября 2026
+
+Две нижние строки — тексты системного запроса iOS. Их читает
+водитель в момент, когда телефон спрашивает про геолокацию.
+Отказ в доступе ломает трекинг, то есть родитель перестаёт
+видеть машину, — поэтому формулировка здесь важнее кода.
+
+| Ключ | Русский | English | Туркменский | Правка |
+|---|---|---|---|---|
+| `planBBannerTitle` | Push недоступен | Push is unavailable | Push elýeterli däl | |
+| `planBBannerBody` | Пока приложение открыто, события приходят сюда. Важное дополнительно придёт SMS. | While the app is open, events arrive here. Anything important also arrives by SMS. | Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär. | |
+| `NSLocationWhenInUseUsageDescription (iOS)` | Sag-Aman показывает родителям, где едет машина с их ребёнком. Доступ нужен только во время поездки. | Sag-Aman shows parents where the vehicle carrying their child is. Access is needed only during a ride. | Sag-Aman ene-atalara çagasy bilen awtoulagyň nirede barýanyny görkezýär. Rugsat diňe gatnaw wagtynda gerek. | |
+| `NSLocationAlwaysAndWhenInUseUsageDescription (iOS)` | Чтобы родители видели машину всю поездку, даже когда приложение свёрнуто или экран погас. | So parents can see the vehicle for the whole ride, even when the app is in the background or the screen is off. | Ene-atalar awtoulagy tutuş gatnawyň dowamynda görmegi üçin — programma ýygnalanda-da, ekran sönende-de. | |

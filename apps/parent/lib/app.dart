@@ -1,3 +1,4 @@
+import 'package:core_auth/core_auth.dart';
 import 'package:core_l10n/core_l10n.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class App extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: childLocalizationsDelegates,
       routerConfig: ref.watch(routerProvider),
+      // Уведомления плана Б показываются внутри MaterialApp:
+      // снаружи нет ScaffoldMessenger, который их рисует.
+      builder: (context, child) =>
+          PlanBNotifications(child: child ?? const SizedBox.shrink()),
       debugShowCheckedModeBanner: false,
     );
   }

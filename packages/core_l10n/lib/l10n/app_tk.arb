@@ -372,5 +372,7 @@
   "serverAddressSaved": "Salgy ýatda saklandy",
   "serverAddressReset": "Gurnamadaky salgyny gaýtar",
   "serverAddressWhy": "Öý synagy: router noutbuga başga salgy berse, täzesini ýazyň — programmany täzeden ýygnamak gerek däl.",
-  "serverAddressCurrent": "Häzir: {url}"
+  "serverAddressCurrent": "Häzir: {url}",
+  "planBBannerTitle": "Push elýeterli däl",
+  "planBBannerBody": "Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär."
 }

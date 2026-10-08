@@ -1187,4 +1187,11 @@ class AppLocalizationsTk extends AppLocalizations {
   String serverAddressCurrent(String url) {
     return 'Häzir: $url';
   }
+
+  @override
+  String get planBBannerTitle => 'Push elýeterli däl';
+
+  @override
+  String get planBBannerBody =>
+      'Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär.';
 }

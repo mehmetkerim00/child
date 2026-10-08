@@ -7,6 +7,7 @@ library;
 export 'package:child_client/child_client.dart'
     show
         AccountRole,
+        AppNotification,
         AuthException,
         AuthFailureReason,
         AuthResult,
@@ -64,6 +65,7 @@ export 'package:child_client/child_client.dart'
         RouteTemplate,
         TrainingResult,
         TrackingState,
+        PushTransport,
         ServerHealth,
         SmsLevel,
         VettingStatus;
@@ -75,6 +77,7 @@ export 'src/api/directory_providers.dart';
 export 'src/api/money_providers.dart';
 export 'src/api/owner_providers.dart';
 export 'src/api/ride_providers.dart';
+export 'src/api/notification_providers.dart';
 export 'src/api/providers.dart';
 export 'src/auth/auth_controller.dart';
 export 'src/auth/token_storage.dart';

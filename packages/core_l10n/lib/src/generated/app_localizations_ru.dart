@@ -1189,4 +1189,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String serverAddressCurrent(String url) {
     return 'Сейчас: $url';
   }
+
+  @override
+  String get planBBannerTitle => 'Push недоступен';
+
+  @override
+  String get planBBannerBody =>
+      'Пока приложение открыто, события приходят сюда. Важное дополнительно придёт SMS.';
 }

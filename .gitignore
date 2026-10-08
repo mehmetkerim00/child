@@ -13,3 +13,6 @@ server/config/firebase_service_account_key.json
 
 # Логи домашнего теста: локальные, содержат коды входа
 .hometest-*.log
+
+# Логи сборок iOS
+.ios-*.log
