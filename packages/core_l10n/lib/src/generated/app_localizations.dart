@@ -2277,6 +2277,66 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Итого с учётом стоимости блоков'**
   String get ownerTotalWithBlocks;
+
+  /// No description provided for @serverAddressTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес сервера'**
+  String get serverAddressTitle;
+
+  /// No description provided for @serverAddressHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'http://192.168.1.5:8180/'**
+  String get serverAddressHint;
+
+  /// No description provided for @serverAddressCheck.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверить связь'**
+  String get serverAddressCheck;
+
+  /// No description provided for @serverAddressOk.
+  ///
+  /// In ru, this message translates to:
+  /// **'Связь есть: сервер {version}'**
+  String serverAddressOk(String version);
+
+  /// No description provided for @serverAddressFail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер не отвечает по этому адресу'**
+  String get serverAddressFail;
+
+  /// No description provided for @serverAddressInvalid.
+  ///
+  /// In ru, this message translates to:
+  /// **'Это не похоже на адрес сервера'**
+  String get serverAddressInvalid;
+
+  /// No description provided for @serverAddressSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес сохранён'**
+  String get serverAddressSaved;
+
+  /// No description provided for @serverAddressReset.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернуть адрес из сборки'**
+  String get serverAddressReset;
+
+  /// No description provided for @serverAddressWhy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Домашний тест: если роутер выдал ноутбуку другой адрес, впишите новый — пересобирать приложение не нужно.'**
+  String get serverAddressWhy;
+
+  /// No description provided for @serverAddressCurrent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас: {url}'**
+  String serverAddressCurrent(String url);
 }
 
 class _AppLocalizationsDelegate

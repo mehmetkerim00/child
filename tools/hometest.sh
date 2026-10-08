@@ -45,7 +45,7 @@ echo
 for app in parent driver; do
   echo "--- $app"
   (cd "apps/$app" && flutter build apk --release --flavor hometest \
-    --dart-define=FLAVOR=dev --dart-define="SERVER_URL=$URL")
+    --dart-define=FLAVOR=hometest --dart-define="SERVER_URL=$URL")
 done
 
 echo
@@ -65,6 +65,10 @@ cat <<INSTRUCTIONS
    (Android спросит разрешение на установку — разрешите.)
 5. Входите по номеру; код придёт не в SMS, а напечатается в окне,
    где запущен сервер.
+
+Сменился Wi-Fi и адрес ноутбука стал другим? Пересобирать не нужно:
+на экране входа есть поле «Адрес сервера» — впишите новый и нажмите
+«Проверить связь». В боевой сборке такого поля нет.
 
 Поездку заводите на сегодня: в маршруте укажите время подачи на
 несколько минут вперёд. Поездку на уже прошедшее время сервер не

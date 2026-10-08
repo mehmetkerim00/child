@@ -362,5 +362,15 @@
   "taskSystemDegraded": "Service failure",
   "ownerRouteSum": "Routes total",
   "ownerRouteSumHint": "Without the guaranteed block pay",
-  "ownerTotalWithBlocks": "Total including block cost"
+  "ownerTotalWithBlocks": "Total including block cost",
+  "serverAddressTitle": "Server address",
+  "serverAddressHint": "http://192.168.1.5:8180/",
+  "serverAddressCheck": "Check connection",
+  "serverAddressOk": "Connected: server {version}",
+  "serverAddressFail": "The server does not answer at this address",
+  "serverAddressInvalid": "That does not look like a server address",
+  "serverAddressSaved": "Address saved",
+  "serverAddressReset": "Restore the built-in address",
+  "serverAddressWhy": "Home test: if the router gave the laptop a different address, type the new one — no need to rebuild the app.",
+  "serverAddressCurrent": "Now: {url}"
 }

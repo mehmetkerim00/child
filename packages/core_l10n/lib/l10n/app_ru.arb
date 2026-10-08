@@ -493,5 +493,29 @@
   "taskSystemDegraded": "Сбой сервиса",
   "ownerRouteSum": "Сумма по маршрутам",
   "ownerRouteSumHint": "Без гарантированной оплаты блоков",
-  "ownerTotalWithBlocks": "Итого с учётом стоимости блоков"
+  "ownerTotalWithBlocks": "Итого с учётом стоимости блоков",
+  "serverAddressTitle": "Адрес сервера",
+  "serverAddressHint": "http://192.168.1.5:8180/",
+  "serverAddressCheck": "Проверить связь",
+  "serverAddressOk": "Связь есть: сервер {version}",
+  "@serverAddressOk": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "serverAddressFail": "Сервер не отвечает по этому адресу",
+  "serverAddressInvalid": "Это не похоже на адрес сервера",
+  "serverAddressSaved": "Адрес сохранён",
+  "serverAddressReset": "Вернуть адрес из сборки",
+  "serverAddressWhy": "Домашний тест: если роутер выдал ноутбуку другой адрес, впишите новый — пересобирать приложение не нужно.",
+  "serverAddressCurrent": "Сейчас: {url}",
+  "@serverAddressCurrent": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  }
 }

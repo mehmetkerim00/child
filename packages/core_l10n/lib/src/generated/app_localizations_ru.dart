@@ -1154,4 +1154,39 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get ownerTotalWithBlocks => 'Итого с учётом стоимости блоков';
+
+  @override
+  String get serverAddressTitle => 'Адрес сервера';
+
+  @override
+  String get serverAddressHint => 'http://192.168.1.5:8180/';
+
+  @override
+  String get serverAddressCheck => 'Проверить связь';
+
+  @override
+  String serverAddressOk(String version) {
+    return 'Связь есть: сервер $version';
+  }
+
+  @override
+  String get serverAddressFail => 'Сервер не отвечает по этому адресу';
+
+  @override
+  String get serverAddressInvalid => 'Это не похоже на адрес сервера';
+
+  @override
+  String get serverAddressSaved => 'Адрес сохранён';
+
+  @override
+  String get serverAddressReset => 'Вернуть адрес из сборки';
+
+  @override
+  String get serverAddressWhy =>
+      'Домашний тест: если роутер выдал ноутбуку другой адрес, впишите новый — пересобирать приложение не нужно.';
+
+  @override
+  String serverAddressCurrent(String url) {
+    return 'Сейчас: $url';
+  }
 }

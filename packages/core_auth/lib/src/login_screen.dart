@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth_error_text.dart';
+import 'server_address_field.dart';
 
 /// Вход по номеру телефона: сначала номер, затем код из SMS.
 ///
@@ -99,9 +100,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     color: theme.colorScheme.outline,
                   ),
                 ),
-                if (ref.watch(appConfigProvider).flavor == Flavor.dev) ...[
+                // Адрес сервера правится только в домашней сборке:
+                // в боевой подмена адреса увела бы приложение семьи на
+                // чужой сервер.
+                if (ref.watch(appConfigProvider).canOverrideServer) ...[
                   const SizedBox(height: ChildSpacing.l),
-                  const _DevSeedButton(),
+                  const ServerAddressField(),
+                ],
+                // Сиды наполняют базу аккаунтами без всякой проверки
+                // прав. В боевой сборке кнопки нет, и боевой сервер
+                // такой запрос всё равно отклонит — защита с двух
+                // сторон, обе закреплены тестами.
+                if (ref.watch(appConfigProvider).flavor != Flavor.prod) ...[
+                  const SizedBox(height: ChildSpacing.l),
+                  const DevSeedButton(),
                 ],
               ],
             ),
@@ -160,15 +172,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   ];
 }
 
-/// Кнопка заполнения тестовыми данными — только в dev-сборке.
-class _DevSeedButton extends ConsumerStatefulWidget {
-  const _DevSeedButton();
+/// Кнопка заполнения тестовыми данными — только в dev и домашней сборке.
+///
+/// Публичная, чтобы тест мог проверять её наличие по типу, а не по
+/// русской надписи: надпись переводится и меняется, а правило «в проде
+/// её нет» меняться не должно.
+class DevSeedButton extends ConsumerStatefulWidget {
+  const DevSeedButton({super.key});
 
   @override
-  ConsumerState<_DevSeedButton> createState() => _DevSeedButtonState();
+  ConsumerState<DevSeedButton> createState() => _DevSeedButtonState();
 }
 
-class _DevSeedButtonState extends ConsumerState<_DevSeedButton> {
+class _DevSeedButtonState extends ConsumerState<DevSeedButton> {
   bool _busy = false;
 
   Future<void> _seed() async {

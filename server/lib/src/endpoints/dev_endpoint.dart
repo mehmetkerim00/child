@@ -5,8 +5,16 @@ import '../services/load/load_fixture_service.dart';
 
 /// Тестовые данные для разработки и ручной проверки.
 ///
-/// Работает только в режиме development — в проде эндпоинт отвечает отказом.
+/// Работает только в режиме development. В проде этот эндпоинт — дыра:
+/// он создаёт аккаунты и поездки без всякой проверки прав, а заодно
+/// умеет стирать засеянное. На боевом сервере он отвечает отказом.
 class DevEndpoint extends Endpoint {
+  /// Разрешено ли сидирование в этом режиме работы сервера.
+  ///
+  /// Правило вынесено отдельно, чтобы его можно было проверить тестом
+  /// для каждого режима, а не только для того, в котором идут тесты.
+  static bool seedingAllowedIn(String runMode) => runMode == 'development';
+
   /// Засевает данные для нагрузочного прогона: водителей с поездками на
   /// сегодня и токенами сессий.
   ///
@@ -41,7 +49,7 @@ class DevEndpoint extends Endpoint {
   }
 
   void _requireDevelopment(Session session) {
-    if (session.serverpod.runMode != 'development') {
+    if (!seedingAllowedIn(session.serverpod.runMode)) {
       throw Exception('Сиды доступны только в режиме development');
     }
   }

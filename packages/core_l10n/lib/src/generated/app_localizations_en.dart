@@ -1161,4 +1161,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ownerTotalWithBlocks => 'Total including block cost';
+
+  @override
+  String get serverAddressTitle => 'Server address';
+
+  @override
+  String get serverAddressHint => 'http://192.168.1.5:8180/';
+
+  @override
+  String get serverAddressCheck => 'Check connection';
+
+  @override
+  String serverAddressOk(String version) {
+    return 'Connected: server $version';
+  }
+
+  @override
+  String get serverAddressFail => 'The server does not answer at this address';
+
+  @override
+  String get serverAddressInvalid => 'That does not look like a server address';
+
+  @override
+  String get serverAddressSaved => 'Address saved';
+
+  @override
+  String get serverAddressReset => 'Restore the built-in address';
+
+  @override
+  String get serverAddressWhy =>
+      'Home test: if the router gave the laptop a different address, type the new one — no need to rebuild the app.';
+
+  @override
+  String serverAddressCurrent(String url) {
+    return 'Now: $url';
+  }
 }

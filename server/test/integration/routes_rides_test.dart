@@ -119,6 +119,7 @@ void main() {
     });
 
     test('активация назначает водителя и сразу создаёт поездки', () async {
+      final now = DateTime.now().toUtc();
       final requested = await endpoints.routes.requestRoute(asParent, draft());
 
       final activated = await endpoints.directory.activateRoute(
@@ -132,12 +133,26 @@ void main() {
       expect(activated.driverId, driver.id);
       expect(activated.pricePerRideTenge, 35);
 
-      // Поездки созданы на сегодня и завтра по Ашхабаду.
+      // Поездки созданы на ближайшие дни по Ашхабаду.
+      //
+      // Проверяем правило, а не конкретные даты: активация в 7 утра и в
+      // 9 вечера даёт разный результат — вечером поездки на сегодня уже
+      // не будет, потому что время подачи прошло. Прибитые даты делали
+      // бы тест зелёным только в часть суток.
       final rides = await Ride.db.find(session);
-      expect(rides.map((r) => r.date).toSet(), {
-        AshgabatTime.today(),
-        AshgabatTime.tomorrow(),
-      });
+      expect(rides, isNotEmpty);
+      expect(
+        rides.map((r) => r.date),
+        contains(AshgabatTime.tomorrow()),
+        reason: 'завтрашняя поездка создаётся всегда',
+      );
+      for (final ride in rides) {
+        expect(
+          AshgabatTime.atLocalTime(ride.date, ride.plannedTime).isAfter(now),
+          isTrue,
+          reason: 'поездка с прошедшим временем подачи — мусор на доске дня',
+        );
+      }
       expect(await endpoints.rides.tomorrow(asDriver), hasLength(1));
     });
 

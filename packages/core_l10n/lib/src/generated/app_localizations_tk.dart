@@ -1152,4 +1152,39 @@ class AppLocalizationsTk extends AppLocalizations {
 
   @override
   String get ownerTotalWithBlocks => 'Bloklaryň bahasy bilen jemi';
+
+  @override
+  String get serverAddressTitle => 'Serweriň salgysy';
+
+  @override
+  String get serverAddressHint => 'http://192.168.1.5:8180/';
+
+  @override
+  String get serverAddressCheck => 'Aragatnaşygy barla';
+
+  @override
+  String serverAddressOk(String version) {
+    return 'Aragatnaşyk bar: serwer $version';
+  }
+
+  @override
+  String get serverAddressFail => 'Serwer bu salgy boýunça jogap bermeýär';
+
+  @override
+  String get serverAddressInvalid => 'Bu serweriň salgysyna meňzemeýär';
+
+  @override
+  String get serverAddressSaved => 'Salgy ýatda saklandy';
+
+  @override
+  String get serverAddressReset => 'Gurnamadaky salgyny gaýtar';
+
+  @override
+  String get serverAddressWhy =>
+      'Öý synagy: router noutbuga başga salgy berse, täzesini ýazyň — programmany täzeden ýygnamak gerek däl.';
+
+  @override
+  String serverAddressCurrent(String url) {
+    return 'Häzir: $url';
+  }
 }

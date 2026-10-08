@@ -362,5 +362,15 @@
   "taskSystemDegraded": "Hyzmatda näsazlyk",
   "ownerRouteSum": "Ugurlar boýunça jemi",
   "ownerRouteSumHint": "Bloklaryň kepillendirilen tölegi hasaba alynmazdan",
-  "ownerTotalWithBlocks": "Bloklaryň bahasy bilen jemi"
+  "ownerTotalWithBlocks": "Bloklaryň bahasy bilen jemi",
+  "serverAddressTitle": "Serweriň salgysy",
+  "serverAddressHint": "http://192.168.1.5:8180/",
+  "serverAddressCheck": "Aragatnaşygy barla",
+  "serverAddressOk": "Aragatnaşyk bar: serwer {version}",
+  "serverAddressFail": "Serwer bu salgy boýunça jogap bermeýär",
+  "serverAddressInvalid": "Bu serweriň salgysyna meňzemeýär",
+  "serverAddressSaved": "Salgy ýatda saklandy",
+  "serverAddressReset": "Gurnamadaky salgyny gaýtar",
+  "serverAddressWhy": "Öý synagy: router noutbuga başga salgy berse, täzesini ýazyň — programmany täzeden ýygnamak gerek däl.",
+  "serverAddressCurrent": "Häzir: {url}"
 }

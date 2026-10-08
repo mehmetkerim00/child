@@ -5,6 +5,7 @@ import '../auth/auth_controller.dart';
 import '../auth/auth_key_provider.dart';
 import '../auth/token_storage.dart';
 import '../config/app_config.dart';
+import '../config/server_url_controller.dart';
 import '../offline/queue_database.dart';
 import '../offline/ride_event_queue.dart';
 
@@ -21,9 +22,17 @@ final authKeyProviderProvider = Provider<SessionAuthKeyProvider>(
   (ref) => SessionAuthKeyProvider(),
 );
 
+/// Адрес сервера: из сборки, а в домашнем тесте — заданный вручную.
+final serverUrlProvider = StateNotifierProvider<ServerUrlController, String>(
+  (ref) => ServerUrlController(ref.watch(appConfigProvider)),
+);
+
 /// Клиент Serverpod — единая точка доступа к API.
+///
+/// Пересоздаётся при смене адреса: в домашнем тесте его меняют прямо на
+/// экране входа, и старый клиент продолжал бы стучаться в прежний Wi-Fi.
 final apiClientProvider = Provider<Client>((ref) {
-  final client = Client(ref.watch(appConfigProvider).serverUrl)
+  final client = Client(ref.watch(serverUrlProvider))
     ..authKeyProvider = ref.watch(authKeyProviderProvider);
   ref.onDispose(client.close);
   return client;

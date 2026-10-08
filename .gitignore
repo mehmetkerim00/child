@@ -10,3 +10,6 @@ pubspec_overrides.yaml
 server/config/passwords.yaml
 server/config/firebase_service_account_key.json
 .env
+
+# Логи домашнего теста: локальные, содержат коды входа
+.hometest-*.log
