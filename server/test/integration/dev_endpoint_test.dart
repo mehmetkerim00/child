@@ -66,5 +66,52 @@ void main() {
         throwsA(isA<Exception>()),
       );
     });
+
+    // Вход без кода — самое опасное в этом эндпоинте. Сиды создают
+    // лишние записи, а devLogin выдаёт готовую сессию семьи: имена
+    // детей, адреса и время, когда их забирают. Логина он не требует,
+    // поэтому полагаться на незнание адреса нельзя.
+    test('devLogin отклоняется', () async {
+      await expectLater(
+        endpoints.dev.devLogin(sessionBuilder, '+99365200001'),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('devLogin не выдаёт сессию даже существующему номеру', () async {
+      // Заводим настоящего родителя: отказ должен быть из-за режима
+      // сервера, а не из-за того, что номер не нашёлся.
+      final session = sessionBuilder.build();
+      final family = await Family.db.insertRow(
+        session,
+        Family(name: 'Тестовы', ownerPhone: '+99365200001'),
+      );
+      await Parent.db.insertRow(
+        session,
+        Parent(
+          familyId: family.id!,
+          phone: '+99365200001',
+          name: 'Огулджан',
+        ),
+      );
+
+      await expectLater(
+        endpoints.dev.devLogin(sessionBuilder, '+99365200001'),
+        throwsA(isA<Exception>()),
+      );
+      expect(
+        await AuthToken.db.find(session),
+        isEmpty,
+        reason: 'отказ должен быть до выдачи токена',
+      );
+    });
+
+    test('devAccounts отклоняется', () async {
+      // Список готовых аккаунтов в бою — подсказка, кого ломать.
+      await expectLater(
+        endpoints.dev.devAccounts(sessionBuilder),
+        throwsA(isA<Exception>()),
+      );
+    });
   });
 }

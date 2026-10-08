@@ -71,6 +71,17 @@ class AuthController extends StateNotifier<AuthState> {
     state = AuthSignedIn(result);
   }
 
+  /// Принимает готовую сессию — вход для разработки, без кода.
+  ///
+  /// Сессия приходит от сервера тем же путём, что и обычная, поэтому
+  /// дальше приложение не отличает её от входа по коду. Выдать её
+  /// сервер согласится только в режиме development.
+  Future<void> signInAs(AuthResult result) async {
+    await _storage.write(result);
+    _ref.read(authKeyProviderProvider).token = result.token;
+    state = AuthSignedIn(result);
+  }
+
   /// Возврат к вводу номера.
   void changePhone() => state = const AuthSignedOut();
 

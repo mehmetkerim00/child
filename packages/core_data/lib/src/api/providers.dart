@@ -77,3 +77,16 @@ final serverHealthProvider = FutureProvider.autoDispose<ServerHealth>((ref) {
       .ping()
       .timeout(const Duration(seconds: 10));
 });
+
+/// Готовые аккаунты для входа одним нажатием.
+///
+/// Сервер отдаёт их только в режиме development, поэтому в бою этот
+/// провайдер всегда заканчивается ошибкой — и это правильный исход,
+/// а не поломка.
+final devAccountsProvider = FutureProvider.autoDispose<List<DevAccount>>((ref) {
+  return ref
+      .watch(apiClientProvider)
+      .dev
+      .devAccounts()
+      .timeout(const Duration(seconds: 10));
+});

@@ -374,5 +374,13 @@
   "serverAddressWhy": "Home test: if the router gave the laptop a different address, type the new one — no need to rebuild the app.",
   "serverAddressCurrent": "Now: {url}",
   "planBBannerTitle": "Push is unavailable",
-  "planBBannerBody": "While the app is open, events arrive here. Anything important also arrives by SMS."
+  "planBBannerBody": "While the app is open, events arrive here. Anything important also arrives by SMS.",
+  "devLoginTitle": "Quick sign-in",
+  "devLoginWhy": "For testing only: sign in without a code. Not present in the production build.",
+  "devLoginEmpty": "No ready accounts — use “Fill with test data” first.",
+  "devLoginFail": "Sign-in failed. Is the server running in development mode?",
+  "roleParent": "parent",
+  "roleDriver": "driver",
+  "roleDispatcher": "dispatcher",
+  "roleOwner": "owner"
 }

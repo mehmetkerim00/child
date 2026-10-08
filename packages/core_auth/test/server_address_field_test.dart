@@ -129,5 +129,24 @@ void main() {
 
       expect(find.byType(DevSeedButton), findsOneWidget);
     });
+
+    testWidgets('вход без кода не попадает в боевую сборку', (tester) async {
+      await tester.pumpWidget(app(prod));
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 200));
+
+      // Опаснее сидов: кнопка выдаёт готовую сессию семьи, а там имена
+      // детей, адреса и время, когда их забирают.
+      expect(find.byType(DevLoginButton), findsNothing);
+      expect(find.text('Быстрый вход'), findsNothing);
+    });
+
+    testWidgets('в домашней сборке вход без кода есть', (tester) async {
+      await tester.pumpWidget(app(hometest));
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 200));
+
+      expect(find.byType(DevLoginButton), findsOneWidget);
+    });
   });
 }

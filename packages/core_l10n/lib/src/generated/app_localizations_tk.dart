@@ -1194,4 +1194,31 @@ class AppLocalizationsTk extends AppLocalizations {
   @override
   String get planBBannerBody =>
       'Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär.';
+
+  @override
+  String get devLoginTitle => 'Çalt girmek';
+
+  @override
+  String get devLoginWhy =>
+      'Diňe barlag üçin: kodsuz girmek. Söwda görnüşinde beýle zat ýok.';
+
+  @override
+  String get devLoginEmpty =>
+      'Taýýar hasap ýok — ilki «Synag maglumatlary bilen doldurmak».';
+
+  @override
+  String get devLoginFail =>
+      'Girip bolmady. Server işläp düzüş tertibinde dälmi?';
+
+  @override
+  String get roleParent => 'ene-ata';
+
+  @override
+  String get roleDriver => 'sürüji';
+
+  @override
+  String get roleDispatcher => 'dispetçer';
+
+  @override
+  String get roleOwner => 'eýesi';
 }

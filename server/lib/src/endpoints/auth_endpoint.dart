@@ -3,6 +3,7 @@ import 'package:serverpod/serverpod.dart';
 import '../brand.dart';
 import '../auth/phone_auth.dart';
 import '../generated/protocol.dart';
+import '../services/auth/session_issuer.dart';
 import '../services/security/rate_limiter.dart';
 import '../services/sms/sms_gateway.dart';
 
@@ -15,7 +16,7 @@ class AuthEndpoint extends Endpoint {
   /// (в dev-режиме — в консоль сервера).
   Future<void> requestCode(Session session, String phoneInput) async {
     final phone = PhoneAuth.normalizePhone(phoneInput);
-    final account = await _findAccount(session, phone);
+    final account = await SessionIssuer.findAccount(session, phone);
     if (account == null) {
       throw AuthException(reason: AuthFailureReason.unknownPhone);
     }
@@ -82,32 +83,14 @@ class AuthEndpoint extends Endpoint {
       throw AuthException(reason: AuthFailureReason.wrongCode);
     }
 
-    final account = await _findAccount(session, phone);
+    final account = await SessionIssuer.findAccount(session, phone);
     if (account == null) {
       throw AuthException(reason: AuthFailureReason.unknownPhone);
     }
 
     await OtpCode.db.updateRow(session, otp.copyWith(usedAt: now));
 
-    final token = PhoneAuth.generateToken();
-    await AuthToken.db.insertRow(
-      session,
-      AuthToken(
-        tokenHash: PhoneAuth.hash(token),
-        role: account.role,
-        subjectId: account.subjectId,
-        phone: phone,
-        expiresAt: now.add(PhoneAuth.tokenLifetime),
-      ),
-    );
-
-    return AuthResult(
-      token: token,
-      role: account.role,
-      displayName: account.displayName,
-      subjectId: account.subjectId,
-      familyId: account.familyId,
-    );
+    return SessionIssuer.issue(session, account, phone);
   }
 
   /// Завершает сессию текущего устройства.
@@ -123,55 +106,4 @@ class AuthEndpoint extends Endpoint {
       stored.copyWith(revokedAt: DateTime.now().toUtc()),
     );
   }
-
-  Future<_Account?> _findAccount(Session session, String phone) async {
-    // Владелец первым: его номер может совпадать с диспетчерским, и
-    // тогда он должен входить как владелец, а не терять доступ к деньгам.
-    final owner = await OwnerAccount.db.findFirstRow(
-      session,
-      where: (o) => o.phone.equals(phone) & o.active.equals(true),
-    );
-    if (owner != null) {
-      return _Account(AccountRole.owner, owner.id!, owner.name);
-    }
-
-    final dispatcher = await DispatcherAccount.db.findFirstRow(
-      session,
-      where: (d) => d.phone.equals(phone) & d.active.equals(true),
-    );
-    if (dispatcher != null) {
-      return _Account(AccountRole.dispatcher, dispatcher.id!, dispatcher.name);
-    }
-
-    final driver = await Driver.db.findFirstRow(
-      session,
-      where: (d) => d.phone.equals(phone) & d.active.equals(true),
-    );
-    if (driver != null) {
-      return _Account(AccountRole.driver, driver.id!, driver.name);
-    }
-
-    final parent = await Parent.db.findFirstRow(
-      session,
-      where: (p) => p.phone.equals(phone),
-    );
-    if (parent != null) {
-      return _Account(
-        AccountRole.parent,
-        parent.id!,
-        parent.name,
-        familyId: parent.familyId,
-      );
-    }
-    return null;
-  }
-}
-
-class _Account {
-  _Account(this.role, this.subjectId, this.displayName, {this.familyId});
-
-  final AccountRole role;
-  final int subjectId;
-  final String displayName;
-  final int? familyId;
 }

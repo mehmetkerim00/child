@@ -8,6 +8,7 @@ export 'package:child_client/child_client.dart'
     show
         AccountRole,
         AppNotification,
+        DevAccount,
         AuthException,
         AuthFailureReason,
         AuthResult,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth_error_text.dart';
+import 'dev_login_button.dart';
 import 'server_address_field.dart';
 
 /// Вход по номеру телефона: сначала номер, затем код из SMS.
@@ -114,6 +115,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 if (ref.watch(appConfigProvider).flavor != Flavor.prod) ...[
                   const SizedBox(height: ChildSpacing.l),
                   const DevSeedButton(),
+                  // Вход без кода — по той же мерке: ручная проверка
+                  // иначе упирается в код из лога сервера, а на двух
+                  // устройствах это становится основной работой.
+                  const SizedBox(height: ChildSpacing.l),
+                  const DevLoginButton(),
                 ],
               ],
             ),

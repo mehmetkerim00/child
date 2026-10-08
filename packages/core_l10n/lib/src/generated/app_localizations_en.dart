@@ -1203,4 +1203,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get planBBannerBody =>
       'While the app is open, events arrive here. Anything important also arrives by SMS.';
+
+  @override
+  String get devLoginTitle => 'Quick sign-in';
+
+  @override
+  String get devLoginWhy =>
+      'For testing only: sign in without a code. Not present in the production build.';
+
+  @override
+  String get devLoginEmpty =>
+      'No ready accounts — use “Fill with test data” first.';
+
+  @override
+  String get devLoginFail =>
+      'Sign-in failed. Is the server running in development mode?';
+
+  @override
+  String get roleParent => 'parent';
+
+  @override
+  String get roleDriver => 'driver';
+
+  @override
+  String get roleDispatcher => 'dispatcher';
+
+  @override
+  String get roleOwner => 'owner';
 }

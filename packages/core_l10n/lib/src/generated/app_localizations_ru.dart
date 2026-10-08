@@ -1196,4 +1196,31 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get planBBannerBody =>
       'Пока приложение открыто, события приходят сюда. Важное дополнительно придёт SMS.';
+
+  @override
+  String get devLoginTitle => 'Быстрый вход';
+
+  @override
+  String get devLoginWhy =>
+      'Только для проверки: вход без кода. В боевой сборке этого нет.';
+
+  @override
+  String get devLoginEmpty =>
+      'Нет готовых аккаунтов — сначала «Заполнить тестовыми данными».';
+
+  @override
+  String get devLoginFail =>
+      'Не вышло войти. Сервер запущен не в режиме разработки?';
+
+  @override
+  String get roleParent => 'родитель';
+
+  @override
+  String get roleDriver => 'водитель';
+
+  @override
+  String get roleDispatcher => 'диспетчер';
+
+  @override
+  String get roleOwner => 'владелец';
 }

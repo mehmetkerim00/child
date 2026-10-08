@@ -333,6 +333,34 @@ class Endpoints extends _i1.EndpointDispatch {
               ) async =>
                   (endpoints['dev'] as _i4.DevEndpoint).cleanupLoad(session),
         ),
+        'devAccounts': _i1.MethodConnector(
+          name: 'devAccounts',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['dev'] as _i4.DevEndpoint).devAccounts(session),
+        ),
+        'devLogin': _i1.MethodConnector(
+          name: 'devLogin',
+          params: {
+            'phone': _i1.ParameterDescription(
+              name: 'phone',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['dev'] as _i4.DevEndpoint).devLogin(
+                session,
+                params['phone'],
+              ),
+        ),
         'seed': _i1.MethodConnector(
           name: 'seed',
           params: {},

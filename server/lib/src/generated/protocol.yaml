@@ -12,6 +12,8 @@ dev:
   - seedLoad:
   - loadResult:
   - cleanupLoad:
+  - devAccounts:
+  - devLogin:
   - seed:
 directory:
   - families:

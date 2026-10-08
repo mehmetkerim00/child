@@ -1,6 +1,7 @@
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../services/auth/session_issuer.dart';
 import '../services/load/load_fixture_service.dart';
 
 /// Тестовые данные для разработки и ручной проверки.
@@ -48,9 +49,66 @@ class DevEndpoint extends Endpoint {
     return LoadFixtureService().cleanup(session);
   }
 
+  /// Готовые аккаунты из сидов — чтобы входить одним нажатием.
+  ///
+  /// Отдаёт телефоны и имена, но не токены: войти по списку всё равно
+  /// можно только через devLogin, и тот тоже работает лишь в
+  /// development.
+  Future<List<DevAccount>> devAccounts(Session session) async {
+    _requireDevelopment(session);
+
+    final accounts = <DevAccount>[];
+    for (final d in await DispatcherAccount.db.find(
+      session,
+      where: (d) => d.active.equals(true),
+    )) {
+      accounts.add(
+        DevAccount(
+          phone: d.phone,
+          name: d.name,
+          role: AccountRole.dispatcher,
+        ),
+      );
+    }
+    for (final d in await Driver.db.find(
+      session,
+      where: (d) => d.active.equals(true),
+    )) {
+      accounts.add(
+        DevAccount(phone: d.phone, name: d.name, role: AccountRole.driver),
+      );
+    }
+    for (final p in await Parent.db.find(session)) {
+      accounts.add(
+        DevAccount(phone: p.phone, name: p.name, role: AccountRole.parent),
+      );
+    }
+    return accounts;
+  }
+
+  /// Вход без кода подтверждения — только для ручной проверки.
+  ///
+  /// В бою это полная дыра: любой, кто знает номер, получает сессию
+  /// семьи, а там имена детей, адреса и время, когда их забирают.
+  /// Поэтому запрет тот же, что у сидов, и проверяется тем же тестом.
+  ///
+  /// Сессия выдаётся общим кодом с обычным входом: иначе ручная
+  /// проверка подтверждала бы работу пути, которого нет в бою.
+  Future<AuthResult> devLogin(Session session, String phone) async {
+    _requireDevelopment(session);
+
+    final account = await SessionIssuer.findAccount(session, phone);
+    if (account == null) {
+      throw Exception('Нет аккаунта с номером $phone');
+    }
+    return SessionIssuer.issue(session, account, phone);
+  }
+
   void _requireDevelopment(Session session) {
     if (!seedingAllowedIn(session.serverpod.runMode)) {
-      throw Exception('Сиды доступны только в режиме development');
+      throw Exception(
+        'Этот эндпоинт доступен только в режиме development',
+      );
     }
   }
 

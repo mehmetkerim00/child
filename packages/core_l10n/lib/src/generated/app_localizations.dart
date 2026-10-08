@@ -2349,6 +2349,54 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Пока приложение открыто, события приходят сюда. Важное дополнительно придёт SMS.'**
   String get planBBannerBody;
+
+  /// No description provided for @devLoginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Быстрый вход'**
+  String get devLoginTitle;
+
+  /// No description provided for @devLoginWhy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Только для проверки: вход без кода. В боевой сборке этого нет.'**
+  String get devLoginWhy;
+
+  /// No description provided for @devLoginEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет готовых аккаунтов — сначала «Заполнить тестовыми данными».'**
+  String get devLoginEmpty;
+
+  /// No description provided for @devLoginFail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не вышло войти. Сервер запущен не в режиме разработки?'**
+  String get devLoginFail;
+
+  /// No description provided for @roleParent.
+  ///
+  /// In ru, this message translates to:
+  /// **'родитель'**
+  String get roleParent;
+
+  /// No description provided for @roleDriver.
+  ///
+  /// In ru, this message translates to:
+  /// **'водитель'**
+  String get roleDriver;
+
+  /// No description provided for @roleDispatcher.
+  ///
+  /// In ru, this message translates to:
+  /// **'диспетчер'**
+  String get roleDispatcher;
+
+  /// No description provided for @roleOwner.
+  ///
+  /// In ru, this message translates to:
+  /// **'владелец'**
+  String get roleOwner;
 }
 
 class _AppLocalizationsDelegate

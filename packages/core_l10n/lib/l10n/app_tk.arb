@@ -374,5 +374,13 @@
   "serverAddressWhy": "Öý synagy: router noutbuga başga salgy berse, täzesini ýazyň — programmany täzeden ýygnamak gerek däl.",
   "serverAddressCurrent": "Häzir: {url}",
   "planBBannerTitle": "Push elýeterli däl",
-  "planBBannerBody": "Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär."
+  "planBBannerBody": "Programma açyk wagty wakalar şu ýere gelýär. Möhüm zatlar goşmaça SMS bilen gelýär.",
+  "devLoginTitle": "Çalt girmek",
+  "devLoginWhy": "Diňe barlag üçin: kodsuz girmek. Söwda görnüşinde beýle zat ýok.",
+  "devLoginEmpty": "Taýýar hasap ýok — ilki «Synag maglumatlary bilen doldurmak».",
+  "devLoginFail": "Girip bolmady. Server işläp düzüş tertibinde dälmi?",
+  "roleParent": "ene-ata",
+  "roleDriver": "sürüji",
+  "roleDispatcher": "dispetçer",
+  "roleOwner": "eýesi"
 }
